@@ -1,0 +1,23 @@
+name: test
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    name: Build Bundle
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - name: Set Node.js
+        uses: actions/setup-node@master
+
+      - name: npm install
+        run: npm install
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Compile bundle
+        run: npm run build:bundle

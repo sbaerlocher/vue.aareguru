@@ -1,0 +1,29 @@
+name: publish
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish-npm:
+    name: Publish Bundle npm
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Set Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+          registry-url: https://registry.npmjs.org/
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Compile bundle
+        run: npm run build:bundle
+
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
