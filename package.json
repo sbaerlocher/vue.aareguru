@@ -1,6 +1,6 @@
 {
   "name": "vue.aareguru",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Vue componente shows the Aare temperature from Aareguru.",
   "main": "dist/vue.aareguru.common.js",
   "unpkg": "dist/vue.aareguru.common.js",
@@ -22,18 +22,18 @@
   },
   "homepage": "https://github.com/sbaerlocher/vue.aareguru#readme",
   "dependencies": {
-    "axios": "^0.19.0",
-    "core-js": "^2.6.5",
-    "vue": "^2.6.10"
+    "axios": "^0.19.2",
+    "core-js": "^3.6.5",
+    "vue": "^2.6.11"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.11.0",
-    "@vue/cli-plugin-eslint": "^3.11.0",
-    "@vue/cli-service": "^3.11.0",
-    "babel-eslint": "^10.0.1",
-    "eslint": "^5.16.0",
-    "eslint-plugin-vue": "^5.0.0",
-    "vue-template-compiler": "^2.6.10"
+    "@vue/cli-plugin-babel": "^4.4.1",
+    "@vue/cli-plugin-eslint": "^4.4.1",
+    "@vue/cli-service": "^4.4.1",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.2.0",
+    "eslint-plugin-vue": "^6.2.2",
+    "vue-template-compiler": "^2.6.11"
   },
   "eslintConfig": {
     "root": true,
