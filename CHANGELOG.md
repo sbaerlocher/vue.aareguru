@@ -17,6 +17,7 @@ and [human-readable changelog](https://keepachangelog.com/en/1.0.0/).
 - Bump eslint-plugin-vue from 6.2.2 to 7.0.0.
 - Bump @vue/cli-plugin-eslint from 4.4.1 to 4.5.6.
 - Bump eslint from 7.2.0 to 7.10.
+- Bump axios from 0.19.2 to 0.20.0.
 
 ## 1.1.0
 
