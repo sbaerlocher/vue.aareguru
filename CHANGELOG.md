@@ -9,6 +9,10 @@ and [human-readable changelog](https://keepachangelog.com/en/1.0.0/).
 
 - Add dependabot file.
 
+### Changed
+
+- Bump @vue/cli-plugin-babel from 4.4.1 to 4.5.6
+
 ## 1.1.0
 
 ### Changed
