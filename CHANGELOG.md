@@ -13,6 +13,7 @@ and [human-readable changelog](https://keepachangelog.com/en/1.0.0/).
 
 - Bump @vue/cli-plugin-babel from 4.4.1 to 4.5.6.
 - Bump vue-template-compiler from 2.6.11 to 2.6.12.
+- Bump @vue/cli-service from 4.4.1 to 4.5.6.
 
 ## 1.1.0
 
