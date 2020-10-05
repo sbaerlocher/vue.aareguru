@@ -3,6 +3,12 @@
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 and [human-readable changelog](https://keepachangelog.com/en/1.0.0/).
 
+## master
+
+### Changed
+
+- Bump eslint-plugin-vue from 7.0.0 to 7.0.1,
+
 ## 1.2.1
 
 ### Fixed
