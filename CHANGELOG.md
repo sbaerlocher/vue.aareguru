@@ -14,6 +14,7 @@ and [human-readable changelog](https://keepachangelog.com/en/1.0.0/).
 - Bump @vue/cli-service from 4.5.6 to 4.5.8.
 - Bump @vue/cli-plugin-babel from 4.5.6 to 4.5.8.
 - Bump eslint-plugin-vue from 7.0.1 to 7.1.0.
+- Bump @vue/cli-plugin-eslint from 4.5.6 to 4.5.7.
 
 ## 1.2.1
 
