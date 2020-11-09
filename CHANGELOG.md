@@ -8,6 +8,7 @@ and [human-readable changelog](https://keepachangelog.com/en/1.0.0/).
 ### Changed
 
 - Bump eslint-plugin-vue from 7.0.0 to 7.0.1,
+- Bump eslint from 7.10.0 to 7.13.0
 
 ## 1.2.1
 
