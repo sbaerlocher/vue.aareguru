@@ -7,12 +7,13 @@ and [human-readable changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 
-- Bump eslint-plugin-vue from 7.0.0 to 7.0.1
-- Bump eslint from 7.10.0 to 7.13.0
-- Bump core-js from 3.6.5 to 3.7.0
-- Bump axios from 0.20.0 to 0.21.0
-- Bump @vue/cli-service from 4.5.6 to 4.5.8
-- Bump @vue/cli-plugin-babel from 4.5.6 to 4.5.8
+- Bump eslint-plugin-vue from 7.0.0 to 7.0.1.
+- Bump eslint from 7.10.0 to 7.13.0.
+- Bump core-js from 3.6.5 to 3.7.0.
+- Bump axios from 0.20.0 to 0.21.0.
+- Bump @vue/cli-service from 4.5.6 to 4.5.8.
+- Bump @vue/cli-plugin-babel from 4.5.6 to 4.5.8.
+- Bump eslint-plugin-vue from 7.0.1 to 7.1.0.
 
 ## 1.2.1
 
