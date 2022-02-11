@@ -24,7 +24,7 @@
   "dependencies": {
     "axios": "^0.25.0",
     "core-js": "^3.6.5",
-    "vue": "^2.6.11"
+    "vue": "^3.2.30"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.4.1",
