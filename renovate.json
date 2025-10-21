@@ -1,0 +1,128 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:base"
+  ],
+  "schedule": [
+    "before 6am on monday"
+  ],
+  "timezone": "Europe/Zurich",
+  "labels": [
+    "dependencies",
+    "renovate"
+  ],
+  "commitMessagePrefix": "chore(deps):",
+  "commitMessageAction": "update",
+  "commitMessageTopic": "{{depName}}",
+  "commitMessageExtra": "to {{newVersion}}",
+  "prHourlyLimit": 0,
+  "prConcurrentLimit": 10,
+  "assignees": [
+    "sbaerlocher"
+  ],
+  "reviewers": [
+    "sbaerlocher"
+  ],
+  "packageRules": [
+    {
+      "description": "Automatisches Mergen von Patch-Updates für alle Dependencies",
+      "matchUpdateTypes": [
+        "patch"
+      ],
+      "automerge": true,
+      "automergeType": "pr",
+      "automergeStrategy": "squash",
+      "platformAutomerge": true
+    },
+    {
+      "description": "Automatisches Mergen von Minor-Updates für DevDependencies",
+      "matchDepTypes": [
+        "devDependencies"
+      ],
+      "matchUpdateTypes": [
+        "minor"
+      ],
+      "automerge": true,
+      "automergeType": "pr",
+      "automergeStrategy": "squash",
+      "platformAutomerge": true
+    },
+    {
+      "description": "Gruppierung von ESLint-bezogenen Updates",
+      "matchPackagePatterns": [
+        "^eslint",
+        "^@typescript-eslint/"
+      ],
+      "groupName": "ESLint",
+      "automerge": false
+    },
+    {
+      "description": "Gruppierung von Vue-bezogenen Updates",
+      "matchPackagePatterns": [
+        "^vue",
+        "^@vue/"
+      ],
+      "groupName": "Vue",
+      "automerge": false
+    },
+    {
+      "description": "Gruppierung von Babel-bezogenen Updates",
+      "matchPackagePatterns": [
+        "^@babel/",
+        "^babel-"
+      ],
+      "groupName": "Babel",
+      "automerge": false
+    },
+    {
+      "description": "Major Updates separate behandeln",
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "automerge": false,
+      "labels": [
+        "dependencies",
+        "renovate",
+        "major-update"
+      ]
+    },
+    {
+      "description": "Production Dependencies vorsichtig aktualisieren",
+      "matchDepTypes": [
+        "dependencies",
+        "peerDependencies"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "major"
+      ],
+      "automerge": false,
+      "labels": [
+        "dependencies",
+        "renovate",
+        "production"
+      ]
+    }
+  ],
+  "vulnerabilityAlerts": {
+    "labels": [
+      "security",
+      "dependencies"
+    ],
+    "automerge": true,
+    "schedule": [
+      "at any time"
+    ]
+  },
+  "lockFileMaintenance": {
+    "enabled": true,
+    "automerge": true,
+    "schedule": [
+      "before 6am on the first day of the month"
+    ]
+  },
+  "dependencyDashboard": true,
+  "dependencyDashboardTitle": "Renovate Dashboard",
+  "semanticCommits": "enabled",
+  "stopUpdatingLabel": "renovate-stop"
+}
