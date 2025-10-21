@@ -1,12 +1,38 @@
 version: 2
 updates:
-  - package-ecosystem: npm
+  # Enable version updates for npm
+  - package-ecosystem: 'npm'
     directory: '/'
     schedule:
-      interval: daily
-      time: '04:00'
+      interval: 'weekly'
+      day: 'monday'
+      time: '06:00'
     open-pull-requests-limit: 10
+    labels:
+      - 'dependencies'
+      - 'npm'
+    commit-message:
+      prefix: 'chore'
+      include: 'scope'
     reviewers:
-      - sbaerlocher
+      - 'sbaerlocher'
     assignees:
-      - sbaerlocher
+      - 'sbaerlocher'
+
+  # Enable version updates for GitHub Actions
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+      day: 'monday'
+      time: '06:00'
+    open-pull-requests-limit: 5
+    labels:
+      - 'dependencies'
+      - 'github-actions'
+    commit-message:
+      prefix: 'ci'
+    reviewers:
+      - 'sbaerlocher'
+    assignees:
+      - 'sbaerlocher'
