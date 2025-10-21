@@ -6,6 +6,7 @@ on:
   pull_request:
     branches: [main, master]
   schedule:
+    # Run weekly security scan every Monday at 00:00 UTC
     - cron: '0 0 * * 1'
 
 permissions:
