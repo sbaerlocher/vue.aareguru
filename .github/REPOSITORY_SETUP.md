@@ -2,36 +2,27 @@
 
 Diese Anleitung beschreibt die notwendigen manuellen Konfigurationsschritte für das Repository, die über die GitHub Web-UI durchgeführt werden müssen.
 
-## 1. Renovate GitHub App installieren
+## 1. Personal Access Token (PAT) einrichten
 
-Da der Renovate Workflow eine GitHub App verwendet, müssen Sie entweder:
+Der Renovate Workflow verwendet einen Personal Access Token für die Authentifizierung.
 
-### Option A: Renovate GitHub App verwenden (Empfohlen)
-1. Installieren Sie die [Renovate GitHub App](https://github.com/apps/renovate)
-2. Gewähren Sie der App Zugriff auf dieses Repository
-3. Die App verwendet die `renovate.json` Konfiguration automatisch
+### Token erstellen:
+1. Navigieren Sie zu: GitHub Settings → Developer settings → Personal access tokens → Tokens (classic)
+2. Klicken Sie auf "Generate new token (classic)"
+3. Token-Name: z.B. "Renovate Bot"
+4. Wählen Sie folgende Berechtigungen:
+   - `repo` (Full control of private repositories)
+   - `workflow` (Update GitHub Action workflows)
+5. Klicken Sie auf "Generate token" und kopieren Sie den Token
 
-**Hinweis:** Bei dieser Option ist der `.github/workflows/renovate.yml` Workflow NICHT erforderlich und kann entfernt werden.
+### Token als Repository Secret hinzufügen:
+1. Navigieren Sie zu: Repository Settings → Secrets and variables → Actions
+2. Klicken Sie auf "New repository secret"
+3. Name: `RENOVATE_TOKEN`
+4. Value: Fügen Sie Ihren kopierten PAT ein
+5. Klicken Sie auf "Add secret"
 
-### Option B: GitHub Actions mit GitHub App Token verwenden
-1. Erstellen Sie eine GitHub App in Ihren Account-Einstellungen
-2. Fügen Sie folgende Repository Secrets hinzu:
-   - `RENOVATE_APP_ID`: Die App ID Ihrer GitHub App
-   - `RENOVATE_APP_PRIVATE_KEY`: Der Private Key Ihrer GitHub App
-3. Der Workflow `.github/workflows/renovate.yml` wird automatisch ausgeführt
-
-### Option C: GitHub Actions mit Personal Access Token
-Falls Sie keine GitHub App verwenden möchten, können Sie den Workflow anpassen:
-
-```yaml
-- name: Run Renovate
-  uses: renovatebot/github-action@v40.3.12
-  with:
-    token: ${{ secrets.GITHUB_TOKEN }}  # Oder ein PAT mit entsprechenden Rechten
-    configurationFile: renovate.json
-```
-
-**Wichtig:** `GITHUB_TOKEN` hat eingeschränkte Rechte und kann möglicherweise keine Workflows in PRs triggern.
+**Hinweis:** Der Workflow `.github/workflows/renovate.yml` wird automatisch jeden Montag um 6:00 Uhr ausgeführt oder kann manuell getriggert werden.
 
 ## 2. Branch Protection Rules konfigurieren
 
@@ -77,21 +68,21 @@ Die `.github/CODEOWNERS` Datei ist bereits erstellt. Um sie zu aktivieren:
 2. ✅ Aktivieren Sie **Require review from Code Owners**
 
 **Hinweis für Renovate PRs:**
-- Wenn Sie möchten, dass Renovate PRs automatisch gemerged werden, müssen Sie entweder:
-  - Die Renovate App/Bot als Ausnahme in den Branch Protection Rules hinzufügen, ODER
-  - `platformAutomerge: true` in renovate.json verwenden (bereits konfiguriert)
+- Wenn Sie möchten, dass Renovate PRs automatisch gemerged werden:
+  - `platformAutomerge: true` ist bereits in renovate.json konfiguriert
+  - Die PRs werden nach bestandenen Status-Checks automatisch gemerged
 
-## 5. Dependabot vs. Renovate
+## 5. Dependabot deaktivieren (Optional)
 
 Sie haben jetzt beide Tools konfiguriert:
 - **Dependabot** (`.github/dependabot.yml`)
 - **Renovate** (`.github/workflows/renovate.yml` und `renovate.json`)
 
 ### Empfehlung:
-Deaktivieren oder entfernen Sie Dependabot, um Duplikate zu vermeiden:
+Deaktivieren Sie Dependabot, um Duplikate zu vermeiden:
 
 1. Löschen oder umbenennen Sie `.github/dependabot.yml` zu `.github/dependabot.yml.disabled`
-2. Oder behalten Sie beide und passen Sie die Konfigurationen an, um verschiedene Package-Ecosystems zu verwalten
+2. Oder passen Sie die Konfigurationen an, um verschiedene Package-Ecosystems zu verwalten
 
 **Vorteile von Renovate:**
 - Flexiblere Konfiguration
@@ -99,6 +90,7 @@ Deaktivieren oder entfernen Sie Dependabot, um Duplikate zu vermeiden:
 - Auto-Merge direkt in der Konfiguration
 - Dependency Dashboard
 - Unterstützung für mehr Package Managers
+- Manuelles Triggern über GitHub Actions möglich
 
 ## 6. Notification-Einstellungen
 
@@ -108,16 +100,7 @@ Deaktivieren oder entfernen Sie Dependabot, um Duplikate zu vermeiden:
    - Pull Request Merges
    - Dependency Updates
 
-## 7. GitHub Actions Permissions
-
-1. Navigieren Sie zu: `Settings` → `Actions` → `General`
-2. Unter **Workflow permissions**:
-   - Wählen Sie **Read and write permissions**
-   - ✅ Aktivieren Sie **Allow GitHub Actions to create and approve pull requests**
-
-Dies ist erforderlich, damit Renovate PRs erstellen kann.
-
-## 8. Labels erstellen (Optional)
+## 7. Labels erstellen (Optional)
 
 Renovate verwendet folgende Labels. Erstellen Sie diese optional vorab:
 - `dependencies`
@@ -128,29 +111,40 @@ Renovate verwendet folgende Labels. Erstellen Sie diese optional vorab:
 
 Navigieren Sie zu: `Issues` → `Labels` → `New label`
 
-## 9. Testing der Konfiguration
+## 8. Testing der Konfiguration
 
 Nach der Einrichtung:
 
-1. **Renovate manuell auslösen** (wenn GitHub Actions verwendet wird):
+1. **Renovate manuell auslösen**:
    - Gehen Sie zu `Actions` → `Renovate` → `Run workflow`
-   - Setzen Sie `dryRun` auf `true` für einen Test-Durchlauf
+   - Optional: Setzen Sie `dryRun` auf `true` für einen Test-Durchlauf ohne tatsächliche PRs
+   - Optional: Setzen Sie `logLevel` auf `debug` für detaillierte Logs
 
 2. **Prüfen Sie das Dependency Dashboard**:
    - Renovate erstellt automatisch ein Issue mit dem Titel "Renovate Dashboard"
-   - Dort sehen Sie alle ausstehenden Updates
+   - Dort sehen Sie alle ausstehenden Updates und deren Status
 
 3. **Testen Sie Auto-Merge**:
    - Warten Sie auf einen Patch-Update PR von Renovate
    - Prüfen Sie, ob dieser automatisch gemerged wird (nach bestandenen Tests)
+   - Bei Problemen: Prüfen Sie die Branch Protection Rules und Auto-Merge Einstellungen
 
 ## Zusammenfassung der Dateien
 
-- ✅ `renovate.json` - Renovate Konfiguration
-- ✅ `.github/workflows/renovate.yml` - Renovate GitHub Action (optional)
+- ✅ `renovate.json` - Renovate Konfiguration mit Auto-Merge Regeln
+- ✅ `.github/workflows/renovate.yml` - Renovate GitHub Actions Workflow (PAT)
 - ✅ `.github/CODEOWNERS` - Code Ownership Definition
-- ✅ `package.json` - Aktualisierte Dependencies
-- ℹ️ `.github/dependabot.yml` - Bestehende Dependabot Config (erwägen Sie Deaktivierung)
+- ✅ `package.json` - Aktualisierte Dependencies (ESLint 8.57.1)
+- ℹ️ `.github/dependabot.yml` - Bestehende Dependabot Config (Deaktivierung empfohlen)
+
+## Schnellstart-Checkliste
+
+1. ✅ PAT erstellen und als `RENOVATE_TOKEN` Secret hinzufügen
+2. ✅ Branch Protection Rules für `main` aktivieren
+3. ✅ Auto-Merge in Repository Settings aktivieren
+4. ✅ CODEOWNERS Review Requirement aktivieren
+5. ⚠️ Dependabot deaktivieren (optional)
+6. ✅ Renovate Workflow manuell testen
 
 ## Support
 
