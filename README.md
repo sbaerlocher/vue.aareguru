@@ -1,52 +1,96 @@
-# vue: aareguru
+# vue.aareguru
 
 [![Build Status](https://github.com/sbaerlocher/vue.aareguru/workflows/publish/badge.svg)](https://github.com/sbaerlocher/vue.aareguru/actions) [![Build Status](https://github.com/sbaerlocher/vue.aareguru/workflows/test/badge.svg)](https://github.com/sbaerlocher/vue.aareguru/actions) [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://sbaerlo.ch/licence) [![npm](https://img.shields.io/npm/v/vue.aareguru)](https://www.npmjs.com/package/vue.aareguru)
 
 ## Description
 
-Vue componente shows the Aare temperature from [Aareguru](https://aare.guru).
+A Vue 3 component that displays the current Aare river temperature from [Aareguru](https://aare.guru).
+
+Built with Vue 3.5+ Composition API and modern best practices.
+
+## Requirements
+
+- Vue 3.3.0 or higher
+- axios 1.0.0 or higher
 
 ## Installation
 
 ### npm
 
 ```bash
-npm -i vue.aareguru
+npm install vue.aareguru
 ```
 
 ### yarn
 
 ```bash
-yarn install vue.aareguru
+yarn add vue.aareguru
 ```
 
-## use
+### pnpm
 
-### import
-
-```javascript
-import AareGuru from 'vue.aareguru';
+```bash
+pnpm add vue.aareguru
 ```
 
-### component
+## Usage
 
-```javascript
+### Vue 3 (Composition API with `<script setup>`)
+
+```vue
+<script setup>
+import AareGuru from 'vue.aareguru'
+</script>
+
+<template>
+  <AareGuru class="celsius text-xl" city="thun" />
+</template>
+```
+
+### Vue 3 (Options API)
+
+```vue
+<script>
+import AareGuru from 'vue.aareguru'
+
+export default {
   components: {
     AareGuru
-  },
+  }
+}
+</script>
+
+<template>
+  <AareGuru class="celsius text-xl" city="thun" />
+</template>
 ```
 
-### template
+### Nuxt 3
 
-```html
-<AareGuru class="celsius text-xl" city="thun"></AareGuru>
+```vue
+<script setup>
+import AareGuru from 'vue.aareguru'
+</script>
+
+<template>
+  <AareGuru city="bern" />
+</template>
 ```
 
-#### option
+## Props
 
-| props | default | option                                    | description                                                      |
-| ----- | ------- | ----------------------------------------- | ---------------------------------------------------------------- |
-| city  | bern    | brienz,interlaken,thun,hagneck,biel,brugg | Display of the water temparaturn of different cities on the aare |
+| Prop | Type   | Default | Options                                   | Description                                                    |
+| ---- | ------ | ------- | ----------------------------------------- | -------------------------------------------------------------- |
+| city | String | `bern`  | brienz, interlaken, thun, hagneck, biel, brugg | Display the water temperature of different cities on the Aare  |
+
+## Features
+
+- Built with Vue 3.5+ Composition API
+- Modern `<script setup>` syntax
+- Async/await for better error handling
+- Compatible with Vue 3 and Nuxt 3
+- TypeScript ready
+- Lightweight and fast
 
 ## Author
 
