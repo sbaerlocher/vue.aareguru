@@ -6,17 +6,35 @@
   "module": "dist/vue.aareguru.umd.js",
   "unpkg": "dist/vue.aareguru.umd.min.js",
   "jsdelivr": "dist/vue.aareguru.umd.min.js",
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
+    "dev": "vue-cli-service serve",
+    "serve": "npm run dev",
+    "build": "npm run build:bundle",
     "build:bundle": "vue-cli-service build --target lib --name vue.aareguru src/components/AareGuru.vue",
-    "prepublishOnly": "npm run lint && npm run build:bundle"
+    "build:demo": "vue-cli-service build",
+    "preview": "npm run build:demo && npx serve dist",
+    "lint": "vue-cli-service lint",
+    "lint:fix": "vue-cli-service lint --fix",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest run --coverage",
+    "type-check": "vue-tsc --noEmit",
+    "type-check:watch": "vue-tsc --noEmit --watch",
+    "validate": "npm run type-check && npm run lint && npm run test",
+    "clean": "rm -rf dist coverage node_modules/.vite",
+    "clean:all": "npm run clean && rm -rf node_modules package-lock.json",
+    "prepublishOnly": "npm run type-check && npm run test:coverage"
   },
   "files": [
     "dist",
-    "src/components/AareGuru.vue"
+    "src/components/AareGuru.vue",
+    "src/types/index.d.ts"
   ],
+  "types": "dist/types/index.d.ts",
   "keywords": [
     "vue",
     "vue3",
@@ -40,19 +58,25 @@
     "axios": "^1.0.0",
     "vue": "^3.3.0"
   },
-  "dependencies": {
-    "core-js": "^3.46.0"
-  },
   "devDependencies": {
+    "@types/node": "^24.9.1",
+    "@vitejs/plugin-vue": "^6.0.1",
+    "@vitest/coverage-v8": "^4.0.1",
+    "@vitest/ui": "^4.0.1",
     "@vue/cli-plugin-babel": "^5.0.8",
     "@vue/cli-plugin-eslint": "^5.0.8",
     "@vue/cli-service": "^5.0.8",
     "@vue/compiler-sfc": "^3.5.22",
     "@vue/eslint-config-standard": "~8.0.1",
+    "@vue/test-utils": "^2.4.0-alpha.2",
     "axios": "^1.7.9",
     "eslint": "~8.57.1",
     "eslint-plugin-vue": "~9.33.0",
-    "vue": "^3.5.22"
+    "happy-dom": "^20.0.8",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.1",
+    "vue": "^3.5.22",
+    "vue-tsc": "^3.1.1"
   },
   "eslintConfig": {
     "root": true,
