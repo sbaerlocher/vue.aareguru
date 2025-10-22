@@ -44,4 +44,4 @@ jobs:
           RENOVATE_DRY_RUN: ${{ github.event.inputs.dryRun || 'false' }}
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          configurationFile: renovate.json
+          configurationFile: .github/renovate.json
