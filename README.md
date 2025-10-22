@@ -324,11 +324,8 @@ Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for de
 ## Documentation
 
 - **[CONTRIBUTING.md](CONTRIBUTING.md)** - Contribution guidelines
-- **[TESTING.md](TESTING.md)** - Testing guide
-- **[SCRIPTS.md](SCRIPTS.md)** - NPM scripts documentation
-- **[RELEASING.md](RELEASING.md)** - Release process guide
-- **[agent.md](agent.md)** - AI reference documentation
 - **[CHANGELOG.md](CHANGELOG.md)** - Version history
+- **[AGENT.md](AGENT.md)** - AI reference documentation
 
 ## API Reference
 
