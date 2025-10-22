@@ -1,0 +1,23 @@
+# Build output
+dist/
+coverage/
+
+# Dependencies
+node_modules/
+
+# Config files
+*.config.js
+*.config.ts
+*.config.mts
+
+# Test files (handled by Vitest, not ESLint)
+tests/
+**/*.spec.ts
+**/*.test.ts
+
+# TypeScript declarations
+*.d.ts
+
+# Temporary files
+.vite/
+.cache/

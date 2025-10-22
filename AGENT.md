@@ -389,8 +389,15 @@ interface AareData {
 - ✅ CI/CD workflows include type-check step
 - ⚠️ ESLint may fail (continue-on-error in CI)
 - ⚠️ Build may fail (continue-on-error in CI)
+- ⚠️ Vue CLI dependencies have known vulnerabilities (non-critical, dev only)
 
 **Solution:** Migration to Vite (see Roadmap)
+
+**Security Note:**
+- 12 vulnerabilities in Vue CLI dependencies (8 moderate, 4 high)
+- All vulnerabilities are in devDependencies only
+- Does not affect production builds
+- Will be resolved with Vite migration
 
 **TypeScript Configuration:**
 - `vue-shims.d.ts` provides type declarations for `.vue` files

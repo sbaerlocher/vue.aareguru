@@ -27,7 +27,6 @@
     "validate": "npm run type-check && npm run lint && npm run test",
     "clean": "rm -rf dist coverage node_modules/.vite",
     "clean:all": "npm run clean && rm -rf node_modules package-lock.json",
-    "prepare": "husky install || true",
     "prepublishOnly": "npm run type-check && npm run test:coverage"
   },
   "files": [

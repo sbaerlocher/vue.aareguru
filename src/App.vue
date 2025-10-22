@@ -21,7 +21,10 @@
       <!-- With Fahrenheit -->
       <section class="example">
         <h2>3. Fahrenheit Unit</h2>
-        <AareGuru city="bern" unit="fahrenheit" />
+        <AareGuru
+          city="bern"
+          unit="fahrenheit"
+        />
       </section>
 
       <!-- With Events -->
@@ -33,10 +36,16 @@
           @error="handleError"
           @retry="handleRetry"
         />
-        <div v-if="eventLog.length" class="event-log">
+        <div
+          v-if="eventLog.length"
+          class="event-log"
+        >
           <h3>Event Log:</h3>
           <ul>
-            <li v-for="(event, index) in eventLog" :key="index">
+            <li
+              v-for="(event, index) in eventLog"
+              :key="index"
+            >
               <strong>{{ event.type }}:</strong> {{ event.message }}
             </li>
           </ul>
@@ -57,7 +66,9 @@
 
           <template #default="{ data }">
             <div class="custom-temp">
-              <div class="temp-main">{{ data.aare.temperature }}°C</div>
+              <div class="temp-main">
+                {{ data.aare.temperature }}°C
+              </div>
               <div class="temp-details">
                 <span>Flow: {{ data.aare.flow }} m³/s</span>
                 <span>Forecast: {{ data.aare.temperature_prognose }}°C</span>
@@ -70,10 +81,17 @@
       <!-- With Ref Access -->
       <section class="example">
         <h2>6. With Ref Access (Manual Control)</h2>
-        <AareGuru ref="aareguru" city="biel" />
+        <AareGuru
+          ref="aareguru"
+          city="biel"
+        />
         <div class="controls">
-          <button @click="refreshData">🔄 Refresh</button>
-          <button @click="clearCache">🗑️ Clear Cache</button>
+          <button @click="refreshData">
+            🔄 Refresh
+          </button>
+          <button @click="clearCache">
+            🗑️ Clear Cache
+          </button>
         </div>
       </section>
 
@@ -85,7 +103,9 @@
           :auto-refresh="true"
           :cache-timeout="10000"
         />
-        <p class="info">This will automatically refresh every 10 seconds</p>
+        <p class="info">
+          This will automatically refresh every 10 seconds
+        </p>
       </section>
 
       <!-- With Retry Logic -->
@@ -96,26 +116,48 @@
           :retry-attempts="5"
           :retry-delay="2000"
         />
-        <p class="info">Configured with 5 retry attempts and 2s delay</p>
+        <p class="info">
+          Configured with 5 retry attempts and 2s delay
+        </p>
       </section>
 
       <!-- City Selector -->
       <section class="example">
         <h2>9. Interactive City Selector</h2>
-        <select v-model="selectedCity" class="city-select">
-          <option value="bern">Bern</option>
-          <option value="thun">Thun</option>
-          <option value="brienz">Brienz</option>
-          <option value="interlaken">Interlaken</option>
-          <option value="biel">Biel</option>
-          <option value="hagneck">Hagneck</option>
+        <select
+          v-model="selectedCity"
+          class="city-select"
+        >
+          <option value="bern">
+            Bern
+          </option>
+          <option value="thun">
+            Thun
+          </option>
+          <option value="brienz">
+            Brienz
+          </option>
+          <option value="interlaken">
+            Interlaken
+          </option>
+          <option value="biel">
+            Biel
+          </option>
+          <option value="hagneck">
+            Hagneck
+          </option>
         </select>
         <AareGuru :city="selectedCity" />
       </section>
     </main>
 
     <footer>
-      <p>Data from <a href="https://aare.guru" target="_blank">Aareguru API</a></p>
+      <p>
+        Data from <a
+          href="https://aare.guru"
+          target="_blank"
+        >Aareguru API</a>
+      </p>
     </footer>
   </div>
 </template>
