@@ -1,0 +1,39 @@
+# CODEOWNERS file for vue.aareguru
+#
+# This file defines the code ownership and review requirements for this repository.
+# Code owners are automatically requested for review when someone opens a pull request
+# that modifies code that they own.
+#
+# For more information about CODEOWNERS, see:
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default owner for everything in the repository
+* @sbaerlocher
+
+# Package management and dependencies
+package.json @sbaerlocher
+package-lock.json @sbaerlocher
+renovate.json @sbaerlocher
+
+# Configuration files
+*.config.js @sbaerlocher
+*.config.ts @sbaerlocher
+.eslintrc* @sbaerlocher
+.prettierrc* @sbaerlocher
+tsconfig.json @sbaerlocher
+babel.config.js @sbaerlocher
+
+# GitHub workflows and actions
+.github/workflows/ @sbaerlocher
+.github/dependabot.yml @sbaerlocher
+.github/renovate.json @sbaerlocher
+
+# Source code
+src/ @sbaerlocher
+
+# Documentation
+README.md @sbaerlocher
+*.md @sbaerlocher
+
+# License
+LICENSE @sbaerlocher
