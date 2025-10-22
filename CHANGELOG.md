@@ -35,7 +35,7 @@ and [human-readable changelog](https://keepachangelog.com/en/1.0.0/).
 
 - **BREAKING**: Migrated from Vue 2 to Vue 3
 - **BREAKING**: Component now uses Composition API with `<script setup>`
-- **BREAKING**: Minimum Node.js version is now 18.x
+- **BREAKING**: Minimum Node.js version is now 20.x
 - **BREAKING**: Requires Vue 3.3.0+ and Axios 1.0.0+ as peer dependencies
 - Updated build system to Vue CLI 5.0.8
 - Improved component API with better prop validation

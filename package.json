@@ -6,6 +6,9 @@
   "module": "dist/vue.aareguru.umd.js",
   "unpkg": "dist/vue.aareguru.umd.min.js",
   "jsdelivr": "dist/vue.aareguru.umd.min.js",
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "scripts": {
     "dev": "vue-cli-service serve",
     "serve": "npm run dev",

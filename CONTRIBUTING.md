@@ -6,8 +6,8 @@ Thank you for your interest in vue.aareguru! We welcome all contributions.
 
 ### Prerequisites
 
-- Node.js >= 18.x
-- npm >= 9.x (or yarn/pnpm)
+- Node.js >= 20.x
+- npm >= 10.x (or yarn/pnpm)
 - Git
 
 ### Installation

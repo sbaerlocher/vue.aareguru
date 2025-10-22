@@ -313,7 +313,7 @@ npm run clean:all        # Deep clean
 
 **Triggers:** Push/PR to main/master/develop
 
-**Runs on:** Node.js 18.x, 20.x, 22.x
+**Runs on:** Node.js 20.x, 22.x, 23.x
 
 **Steps:**
 1. Install dependencies
