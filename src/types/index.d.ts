@@ -6,10 +6,10 @@
  * Weather forecast data point
  */
 export interface WeatherForecast {
-  date: string
-  sy: number
-  tn: number
-  tx: number
+  date: string;
+  sy: number;
+  tn: number;
+  tx: number;
 }
 
 /**
@@ -17,18 +17,18 @@ export interface WeatherForecast {
  */
 export interface AareData {
   aare: {
-    temperature: number
-    temperature_prognose: number
-    flow: number
-    flow_prognose: number
-  }
+    temperature: number;
+    temperature_prognose: number;
+    flow: number;
+    flow_prognose: number;
+  };
   weather: {
-    current: number
-    today: number
-    forecast: WeatherForecast[]
-  }
-  text: string
-  timestamp: number
+    current: number;
+    today: number;
+    forecast: WeatherForecast[];
+  };
+  text: string;
+  timestamp: number;
 }
 
 /**
@@ -39,46 +39,46 @@ export interface AareGuruProps {
    * City for which to fetch Aare data
    * @default 'bern'
    */
-  city?: string
+  city?: string;
 
   /**
    * Number of retry attempts on API failure
    * @default 3
    */
-  retryAttempts?: number
+  retryAttempts?: number;
 
   /**
    * Base delay between retries in milliseconds (exponential backoff)
    * @default 1000
    */
-  retryDelay?: number
+  retryDelay?: number;
 
   /**
    * Temperature unit to display
    * @default 'celsius'
    */
-  unit?: 'celsius' | 'fahrenheit'
+  unit?: 'celsius' | 'fahrenheit';
 
   /**
    * Cache timeout in milliseconds
    * @default 300000 (5 minutes)
    */
-  cacheTimeout?: number
+  cacheTimeout?: number;
 
   /**
    * Enable automatic data refresh
    * @default false
    */
-  autoRefresh?: boolean
+  autoRefresh?: boolean;
 }
 
 /**
  * Retry event payload
  */
 export interface RetryEvent {
-  attempt: number
-  maxAttempts: number
-  error: Error
+  attempt: number;
+  maxAttempts: number;
+  error: Error;
 }
 
 /**
@@ -88,17 +88,17 @@ export interface AareGuruEmits {
   /**
    * Emitted when data is successfully loaded
    */
-  (event: 'loaded', data: AareData): void
+  (event: 'loaded', data: AareData): void;
 
   /**
    * Emitted when an error occurs
    */
-  (event: 'error', error: Error): void
+  (event: 'error', error: Error): void;
 
   /**
    * Emitted before each retry attempt
    */
-  (event: 'retry', payload: RetryEvent): void
+  (event: 'retry', payload: RetryEvent): void;
 }
 
 /**
@@ -108,20 +108,20 @@ export interface AareGuruExposed {
   /**
    * Manually refresh the data
    */
-  refresh: () => Promise<void>
+  refresh: () => Promise<void>;
 
   /**
    * Clear cached data
    */
-  clearCache: () => void
+  clearCache: () => void;
 
   /**
    * Current retry attempt count
    */
-  attemptCount: number
+  attemptCount: number;
 
   /**
    * List of allowed cities
    */
-  ALLOWED_CITIES: readonly string[]
+  ALLOWED_CITIES: readonly string[];
 }

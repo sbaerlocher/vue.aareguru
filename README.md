@@ -1,6 +1,6 @@
 # vue.aareguru
 
-[![Build Status](https://github.com/sbaerlocher/vue.aareguru/workflows/publish/badge.svg)](https://github.com/sbaerlocher/vue.aareguru/actions) [![Build Status](https://github.com/sbaerlocher/vue.aareguru/workflows/test/badge.svg)](https://github.com/sbaerlocher/vue.aareguru/actions) [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://sbaerlo.ch/licence) [![npm](https://img.shields.io/npm/v/vue.aareguru)](https://www.npmjs.com/package/vue.aareguru)
+[![Test Status](https://github.com/sbaerlocher/vue.aareguru/workflows/test/badge.svg)](https://github.com/sbaerlocher/vue.aareguru/actions) [![Release Status](https://github.com/sbaerlocher/vue.aareguru/workflows/release/badge.svg)](https://github.com/sbaerlocher/vue.aareguru/actions) [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://sbaerlo.ch/licence) [![npm](https://img.shields.io/npm/v/vue.aareguru)](https://www.npmjs.com/package/vue.aareguru)
 
 ## Description
 
@@ -320,6 +320,15 @@ npm run build:bundle
 ## Contributing
 
 Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details.
+
+## Documentation
+
+- **[CONTRIBUTING.md](CONTRIBUTING.md)** - Contribution guidelines
+- **[TESTING.md](TESTING.md)** - Testing guide
+- **[SCRIPTS.md](SCRIPTS.md)** - NPM scripts documentation
+- **[RELEASING.md](RELEASING.md)** - Release process guide
+- **[agent.md](agent.md)** - AI reference documentation
+- **[CHANGELOG.md](CHANGELOG.md)** - Version history
 
 ## API Reference
 

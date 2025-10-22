@@ -385,10 +385,17 @@ interface AareData {
 **Current Status:**
 - ✅ Tests use Vitest (TypeScript native support)
 - ✅ Type checking uses `vue-tsc` directly
+- ✅ Vue component type definitions in `vue-shims.d.ts`
+- ✅ CI/CD workflows include type-check step
 - ⚠️ ESLint may fail (continue-on-error in CI)
 - ⚠️ Build may fail (continue-on-error in CI)
 
 **Solution:** Migration to Vite (see Roadmap)
+
+**TypeScript Configuration:**
+- `vue-shims.d.ts` provides type declarations for `.vue` files
+- Specific type declaration for `@/components/AareGuru.vue` with proper props
+- Tests run with full TypeScript support via Vitest
 
 ### Component Limitations
 
