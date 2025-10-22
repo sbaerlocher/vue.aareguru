@@ -24,7 +24,8 @@
     "src/**/*.tsx",
     "src/**/*.vue",
     "tests/**/*.ts",
-    "vue-shims.d.ts"
+    "vue-shims.d.ts",
+    "vitest.config.mts"
   ],
   "exclude": ["node_modules", "dist"]
 }
