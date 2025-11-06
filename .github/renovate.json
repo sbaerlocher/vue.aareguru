@@ -1,7 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:base"
+    "config:recommended"
   ],
   "schedule": [
     "before 6am on monday"
@@ -49,30 +49,30 @@
     },
     {
       "description": "Gruppierung von ESLint-bezogenen Updates",
-      "matchPackagePatterns": [
-        "^eslint",
-        "^@typescript-eslint/"
-      ],
       "groupName": "ESLint",
-      "automerge": false
+      "automerge": false,
+      "matchPackageNames": [
+        "/^eslint/",
+        "/^@typescript-eslint//"
+      ]
     },
     {
       "description": "Gruppierung von Vue-bezogenen Updates",
-      "matchPackagePatterns": [
-        "^vue",
-        "^@vue/"
-      ],
       "groupName": "Vue",
-      "automerge": false
+      "automerge": false,
+      "matchPackageNames": [
+        "/^vue/",
+        "/^@vue//"
+      ]
     },
     {
       "description": "Gruppierung von Babel-bezogenen Updates",
-      "matchPackagePatterns": [
-        "^@babel/",
-        "^babel-"
-      ],
       "groupName": "Babel",
-      "automerge": false
+      "automerge": false,
+      "matchPackageNames": [
+        "/^@babel//",
+        "/^babel-/"
+      ]
     },
     {
       "description": "Major Updates separate behandeln",
