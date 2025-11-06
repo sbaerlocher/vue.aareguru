@@ -144,7 +144,7 @@ jobs:
           fetch-depth: 0
 
       - name: Download build artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           name: dist-files
           path: dist/
@@ -213,7 +213,7 @@ jobs:
         run: npm ci --prefer-offline --no-audit
 
       - name: Download build artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           name: dist-files
           path: dist/
