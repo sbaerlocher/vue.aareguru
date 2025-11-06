@@ -205,6 +205,7 @@ npm run dev
 ```
 
 Opens demo app at `http://localhost:8080` with 9 examples:
+
 1. Basic usage (Bern)
 2. Different city (Thun)
 3. Fahrenheit unit
@@ -316,6 +317,7 @@ npm run clean:all        # Deep clean
 **Runs on:** Node.js 20.x, 22.x, 23.x
 
 **Steps:**
+
 1. Install dependencies
 2. Run ESLint (continue-on-error)
 3. Run TypeScript type check ✅
@@ -330,12 +332,14 @@ npm run clean:all        # Deep clean
 **Triggers:** GitHub release or manual dispatch
 
 **Steps:**
+
 1. Install dependencies
 2. Build library bundle
 3. Verify package
 4. Publish to npm (prepublishOnly runs automatically)
 
 **prepublishOnly hook runs:**
+
 - Type check ✅
 - Test coverage ✅
 
@@ -383,6 +387,7 @@ interface AareData {
 **Issue:** Vue CLI cannot parse TypeScript syntax in `<script setup>`
 
 **Current Status:**
+
 - ✅ Tests use Vitest (TypeScript native support)
 - ✅ Type checking uses `vue-tsc` directly
 - ✅ Vue component type definitions in `vue-shims.d.ts`
@@ -394,12 +399,14 @@ interface AareData {
 **Solution:** Migration to Vite (see Roadmap)
 
 **Security Note:**
+
 - 12 vulnerabilities in Vue CLI dependencies (8 moderate, 4 high)
 - All vulnerabilities are in devDependencies only
 - Does not affect production builds
 - Will be resolved with Vite migration
 
 **TypeScript Configuration:**
+
 - `vue-shims.d.ts` provides type declarations for `.vue` files
 - Specific type declaration for `@/components/AareGuru.vue` with proper props
 - Tests run with full TypeScript support via Vitest
@@ -456,6 +463,7 @@ interface AareData {
 ### Dev Dependencies
 
 **Testing:**
+
 - `vitest` - Test runner
 - `@vue/test-utils` - Vue component testing
 - `@vitest/ui` - Test UI
@@ -463,16 +471,19 @@ interface AareData {
 - `happy-dom` - DOM environment
 
 **TypeScript:**
+
 - `typescript` - TypeScript compiler
 - `vue-tsc` - Vue TypeScript checker
 - `@types/node` - Node.js type definitions
 
 **Build:**
+
 - `@vue/cli-service` - Build tool (to be replaced by Vite)
 - `@vue/compiler-sfc` - Vue SFC compiler
 - `@vitejs/plugin-vue` - Vite Vue plugin
 
 **Quality:**
+
 - `eslint` - Linter
 - `eslint-plugin-vue` - Vue linting rules
 - `@vue/eslint-config-standard` - Standard config
@@ -501,6 +512,7 @@ npm audit fix          # Auto-fix
 See `CONTRIBUTING.md` for detailed guidelines.
 
 **Quick Start:**
+
 1. Fork repository
 2. Create feature branch
 3. Run `npm run validate`
@@ -508,6 +520,7 @@ See `CONTRIBUTING.md` for detailed guidelines.
 5. Open pull request
 
 **Commit Format:**
+
 ```
 <type>(<scope>): <subject>
 

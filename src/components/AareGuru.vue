@@ -57,7 +57,19 @@ const ALLOWED_CITIES = [
 const props = defineProps({
   city: {
     type: String,
-    default: 'bern'
+    default: 'bern',
+    validator: (value) => {
+      // Define allowed cities inline because the validator runs during component definition,
+      // before ALLOWED_CITIES is available in this scope
+      const allowedCities = ['bern', 'thun', 'brienz', 'interlaken', 'biel', 'hagneck']
+      const isValid = allowedCities.includes(value.toLowerCase())
+      if (!isValid) {
+        console.warn(
+          `[AareGuru] Invalid city "${value}". Allowed cities: ${allowedCities.join(', ')}`
+        )
+      }
+      return isValid
+    }
   },
   retryAttempts: {
     type: Number,
@@ -84,13 +96,6 @@ const props = defineProps({
   }
 })
 
-// Validate props
-if (!ALLOWED_CITIES.includes(props.city.toLowerCase())) {
-  console.warn(
-    `[AareGuru] Invalid city "${props.city}". Allowed cities: ${ALLOWED_CITIES.join(', ')}`
-  )
-}
-
 // Emits
 const emit = defineEmits(['loaded', 'error', 'retry'])
 
@@ -105,7 +110,11 @@ let refreshInterval = null
 // API Configuration
 const API_BASE = 'https://aareguru.existenz.ch/v2018/current'
 const API_PARAMS = 'app=vue.aareguru'
-const REQUEST_TIMEOUT = 5000
+const REQUEST_TIMEOUT = 5000 // 5 seconds
+
+// Temperature conversion constants
+const CELSIUS_TO_FAHRENHEIT_MULTIPLIER = 9 / 5
+const CELSIUS_TO_FAHRENHEIT_OFFSET = 32
 
 // Computed properties
 const normalizedCity = computed(() => props.city.toLowerCase())
@@ -122,7 +131,7 @@ const convertedTemperature = computed(() => {
   const celsius = aareguru.value.aare.temperature
 
   if (props.unit === 'fahrenheit') {
-    return (celsius * 9 / 5 + 32).toFixed(1)
+    return (celsius * CELSIUS_TO_FAHRENHEIT_MULTIPLIER + CELSIUS_TO_FAHRENHEIT_OFFSET).toFixed(1)
   }
 
   return celsius.toFixed(1)
@@ -160,8 +169,14 @@ async function fetchDataWithRetry() {
       )
 
       // Validate response structure
-      if (!response.data?.aare?.temperature) {
-        throw new Error('Invalid API response structure')
+      if (!response.data) {
+        throw new Error('API response is empty')
+      }
+      if (!response.data.aare) {
+        throw new Error('API response missing "aare" data')
+      }
+      if (typeof response.data.aare.temperature !== 'number') {
+        throw new Error('API response missing or invalid "temperature" field')
       }
 
       aareguru.value = response.data

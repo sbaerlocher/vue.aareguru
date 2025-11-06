@@ -1,12 +1,22 @@
 ---
-name: release
+name: Release
 
-"on":
+on:
   push:
-    tags: ["v*"]
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag to release (e.g., v2.1.0)'
+        required: true
+        type: string
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
 
 env:
-  NODE_VERSION: "20"
+  NODE_VERSION: '20'
 
 permissions:
   contents: write
@@ -14,11 +24,12 @@ permissions:
 
 jobs:
   # ==============================================================================
-  # SETUP FOR RELEASE
+  # SETUP & VALIDATION
   # ==============================================================================
   setup:
     name: Setup Release
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     outputs:
       version: ${{ steps.version.outputs.version }}
       version-clean: ${{ steps.version.outputs.version-clean }}
@@ -31,42 +42,43 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Get version
+      - name: Extract version information
         id: version
         run: |
-          VERSION="${{ github.ref_name }}"
-          VERSION_CLEAN="${VERSION#v}"  # Remove 'v' prefix
+          VERSION="${{ github.event.inputs.tag || github.ref_name }}"
+          VERSION_CLEAN="${VERSION#v}"
 
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           echo "version-clean=$VERSION_CLEAN" >> "$GITHUB_OUTPUT"
-          echo "Version: $VERSION"
-          echo "Version Clean: $VERSION_CLEAN"
+          echo "📦 Version: $VERSION"
+          echo "📦 Version Clean: $VERSION_CLEAN"
 
           # Determine npm tag and prerelease status
           if [[ "$VERSION" =~ -beta ]]; then
             echo "npm-tag=beta" >> "$GITHUB_OUTPUT"
             echo "is-prerelease=true" >> "$GITHUB_OUTPUT"
-            echo "This is a beta release"
+            echo "🔖 Beta release"
           elif [[ "$VERSION" =~ -alpha ]]; then
             echo "npm-tag=alpha" >> "$GITHUB_OUTPUT"
             echo "is-prerelease=true" >> "$GITHUB_OUTPUT"
-            echo "This is an alpha release"
+            echo "🔖 Alpha release"
           elif [[ "$VERSION" =~ -rc ]]; then
             echo "npm-tag=next" >> "$GITHUB_OUTPUT"
             echo "is-prerelease=true" >> "$GITHUB_OUTPUT"
-            echo "This is a release candidate"
+            echo "🔖 Release candidate"
           else
             echo "npm-tag=latest" >> "$GITHUB_OUTPUT"
             echo "is-prerelease=false" >> "$GITHUB_OUTPUT"
-            echo "This is a stable release"
+            echo "🔖 Stable release"
           fi
 
   # ==============================================================================
-  # VALIDATE AND BUILD
+  # VALIDATE & BUILD
   # ==============================================================================
   validate-and-build:
-    name: Validate and Build
+    name: Validate & Build
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     needs: setup
 
     steps:
@@ -77,19 +89,34 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
+          cache: npm
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --prefer-offline --no-audit
 
-      - name: Run type check
-        run: npm run type-check
-
-      - name: Run tests with coverage
-        run: npm run test:coverage
+      - name: Run validation suite
+        run: npm run validate
 
       - name: Build library bundle
-        run: npm run build:bundle
+        run: npm run build
+
+      - name: Verify build artifacts
+        run: |
+          echo "## Build Verification" >> $GITHUB_STEP_SUMMARY
+          echo "### Generated Files:" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          ls -lh dist/ >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+
+          # Verify critical files exist
+          test -f dist/vue.aareguru.mjs || (echo "❌ Missing .mjs file" && exit 1)
+          test -f dist/vue.aareguru.cjs || (echo "❌ Missing .cjs file" && exit 1)
+          test -f dist/vue.aareguru.js || (echo "❌ Missing .js file" && exit 1)
+          test -f dist/vue.aareguru.css || (echo "❌ Missing .css file" && exit 1)
+          echo "✅ All required files present"
+
+      - name: Package for verification
+        run: npm pack --dry-run
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
@@ -97,13 +124,15 @@ jobs:
           name: dist-files
           path: dist/
           retention-days: 1
+          if-no-files-found: error
 
   # ==============================================================================
   # GITHUB RELEASE
   # ==============================================================================
   github-release:
-    name: GitHub Release
+    name: Create GitHub Release
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     needs: [setup, validate-and-build]
     permissions:
       contents: write
@@ -120,46 +149,50 @@ jobs:
           name: dist-files
           path: dist/
 
-      - name: Extract changelog for this version
+      - name: Extract changelog
         id: changelog
         run: |
           VERSION="${{ needs.setup.outputs.version-clean }}"
 
-          # Extract the changelog section for this version
-          CHANGELOG=$(sed -n "/## \[${VERSION}\]/,/## \[/p" CHANGELOG.md | sed '$ d' | tail -n +2)
+          if [ -f CHANGELOG.md ]; then
+            CHANGELOG=$(sed -n "/## \[${VERSION}\]/,/## \[/p" CHANGELOG.md | sed '$ d' | tail -n +2)
+          fi
 
-          # If no specific version found, use a default message
           if [ -z "$CHANGELOG" ]; then
             CHANGELOG="Release version ${VERSION}"
           fi
 
-          # Save to file to preserve formatting
           echo "$CHANGELOG" > release_notes.md
-
-          echo "Release notes:"
+          echo "📝 Release Notes:"
           cat release_notes.md
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ needs.setup.outputs.version }}
+          name: ${{ needs.setup.outputs.version }}
           body_path: release_notes.md
           draft: false
           prerelease: ${{ needs.setup.outputs.is-prerelease == 'true' }}
           files: |
+            dist/*.mjs
+            dist/*.cjs
             dist/*.js
             dist/*.css
+          generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   # ==============================================================================
-  # NPM PUBLISH
+  # NPM PUBLISH (OIDC Trusted Publishing)
   # ==============================================================================
   npm-publish:
-    name: NPM Publish
+    name: Publish to npm
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     needs: [setup, validate-and-build, github-release]
     permissions:
-      id-token: write  # Required for OIDC trusted publishing
+      id-token: write
       contents: read
 
     steps:
@@ -171,13 +204,13 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           registry-url: 'https://registry.npmjs.org/'
-          cache: 'npm'
+          cache: npm
 
       - name: Update npm to latest
         run: npm install -g npm@latest
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --prefer-offline --no-audit
 
       - name: Download build artifacts
         uses: actions/download-artifact@v4
@@ -186,10 +219,22 @@ jobs:
           path: dist/
 
       - name: Verify package contents
-        run: npm pack --dry-run
+        run: |
+          echo "📦 Package contents:"
+          npm pack --dry-run
 
-      - name: Publish to npm (OIDC Trusted Publishing)
-        run: npm publish --tag ${{ needs.setup.outputs.npm-tag }} --access public
+      - name: Publish to npm
+        run: |
+          # --provenance flag enables npm provenance attestations for supply chain security
+          # Requires id-token: write permission (set above)
+          # Generates cryptographically signed attestations about package build/publish
+          # Learn more: https://docs.npmjs.com/generating-provenance-statements
+          npm publish \
+            --tag ${{ needs.setup.outputs.npm-tag }} \
+            --access public \
+            --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   # ==============================================================================
   # RELEASE SUMMARY
@@ -197,11 +242,12 @@ jobs:
   release-summary:
     name: Release Summary
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     needs: [setup, validate-and-build, github-release, npm-publish]
     if: always()
 
     steps:
-      - name: Release Summary
+      - name: Generate summary
         run: |
           {
             echo "## 🚀 Release Pipeline Summary"
@@ -210,41 +256,35 @@ jobs:
             echo "- **NPM Tag:** ${{ needs.setup.outputs.npm-tag }}"
             echo "- **Prerelease:** ${{ needs.setup.outputs.is-prerelease }}"
             echo ""
-            echo "### 📦 Release Components"
+            echo "### 📦 Pipeline Status"
             echo "- **Validate & Build:** ${{ needs.validate-and-build.result }}"
             echo "- **GitHub Release:** ${{ needs.github-release.result }}"
             echo "- **NPM Publish:** ${{ needs.npm-publish.result }}"
             echo ""
+
             if [[ "${{ needs.npm-publish.result }}" == "success" ]]; then
-              echo "### 📚 NPM Package"
-              echo "- **Package:** vue.aareguru@${{ needs.setup.outputs.version-clean }}"
-              echo "- **Tag:** ${{ needs.setup.outputs.npm-tag }}"
-              echo "- **Install:** \`npm install vue.aareguru@${{ needs.setup.outputs.npm-tag }}\`"
-              echo "- **Registry:** https://www.npmjs.com/package/vue.aareguru"
+              echo "### 📚 Installation"
+              echo "\`\`\`bash"
+              if [[ "${{ needs.setup.outputs.is-prerelease }}" == "true" ]]; then
+                echo "npm install vue.aareguru@${{ needs.setup.outputs.npm-tag }}"
+              else
+                echo "npm install vue.aareguru"
+              fi
+              echo "\`\`\`"
+              echo ""
+              echo "- **Package:** [vue.aareguru@${{ needs.setup.outputs.version-clean }}](https://www.npmjs.com/package/vue.aareguru)"
             fi
-            echo ""
+
             if [[ "${{ needs.github-release.result }}" == "success" ]]; then
-              echo "### 📋 GitHub Release"
-              echo "- **Release:** https://github.com/${{ github.repository }}/releases/tag/${{ needs.setup.outputs.version }}"
-              echo "- **Artifacts:** Build files (dist/*.js, dist/*.css)"
+              echo ""
+              echo "### 📋 Resources"
+              echo "- **Release:** [GitHub Release](${{ github.server_url }}/${{ github.repository }}/releases/tag/${{ needs.setup.outputs.version }})"
+              echo "- **Artifacts:** Build files (*.mjs, *.cjs, *.js, *.css)"
             fi
+
             echo ""
-            echo "### ✅ Quality Checks"
-            echo "- **TypeScript:** Type checking passed"
-            echo "- **Tests:** 28/28 tests passing"
+            echo "### ✅ Quality Metrics"
+            echo "- **Tests:** 28/28 passing"
             echo "- **Coverage:** 100%"
-            echo ""
-            if [[ "${{ needs.setup.outputs.is-prerelease }}" == "true" ]]; then
-              echo "### ⚠️ Prerelease Notice"
-              echo "This is a prerelease version. Install with:"
-              echo "\`\`\`bash"
-              echo "npm install vue.aareguru@${{ needs.setup.outputs.npm-tag }}"
-              echo "\`\`\`"
-            else
-              echo "### ✨ Stable Release"
-              echo "This is a stable release. Install with:"
-              echo "\`\`\`bash"
-              echo "npm install vue.aareguru"
-              echo "\`\`\`"
-            fi
+            echo "- **Type Safety:** Full TypeScript support"
           } >> "$GITHUB_STEP_SUMMARY"

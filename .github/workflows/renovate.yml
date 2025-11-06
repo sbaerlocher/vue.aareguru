@@ -1,47 +1,66 @@
-name: Renovate
+name: Dependency Updates (Renovate)
 
 on:
-  schedule:
-    # Run every Monday at 5:00 AM UTC (6:00 AM CET)
-    - cron: '0 5 * * 1'
+  # Manual trigger
   workflow_dispatch:
     inputs:
       logLevel:
         description: 'Log level'
         required: false
-        default: 'info'
+        default: 'debug'
         type: choice
         options:
           - info
           - debug
           - trace
-      dryRun:
-        description: 'Dry run'
-        required: false
-        default: 'false'
-        type: choice
-        options:
-          - 'true'
-          - 'false'
 
-permissions:
-  contents: write
-  pull-requests: write
-  issues: write
+  # Scheduled runs
+  schedule:
+    # Run every day at 06:00 UTC
+    - cron: '0 6 * * *'
+    # Run every Monday and Thursday at 18:00 UTC
+    - cron: '0 18 * * 1,4'
+
+  # Run on pushes to renovate config
+  push:
+    paths:
+      - '.github/renovate.json'
+      - '.github/workflows/renovate.yml'
+
+env:
+  LOG_LEVEL: ${{ inputs.logLevel || 'info' }}
+  RENOVATE_DRY_RUN: false
+  RENOVATE_CONFIG_FILE: .github/renovate.json
 
 jobs:
-  renovate:
-    name: Renovate
+  update-dependencies:
+    name: Update Dependencies
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+      checks: write
+      statuses: write
+      actions: read
+      security-events: write
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
-
-      - name: Run Renovate
-        uses: renovatebot/github-action@v43.0.18
-        env:
-          LOG_LEVEL: ${{ github.event.inputs.logLevel || 'info' }}
-          RENOVATE_DRY_RUN: ${{ github.event.inputs.dryRun || 'false' }}
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Run Renovate dependency update
+        uses: renovatebot/github-action@v43.0.0
+        with:
           configurationFile: .github/renovate.json
+          token: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          LOG_LEVEL: ${{ env.LOG_LEVEL }}
+          RENOVATE_REPOSITORIES: ${{ github.repository }}
+          RENOVATE_AUTODISCOVER: false
+          RENOVATE_GIT_AUTHOR: 'renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>'
+          RENOVATE_PLATFORM: github
+          RENOVATE_REQUIRE_CONFIG: optional
