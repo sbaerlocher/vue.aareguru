@@ -225,6 +225,10 @@ jobs:
 
       - name: Publish to npm
         run: |
+          # --provenance flag enables npm provenance attestations for supply chain security
+          # Requires id-token: write permission (set above)
+          # Generates cryptographically signed attestations about package build/publish
+          # Learn more: https://docs.npmjs.com/generating-provenance-statements
           npm publish \
             --tag ${{ needs.setup.outputs.npm-tag }} \
             --access public \
