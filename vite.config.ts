@@ -44,9 +44,14 @@ export default defineConfig(({ mode }) => {
                 vue: 'Vue',
                 axios: 'axios'
               },
-              assetFileNames: (assetInfo) => {
-                if (assetInfo.names?.[0] === 'style.css') return 'vue.aareguru.css'
-                return assetInfo.names?.[0] || 'assets/[name].[ext]'
+              assetFileNames: (assetInfo): string => {
+                if (Array.isArray(assetInfo.names) && assetInfo.names[0] === 'style.css') {
+                  return 'vue.aareguru.css'
+                }
+                if (Array.isArray(assetInfo.names) && assetInfo.names.length > 0) {
+                  return assetInfo.names[0]!
+                }
+                return 'assets/[name].[ext]'
               }
             }
           },
