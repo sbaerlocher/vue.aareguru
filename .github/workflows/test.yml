@@ -89,13 +89,13 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Upload coverage artifacts
-        if: matrix.node-version == '20.x' && always()
+        if: matrix.node-version == '20.x'
         uses: actions/upload-artifact@v5
         with:
           name: coverage-report
           path: coverage/
           retention-days: 7
-          if-no-files-found: error
+          if-no-files-found: warn
 
   # ==============================================================================
   # BUILD (Library bundle)
