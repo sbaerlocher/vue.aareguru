@@ -1,4 +1,5 @@
-name: 'CodeQL'
+---
+name: CodeQL Security Analysis
 
 on:
   push:
@@ -8,6 +9,11 @@ on:
   schedule:
     # Run weekly security scan every Monday at 00:00 UTC
     - cron: '0 0 * * 1'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 permissions:
   actions: read
@@ -16,25 +22,46 @@ permissions:
 
 jobs:
   analyze:
-    name: Analyze Code
+    name: CodeQL Analysis
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     strategy:
       fail-fast: false
       matrix:
-        language: ['javascript']
+        language: ['javascript-typescript']
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v4
+        uses: github/codeql-action/init@v3
         with:
           languages: ${{ matrix.language }}
+          queries: security-extended,security-and-quality
+          config: |
+            paths-ignore:
+              - node_modules
+              - dist
+              - dist-demo
+              - coverage
+              - '**/*.spec.ts'
+              - '**/*.test.ts'
 
-      - name: Autobuild
-        uses: github/codeql-action/autobuild@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci --prefer-offline --no-audit
+
+      - name: Build project
+        run: npm run build
 
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v4
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: '/language:${{ matrix.language }}'

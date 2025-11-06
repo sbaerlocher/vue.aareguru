@@ -1,17 +1,60 @@
-name: test
+---
+name: Test & Build
 
 on:
   push:
     branches: [main, master, develop]
   pull_request:
     branches: [main, master, develop]
+  workflow_dispatch:
+
+# Cancel in-progress runs for the same branch
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  checks: write
 
 jobs:
-  test:
-    name: Test on Node.js ${{ matrix.node-version }}
+  # ==============================================================================
+  # QUALITY CHECKS (Lint, Type-check)
+  # ==============================================================================
+  quality:
+    name: Code Quality
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci --prefer-offline --no-audit
+
+      - name: Run ESLint
+        run: npm run lint
+
+      - name: Run TypeScript type check
+        run: npm run type-check
+
+  # ==============================================================================
+  # UNIT TESTS (Multi-version matrix)
+  # ==============================================================================
+  test:
+    name: Test (Node ${{ matrix.node-version }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     strategy:
+      fail-fast: false
       matrix:
         node-version: [20.x, 22.x, 23.x]
 
@@ -23,17 +66,10 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'npm'
+          cache: npm
 
       - name: Install dependencies
-        run: npm ci
-
-      - name: Run ESLint
-        run: npm run lint
-        continue-on-error: true  # ESLint may fail due to Vue CLI limitations
-
-      - name: Run TypeScript type check
-        run: npm run type-check
+        run: npm ci --prefer-offline --no-audit
 
       - name: Run unit tests
         run: npm run test
@@ -44,30 +80,95 @@ jobs:
 
       - name: Upload coverage to Codecov
         if: matrix.node-version == '20.x'
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         with:
           files: ./coverage/coverage-final.json
           flags: unittests
-          name: codecov-umbrella
+          name: node-${{ matrix.node-version }}
           fail_ci_if_error: false
           token: ${{ secrets.CODECOV_TOKEN }}
 
+      - name: Upload coverage artifacts
+        if: matrix.node-version == '20.x' && always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage/
+          retention-days: 7
+          if-no-files-found: error
+
+  # ==============================================================================
+  # BUILD (Library bundle)
+  # ==============================================================================
+  build:
+    name: Build Library
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: [quality, test]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci --prefer-offline --no-audit
+
       - name: Build library bundle
-        run: npm run build:bundle
-        continue-on-error: true  # Build may fail due to Vue CLI TypeScript limitations
+        run: npm run build
+
+      - name: Verify build output
+        run: |
+          test -f dist/vue.aareguru.mjs || exit 1
+          test -f dist/vue.aareguru.cjs || exit 1
+          test -f dist/vue.aareguru.js || exit 1
+          test -f dist/vue.aareguru.css || exit 1
+          echo "✓ All build artifacts present"
+
+      - name: Check bundle size
+        run: |
+          echo "## Bundle Sizes" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          ls -lh dist/*.{mjs,cjs,js,css} 2>/dev/null | awk '{print $9, $5}' >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
-        if: matrix.node-version == '20.x' && success()
         with:
-          name: dist
-          path: dist/
+          name: dist-bundle
+          path: |
+            dist/
+            !dist/**/*.map
           retention-days: 7
+          if-no-files-found: error
 
-      - name: Upload test results
-        uses: actions/upload-artifact@v4
-        if: matrix.node-version == '20.x' && always()
-        with:
-          name: test-results
-          path: coverage/
-          retention-days: 7
+  # ==============================================================================
+  # STATUS CHECK (All jobs passed)
+  # ==============================================================================
+  status:
+    name: All Checks Passed
+    runs-on: ubuntu-latest
+    needs: [quality, test, build]
+    if: always()
+
+    steps:
+      - name: Check job results
+        run: |
+          if [[ "${{ needs.quality.result }}" != "success" ]]; then
+            echo "❌ Quality checks failed"
+            exit 1
+          fi
+          if [[ "${{ needs.test.result }}" != "success" ]]; then
+            echo "❌ Tests failed"
+            exit 1
+          fi
+          if [[ "${{ needs.build.result }}" != "success" ]]; then
+            echo "❌ Build failed"
+            exit 1
+          fi
+          echo "✅ All checks passed successfully!"
