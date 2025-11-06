@@ -59,7 +59,8 @@ const props = defineProps({
     type: String,
     default: 'bern',
     validator: (value) => {
-      // Define allowed cities inline to avoid hoisting issues
+      // Define allowed cities inline because the validator runs during component definition,
+      // before ALLOWED_CITIES is available in this scope
       const allowedCities = ['bern', 'thun', 'brienz', 'interlaken', 'biel', 'hagneck']
       const isValid = allowedCities.includes(value.toLowerCase())
       if (!isValid) {
