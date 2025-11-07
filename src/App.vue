@@ -71,7 +71,7 @@
               </div>
               <div class="temp-details">
                 <span>Flow: {{ data.aare.flow }} m³/s</span>
-                <span>Forecast: {{ data.aare.temperature_prognose }}°C</span>
+                <span>Forecast: {{ data.aare.temperature_prec }}°C</span>
               </div>
             </div>
           </template>

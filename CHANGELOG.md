@@ -3,6 +3,21 @@
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 and [human-readable changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.2.0] - 2025-11-07
+
+### Fixed
+
+- Fixed TypeScript interfaces to match actual Aareguru API response structure
+  - `weather.current` is now correctly typed as `WeatherCurrent` object with `tt` (temperature), `rr`, `rrreal`, `timestamp`, `timestring` properties (was incorrectly typed as `number`)
+  - `weather.today` is now correctly typed as `WeatherToday` object with `v`, `n`, `a` properties for different time periods (was incorrectly typed as `number`)
+  - `weather.forecast` items now include all fields: `day`, `dayshort`, `timestamp`, `sy`, `syt`, `symt`, `tx`, `tn`, `rr`, `rrisk` (previously had incomplete type definition)
+  - `aare` object now includes all available fields: `temperature_prec`, `temperature_text`, `temperature_text_short`, `flow_text`, `location`, `location_long`, `forecast2h`, `forecast2h_text`, `timestamp`, `timestring`
+  - Removed incorrect `text` and `timestamp` fields from root `AareData` interface (these don't exist in the actual API response)
+
+### Changed
+
+- Updated README.md with correct TypeScript interface documentation
+
 ## [2.1.0] - 2025-11-07
 
 ### Added

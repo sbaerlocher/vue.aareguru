@@ -12,19 +12,67 @@ const mockedAxios = vi.mocked(axios, true)
 const mockAareData: AareData = {
   aare: {
     temperature: 18.5,
-    temperature_prognose: 19.2,
+    temperature_prec: 19.2,
+    temperature_text: 'schön warm',
+    temperature_text_short: 'warm',
     flow: 120,
-    flow_prognose: 125
+    flow_text: 'mittel',
+    location: 'Bern',
+    location_long: 'Bern - Schönau',
+    forecast2h: 18.7,
+    forecast2h_text: 'leicht steigend',
+    timestamp: Date.now(),
+    timestring: '12:00'
   },
   weather: {
-    current: 22,
-    today: 24,
+    current: {
+      tt: 22,
+      rr: 0,
+      rrreal: 0,
+      timestamp: Date.now(),
+      timestring: '12:00'
+    },
+    today: {
+      v: {
+        sy: '1',
+        syt: 'sonnig',
+        symt: 1,
+        tt: 20,
+        rr: 0,
+        rrisk: 0
+      },
+      n: {
+        sy: '2',
+        syt: 'heiter',
+        symt: 2,
+        tt: 24,
+        rr: 0,
+        rrisk: 10
+      },
+      a: {
+        sy: '3',
+        syt: 'wolkig',
+        symt: 3,
+        tt: 22,
+        rr: 0,
+        rrisk: 20
+      }
+    },
     forecast: [
-      { date: '2025-10-22', sy: 5, tn: 12, tx: 25 }
+      {
+        day: 'Montag',
+        dayshort: 'Mo',
+        timestamp: Date.now(),
+        sy: '1',
+        syt: 'sonnig',
+        symt: 1,
+        tx: 25,
+        tn: 12,
+        rr: 0,
+        rrisk: 0
+      }
     ]
-  },
-  text: 'Test description',
-  timestamp: Date.now()
+  }
 }
 
 describe('AareGuru.vue', () => {

@@ -6,10 +6,48 @@
  * Weather forecast data point
  */
 export interface WeatherForecast {
-  date: string;
-  sy: number;
-  tn: number;
+  day: string;
+  dayshort: string;
+  timestamp: number;
+  sy: string;
+  syt: string;
+  symt: number;
   tx: number;
+  tn: number;
+  rr: number;
+  rrisk: number;
+}
+
+/**
+ * Weather time period (vormittag, nachmittag, abend)
+ */
+export interface WeatherPeriod {
+  sy: string;
+  syt: string;
+  symt: number;
+  tt: number;
+  rr: number;
+  rrisk: number;
+}
+
+/**
+ * Current weather data
+ */
+export interface WeatherCurrent {
+  tt: number;
+  rr: number;
+  rrreal: number;
+  timestamp: number;
+  timestring: string;
+}
+
+/**
+ * Today's weather by time period
+ */
+export interface WeatherToday {
+  v: WeatherPeriod;  // vormittag
+  n: WeatherPeriod;  // nachmittag
+  a: WeatherPeriod;  // abend
 }
 
 /**
@@ -18,17 +56,23 @@ export interface WeatherForecast {
 export interface AareData {
   aare: {
     temperature: number;
-    temperature_prognose: number;
+    temperature_prec: number;
+    temperature_text: string;
+    temperature_text_short: string;
     flow: number;
-    flow_prognose: number;
+    flow_text: string;
+    location: string;
+    location_long: string;
+    forecast2h: number;
+    forecast2h_text: string;
+    timestamp: number;
+    timestring: string;
   };
   weather: {
-    current: number;
-    today: number;
+    current: WeatherCurrent;
+    today: WeatherToday;
     forecast: WeatherForecast[];
   };
-  text: string;
-  timestamp: number;
 }
 
 /**

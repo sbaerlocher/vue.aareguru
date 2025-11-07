@@ -243,25 +243,62 @@ import type { AareData, AareGuruProps, AareGuruEmits } from 'vue.aareguru/types'
 ### Available Types
 
 ```typescript
+interface WeatherCurrent {
+  tt: number           // Temperature
+  rr: number          // Rain
+  rrreal: number
+  timestamp: number
+  timestring: string
+}
+
+interface WeatherPeriod {
+  sy: string          // Symbol
+  syt: string         // Symbol text
+  symt: number        // Symbol type
+  tt: number          // Temperature
+  rr: number          // Rain
+  rrisk: number       // Rain risk
+}
+
+interface WeatherToday {
+  v: WeatherPeriod    // Vormittag (morning)
+  n: WeatherPeriod    // Nachmittag (afternoon)
+  a: WeatherPeriod    // Abend (evening)
+}
+
+interface WeatherForecast {
+  day: string
+  dayshort: string
+  timestamp: number
+  sy: string
+  syt: string
+  symt: number
+  tx: number          // Max temperature
+  tn: number          // Min temperature
+  rr: number
+  rrisk: number
+}
+
 interface AareData {
   aare: {
     temperature: number
-    temperature_prognose: number
+    temperature_prec: number
+    temperature_text: string
+    temperature_text_short: string
     flow: number
-    flow_prognose: number
+    flow_text: string
+    location: string
+    location_long: string
+    forecast2h: number
+    forecast2h_text: string
+    timestamp: number
+    timestring: string
   }
   weather: {
-    current: number
-    today: number
-    forecast: Array<{
-      date: string
-      sy: number
-      tn: number
-      tx: number
-    }>
+    current: WeatherCurrent
+    today: WeatherToday
+    forecast: WeatherForecast[]
   }
-  text: string
-  timestamp: number
 }
 ```
 
