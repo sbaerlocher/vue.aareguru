@@ -3,6 +3,30 @@
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 and [human-readable changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.1.0] - 2025-11-07
+
+### Added
+
+- OIDC trusted publishing for npm with provenance
+- `.eslintignore` file to exclude specific directories from linting
+
+### Changed
+
+- **Build System**: Migrated from Vue CLI to Vite for faster builds and better developer experience
+- Updated GitHub Actions workflows to latest versions (upload-artifact v5, download-artifact v6)
+- Migrated Renovate configuration to new format
+- Updated ESLint to 9.39.0
+
+### Fixed
+
+- Improved array validation in Vite configuration
+- Fixed documentation links in README
+- Addressed code review feedback for better code quality
+
+### Removed
+
+- core-js dependency (no longer needed with modern build setup)
+
 ## [2.0.0] - 2025-10-22
 
 ### Added
