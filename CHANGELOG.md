@@ -3,6 +3,28 @@
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 and [human-readable changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.2.1] - 2025-11-15
+
+### Security
+
+- Upgraded js-yaml from 4.1.0 to 4.1.1 to fix prototype pollution vulnerability (CVE-2024-12327, Medium severity)
+
+### Fixed
+
+- Fixed package.json and package-lock.json synchronization for vitest dependencies
+- Resolved dependency version mismatches that caused CI failures
+
+### Changed
+
+- Updated development dependencies:
+  - vitest: 4.0.7 → 4.0.9
+  - @vitest/ui: 4.0.7 → 4.0.9
+  - @vitest/coverage-v8: 4.0.7 → 4.0.9
+  - vite: 6.4.1 → 7.2.2
+  - vue: 3.5.23 → 3.5.24
+  - @vue/compiler-sfc: 3.5.23 → 3.5.24
+- Updated CI dependency: renovatebot/github-action from 43.0.20 to 44.0.2
+
 ## [2.2.0] - 2025-11-07
 
 ### Fixed
