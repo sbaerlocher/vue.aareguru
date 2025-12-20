@@ -95,5 +95,8 @@
   "browserslist": [
     "> 1%",
     "last 2 versions"
-  ]
+  ],
+  "overrides": {
+    "glob": "^10.5.0"
+  }
 }
