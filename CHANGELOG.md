@@ -3,6 +3,28 @@
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 and [human-readable changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.2.2] - 2025-12-20
+
+### Security
+
+- Fixed glob security vulnerability (CVE) by overriding to secure version 10.5.0+
+  - Addresses vulnerability in transitive dependency via js-beautify
+  - Added npm overrides to force safe version
+
+### Changed
+
+- Updated development dependencies:
+  - vitest: 4.0.9 → 4.0.16
+  - @vitest/ui: 4.0.9 → 4.0.16
+  - @vitest/coverage-v8: 4.0.9 → 4.0.16
+  - glob: 10.4.5 → 10.5.0 (via override)
+
+### Improved
+
+- All tests passing (28/28)
+- Zero security vulnerabilities
+- Updated dependencies for better stability
+
 ## [2.2.1] - 2025-11-15
 
 ### Security

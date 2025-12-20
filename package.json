@@ -1,6 +1,6 @@
 {
   "name": "vue.aareguru",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "type": "module",
   "description": "Vue 3 component that displays the Aare river temperature from Aareguru API.",
   "main": "dist/vue.aareguru.cjs",
