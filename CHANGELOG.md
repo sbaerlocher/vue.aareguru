@@ -3,6 +3,28 @@
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 and [human-readable changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.2.3] - 2025-12-20
+
+### Changed
+
+- Updated development dependencies:
+  - vue: 3.5.24 → 3.5.26
+  - vite: 7.2.4 → 7.3.0
+  - @vitejs/plugin-vue: 6.0.2 → 6.0.3
+  - @types/node: 24.10.1 → 24.10.4
+  - eslint: 9.39.1 → 9.39.2
+  - happy-dom: 20.0.10 → 20.0.11
+  - glob: 10.5.0 → 13.0.0
+- Updated CI dependencies:
+  - renovatebot/github-action: 44.0.2 → 44.2.0
+  - Node.js test matrix: 20.x, 22.x, 23.x → 24.12.0
+
+### Improved
+
+- Lock file maintenance for better dependency resolution
+- All tests passing (28/28)
+- Zero security vulnerabilities
+
 ## [2.2.2] - 2025-12-20
 
 ### Security
