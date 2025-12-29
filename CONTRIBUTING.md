@@ -2,6 +2,20 @@
 
 Thank you for your interest in vue.aareguru! We welcome all contributions.
 
+## Code of Conduct
+
+This project adheres to a Code of Conduct that all contributors are expected to follow:
+
+- **Be respectful** - Treat everyone with respect and consideration
+- **Be constructive** - Provide helpful feedback and accept constructive criticism
+- **Be inclusive** - Welcome newcomers and help them get started
+- **Be professional** - Focus on the project and avoid personal attacks
+- **Be patient** - Remember that everyone is learning and contributing voluntarily
+
+Unacceptable behavior includes harassment, discrimination, trolling, or any conduct that creates an unwelcoming environment.
+
+If you experience or witness unacceptable behavior, please report it by opening an issue or contacting the maintainer directly.
+
 ## Development Setup
 
 ### Prerequisites

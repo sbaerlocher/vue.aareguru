@@ -17,6 +17,7 @@
   "commitMessageExtra": "to {{newVersion}}",
   "prHourlyLimit": 0,
   "prConcurrentLimit": 10,
+  "minimumReleaseAge": "3 days",
   "assignees": [
     "sbaerlocher"
   ],
@@ -75,11 +76,50 @@
       ]
     },
     {
+      "description": "Gruppierung von Vitest-bezogenen Updates",
+      "groupName": "Vitest",
+      "automerge": false,
+      "matchPackageNames": [
+        "/^vitest/",
+        "/^@vitest//",
+        "/^@testing-library//"
+      ]
+    },
+    {
+      "description": "Gruppierung von Vite-bezogenen Updates",
+      "groupName": "Vite",
+      "automerge": false,
+      "matchPackageNames": [
+        "/^vite$/",
+        "/^@vitejs//"
+      ]
+    },
+    {
+      "description": "TypeScript Updates",
+      "groupName": "TypeScript",
+      "automerge": false,
+      "matchPackageNames": [
+        "typescript"
+      ]
+    },
+    {
+      "description": "Gruppierung von GitHub Actions Updates",
+      "groupName": "GitHub Actions",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "automerge": true,
+      "automergeType": "pr",
+      "automergeStrategy": "squash",
+      "platformAutomerge": true
+    },
+    {
       "description": "Major Updates separate behandeln",
       "matchUpdateTypes": [
         "major"
       ],
       "automerge": false,
+      "dependencyDashboardApproval": true,
       "labels": [
         "dependencies",
         "renovate",
@@ -114,6 +154,7 @@
       "at any time"
     ]
   },
+  "osvVulnerabilityAlerts": true,
   "lockFileMaintenance": {
     "enabled": true,
     "automerge": true,
@@ -123,6 +164,7 @@
   },
   "dependencyDashboard": true,
   "dependencyDashboardTitle": "Renovate Dashboard",
+  "dependencyDashboardHeader": "Updates werden **montags vor 6:00 Uhr** verarbeitet. Major Updates erfordern manuelle Genehmigung im Dashboard.",
   "semanticCommits": "enabled",
   "stopUpdatingLabel": "renovate-stop"
 }

@@ -3,6 +3,48 @@
 This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 and [human-readable changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [Unreleased]
+
+### Added
+
+- Claude Code slash commands for development workflow:
+  - `/commit` - Create Git commits with conventional commit messages
+  - `/renovate-check` - Check Renovate configuration for best practices
+  - `/actions-check` - Check GitHub Actions for best practices
+  - `/docs-check` - Check documentation for completeness and consistency
+  - `/code-review` - Perform code reviews on files or directories
+
+### Changed
+
+- Improved Renovate configuration with additional best practices:
+  - Added `minimumReleaseAge: "3 days"` for new release stability
+  - Added `dependencyDashboardApproval: true` for major updates
+  - Added `osvVulnerabilityAlerts: true` for OSV security database
+  - Added GitHub Actions grouping with automerge
+  - Added `dependencyDashboardHeader` with schedule information
+- Translated all Claude Code commands to English for consistency with repository language
+- Updated development dependencies:
+  - @types/node: 24.10.4 → 25.0.3
+  - vue-tsc: 3.2.0 → 3.2.1
+- Updated CI dependencies:
+  - renovatebot/github-action: 44.2.0 → 44.2.2
+
+### Security
+
+- Pinned all GitHub Actions to SHA for supply chain security:
+  - actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 (v6.0.1)
+  - actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f (v6.1.0)
+  - actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f (v6.0.0)
+  - actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 (v7.0.0)
+  - codecov/codecov-action@0561704f0f02c16a585d4c7555e57fa2e44cf909 (v5.5.2)
+  - github/codeql-action@7c9a7896f03bb1f3de14c5663ed46759e27443e0 (v4.31.9)
+  - softprops/action-gh-release@a06a81a03ee405af7f2048a818ed3f03bbf83c7b (v2.5.0)
+
+### Removed
+
+- Removed `.github/dependabot.yml` (replaced by Renovate)
+- Removed `.github/workflows/renovate.yml` (using GitHub App instead)
+
 ## [2.2.3] - 2025-12-20
 
 ### Changed

@@ -5,9 +5,9 @@
 **vue.aareguru** is a Vue 3 component library that displays the current Aare river temperature from the Aareguru API.
 The project is designed as a reusable npm library.
 
-- **Version:** 2.0.0
+- **Version:** 2.2.3
 - **Framework:** Vue 3 (Composition API with `<script setup>`)
-- **Build Tool:** Vue CLI 5.0.8 → **TODO: Migration to Vite planned**
+- **Build Tool:** Vite 7.x
 - **Main File:** `src/components/AareGuru.vue`
 - **Repository:** <https://github.com/sbaerlocher/vue.aareguru>
 
@@ -382,33 +382,20 @@ interface AareData {
 
 ## Known Limitations
 
-### Vue CLI TypeScript Support
+### Build System
 
-**Issue:** Vue CLI cannot parse TypeScript syntax in `<script setup>`
+**Current Status (Vite 7.x):**
 
-**Current Status:**
-
+- ✅ Full TypeScript support in development and build
 - ✅ Tests use Vitest (TypeScript native support)
 - ✅ Type checking uses `vue-tsc` directly
-- ✅ Vue component type definitions in `vue-shims.d.ts`
 - ✅ CI/CD workflows include type-check step
-- ⚠️ ESLint may fail (continue-on-error in CI)
-- ⚠️ Build may fail (continue-on-error in CI)
-- ⚠️ Vue CLI dependencies have known vulnerabilities (non-critical, dev only)
-
-**Solution:** Migration to Vite (see Roadmap)
-
-**Security Note:**
-
-- 12 vulnerabilities in Vue CLI dependencies (8 moderate, 4 high)
-- All vulnerabilities are in devDependencies only
-- Does not affect production builds
-- Will be resolved with Vite migration
+- ✅ Zero security vulnerabilities
+- ✅ Fast builds with Vite
 
 **TypeScript Configuration:**
 
 - `vue-shims.d.ts` provides type declarations for `.vue` files
-- Specific type declaration for `@/components/AareGuru.vue` with proper props
 - Tests run with full TypeScript support via Vitest
 
 ### Component Limitations
@@ -422,12 +409,12 @@ interface AareData {
 
 ## Roadmap
 
-### Phase 2: Build System Migration (High Priority)
+### Phase 2: Build System Migration ✅ COMPLETED
 
-- [ ] Migrate from Vue CLI to Vite
-- [ ] Enable full TypeScript support in dev/build
-- [ ] Faster builds and better DX
-- [ ] Fix ESLint TypeScript parsing
+- [x] Migrate from Vue CLI to Vite
+- [x] Enable full TypeScript support in dev/build
+- [x] Faster builds and better DX
+- [x] Fix ESLint TypeScript parsing
 
 ### Phase 3: Testing & Documentation
 
@@ -478,7 +465,7 @@ interface AareData {
 
 **Build:**
 
-- `@vue/cli-service` - Build tool (to be replaced by Vite)
+- `vite` - Build tool
 - `@vue/compiler-sfc` - Vue SFC compiler
 - `@vitejs/plugin-vue` - Vite Vue plugin
 
@@ -703,6 +690,6 @@ npm run dev
 
 ---
 
-**Last Updated:** 2025-10-22
+**Last Updated:** 2025-12-29
 **Documentation Status:** ✅ Complete
 **Project Status:** 🚀 Production Ready (with noted Vue CLI limitations)
