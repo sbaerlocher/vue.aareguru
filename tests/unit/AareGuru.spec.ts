@@ -159,19 +159,19 @@ describe('AareGuru.vue', () => {
       expect(wrapper.text()).toContain('°C')
     })
 
-    it('warns when invalid city is provided', () => {
-      const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    it('accepts only valid cities via TypeScript types', () => {
+      // With TypeScript, invalid cities are caught at compile time.
+      // This test verifies that valid cities work correctly.
       mockedAxios.get.mockResolvedValue({ data: mockAareData })
 
-      mount(AareGuru, {
-        props: { city: 'invalid-city' }
+      const validCities = ['bern', 'thun', 'brienz', 'interlaken', 'biel', 'hagneck']
+
+      validCities.forEach(city => {
+        const wrapper = mount(AareGuru, {
+          props: { city: city as 'bern' | 'thun' | 'brienz' | 'interlaken' | 'biel' | 'hagneck' }
+        })
+        expect(wrapper.exists()).toBe(true)
       })
-
-      expect(warnSpy).toHaveBeenCalledWith(
-        expect.stringContaining('Invalid city "invalid-city"')
-      )
-
-      warnSpy.mockRestore()
     })
   })
 
@@ -502,8 +502,6 @@ describe('AareGuru.vue', () => {
     })
 
     it('validates API response structure', async () => {
-      const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
-
       // Response with invalid structure
       mockedAxios.get.mockResolvedValue({ data: { invalid: 'structure' } })
 
@@ -512,10 +510,10 @@ describe('AareGuru.vue', () => {
       })
       await flushPromises()
 
+      // Component should show error state for invalid API response
       expect(wrapper.find('.aareguru-error').exists()).toBe(true)
-      expect(errorSpy).toHaveBeenCalled()
-
-      errorSpy.mockRestore()
+      // Error event should be emitted
+      expect(wrapper.emitted('error')).toBeTruthy()
     })
   })
 })

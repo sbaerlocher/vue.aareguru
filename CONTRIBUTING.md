@@ -110,10 +110,10 @@ npm run type-check:watch  # Watch mode
 ### Library Build
 
 ```bash
-npm run build:bundle      # Build for npm package
+npm run build             # Build for npm package
 ```
 
-The build creates UMD and CommonJS bundles in the `dist/` directory.
+The build creates ESM, CJS, and UMD bundles in the `dist/` directory.
 
 ## Pull Request Process
 
@@ -203,7 +203,7 @@ Or run individually:
 npm run lint
 npm run type-check
 npm run test
-npm run build:bundle
+npm run build
 ```
 
 ### 5. Push & Pull Request

@@ -39,9 +39,10 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue'
 import axios from 'axios'
+import type { AareData, RetryEvent } from '../types'
 
 // Allowed cities for the Aareguru API
 const ALLOWED_CITIES = [
@@ -50,62 +51,44 @@ const ALLOWED_CITIES = [
   'brienz',
   'interlaken',
   'biel',
-  'hagneck'
-]
+  'hagneck',
+  'olten',
+  'brugg'
+] as const
+
+type AllowedCity = typeof ALLOWED_CITIES[number]
 
 // Props with defaults
-const props = defineProps({
-  city: {
-    type: String,
-    default: 'bern',
-    validator: (value) => {
-      // Define allowed cities inline because the validator runs during component definition,
-      // before ALLOWED_CITIES is available in this scope
-      const allowedCities = ['bern', 'thun', 'brienz', 'interlaken', 'biel', 'hagneck']
-      const isValid = allowedCities.includes(value.toLowerCase())
-      if (!isValid) {
-        console.warn(
-          `[AareGuru] Invalid city "${value}". Allowed cities: ${allowedCities.join(', ')}`
-        )
-      }
-      return isValid
-    }
-  },
-  retryAttempts: {
-    type: Number,
-    default: 3,
-    validator: (value) => value >= 0 && value <= 10
-  },
-  retryDelay: {
-    type: Number,
-    default: 1000,
-    validator: (value) => value >= 0
-  },
-  unit: {
-    type: String,
-    default: 'celsius',
-    validator: (value) => ['celsius', 'fahrenheit'].includes(value)
-  },
-  cacheTimeout: {
-    type: Number,
-    default: 300000
-  },
-  autoRefresh: {
-    type: Boolean,
-    default: false
-  }
+const props = withDefaults(defineProps<{
+  city?: AllowedCity
+  retryAttempts?: number
+  retryDelay?: number
+  unit?: 'celsius' | 'fahrenheit'
+  cacheTimeout?: number
+  autoRefresh?: boolean
+}>(), {
+  city: 'bern',
+  retryAttempts: 3,
+  retryDelay: 1000,
+  unit: 'celsius',
+  cacheTimeout: 300000,
+  autoRefresh: false
 })
 
 // Emits
-const emit = defineEmits(['loaded', 'error', 'retry'])
+const emit = defineEmits<{
+  loaded: [data: AareData]
+  error: [error: Error]
+  retry: [payload: RetryEvent]
+}>()
 
 // State
-const aareguru = ref(null)
-const isLoading = ref(true)
-const error = ref(null)
-const attemptCount = ref(0)
-const lastFetchTime = ref(null)
-let refreshInterval = null
+const aareguru = ref<AareData | null>(null)
+const isLoading = ref<boolean>(true)
+const error = ref<Error | null>(null)
+const attemptCount = ref<number>(0)
+const lastFetchTime = ref<number | null>(null)
+const refreshInterval = ref<ReturnType<typeof setInterval> | null>(null)
 
 // API Configuration
 const API_BASE = 'https://aareguru.existenz.ch/v2018/current'
@@ -142,19 +125,18 @@ const unitSymbol = computed(() => {
 })
 
 // Helper function for delays
-function sleep(ms) {
+function sleep(ms: number): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
 // Fetch data with retry logic
-async function fetchDataWithRetry() {
+async function fetchDataWithRetry(): Promise<void> {
   // Check if we should use cached data
   if (!shouldRefetch.value && aareguru.value) {
-    console.log('[AareGuru] Using cached data')
     return
   }
 
-  let lastError = null
+  let lastError: Error | null = null
 
   for (let attempt = 0; attempt <= props.retryAttempts; attempt++) {
     attemptCount.value = attempt
@@ -184,11 +166,14 @@ async function fetchDataWithRetry() {
       isLoading.value = false
       emit('loaded', response.data)
       return // Success - exit retry loop
-    } catch (err) {
-      lastError = err
+    } catch (err: unknown) {
+      // Convert unknown error to Error instance
+      const errorInstance = err instanceof Error ? err : new Error(String(err))
+      lastError = errorInstance
 
       // Don't retry on 4xx errors (client errors)
-      if (err.response?.status && err.response.status >= 400 && err.response.status < 500) {
+      const axiosError = err as { response?: { status?: number } }
+      if (axiosError.response?.status && axiosError.response.status >= 400 && axiosError.response.status < 500) {
         break
       }
 
@@ -198,7 +183,7 @@ async function fetchDataWithRetry() {
         emit('retry', {
           attempt: attempt + 1,
           maxAttempts: props.retryAttempts,
-          error: err
+          error: errorInstance
         })
         await sleep(retryDelay)
       }
@@ -209,23 +194,40 @@ async function fetchDataWithRetry() {
   error.value = lastError
   if (lastError) {
     emit('error', lastError)
-    console.error('[AareGuru] Error fetching Aare data after retries:', lastError)
   }
   isLoading.value = false
 }
 
 // Public method to refresh data
-async function refresh() {
+async function refresh(): Promise<void> {
   attemptCount.value = 0
   lastFetchTime.value = null // Force refetch
   await fetchDataWithRetry()
 }
 
 // Public method to clear cache
-function clearCache() {
+function clearCache(): void {
   aareguru.value = null
   lastFetchTime.value = null
   error.value = null
+}
+
+// Helper to setup auto-refresh interval
+function setupAutoRefresh(): void {
+  clearAutoRefresh()
+  if (props.autoRefresh && props.cacheTimeout > 0) {
+    refreshInterval.value = setInterval(() => {
+      fetchDataWithRetry()
+    }, props.cacheTimeout)
+  }
+}
+
+// Helper to clear auto-refresh interval
+function clearAutoRefresh(): void {
+  if (refreshInterval.value) {
+    clearInterval(refreshInterval.value)
+    refreshInterval.value = null
+  }
 }
 
 // Watch for city changes
@@ -237,22 +239,26 @@ watch(() => props.city, async (newCity, oldCity) => {
   }
 })
 
-// Lifecycle hooks
-onMounted(async () => {
-  await fetchDataWithRetry()
+// Watch for autoRefresh changes
+watch(() => props.autoRefresh, () => {
+  setupAutoRefresh()
+})
 
-  // Setup auto-refresh if enabled
-  if (props.autoRefresh && props.cacheTimeout > 0) {
-    refreshInterval = setInterval(() => {
-      fetchDataWithRetry()
-    }, props.cacheTimeout)
+// Watch for cacheTimeout changes (affects auto-refresh interval)
+watch(() => props.cacheTimeout, () => {
+  if (props.autoRefresh) {
+    setupAutoRefresh()
   }
 })
 
+// Lifecycle hooks
+onMounted(async () => {
+  await fetchDataWithRetry()
+  setupAutoRefresh()
+})
+
 onBeforeUnmount(() => {
-  if (refreshInterval) {
-    clearInterval(refreshInterval)
-  }
+  clearAutoRefresh()
 })
 
 // Expose methods for parent components

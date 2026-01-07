@@ -2,6 +2,9 @@ import AareGuru from './components/AareGuru.vue'
 
 export default AareGuru
 
+// Export composables
+export { useCities, useHistory } from './composables'
+
 // Export types
 export type {
   AareData,
@@ -9,5 +12,16 @@ export type {
   AareGuruEmits,
   AareGuruExposed,
   WeatherForecast,
-  RetryEvent
+  WeatherCurrent,
+  WeatherToday,
+  WeatherPeriod,
+  RetryEvent,
+  AllowedCity
 } from './types'
+
+export type {
+  CityData,
+  HistoryData,
+  HistoryDataPoint,
+  HistoryRange
+} from './composables'

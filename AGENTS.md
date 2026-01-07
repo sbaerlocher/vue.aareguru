@@ -32,18 +32,14 @@ vue.aareguru/
 ├── dist/                         # Build output (npm package)
 ├── coverage/                     # Test coverage reports
 ├── .github/workflows/            # CI/CD pipelines
-│   ├── test.yml
-│   ├── publish.yml
-│   ├── codeql.yml
-│   ├── renovate.yml
-│   └── README.md
+│   ├── ci.yml                    # Continuous integration
+│   ├── release.yml               # npm publishing
+│   └── codeql.yml                # Security scanning
 ├── package.json
 ├── tsconfig.json                 # TypeScript configuration
 ├── vitest.config.ts              # Vitest test configuration
-├── babel.config.js
+├── vite.config.ts                # Vite build configuration
 ├── CONTRIBUTING.md               # Contribution guidelines
-├── TESTING.md                    # Testing guide
-├── SCRIPTS.md                    # NPM scripts documentation
 ├── README.md
 └── CHANGELOG.md
 ```
@@ -310,24 +306,20 @@ npm run clean:all        # Deep clean
 
 ## CI/CD Workflows
 
-### Test Workflow (`.github/workflows/test.yml`)
+### CI Workflow (`.github/workflows/ci.yml`)
 
 **Triggers:** Push/PR to main/master/develop
 
 **Runs on:** Node.js 20.x, 22.x, 23.x
 
-**Steps:**
+**Jobs:**
 
-1. Install dependencies
-2. Run ESLint (continue-on-error)
-3. Run TypeScript type check ✅
-4. Run unit tests ✅
-5. Generate coverage report
-6. Upload to Codecov (optional)
-7. Build library bundle (continue-on-error)
-8. Upload artifacts
+1. **Quality** - ESLint, TypeScript type check
+2. **Test** - Unit tests with coverage (multi-version matrix)
+3. **Build** - Build library bundle, verify artifacts
+4. **Status** - Final status check
 
-### Publish Workflow (`.github/workflows/publish.yml`)
+### Release Workflow (`.github/workflows/release.yml`)
 
 **Triggers:** GitHub release or manual dispatch
 
@@ -523,11 +515,9 @@ docs(readme): update usage examples
 
 - **README.md** - Main documentation, usage examples
 - **CONTRIBUTING.md** - Contribution guidelines
-- **TESTING.md** - Comprehensive testing guide
-- **SCRIPTS.md** - NPM scripts documentation
-- **agent.md** - AI reference (this file)
+- **AGENTS.md** - AI reference (this file)
+- **CLAUDE.md** - Claude Code import (references AGENTS.md)
 - **CHANGELOG.md** - Version history
-- **.github/workflows/README.md** - CI/CD documentation
 
 ---
 

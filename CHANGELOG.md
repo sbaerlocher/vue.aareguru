@@ -7,6 +7,23 @@ and [human-readable changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
+- **Storybook**: Interactive component documentation with Storybook 10
+  - Live component playground with all props
+  - Stories for all 8 cities along the Aare river
+  - Custom slot examples
+  - Accessibility testing via `@storybook/addon-a11y`
+  - Auto-generated documentation via `@storybook/addon-docs`
+- **New Cities**: Added support for Olten and Brugg AG (now 8 cities total)
+- **Composables**: New composables for advanced use cases:
+  - `useCities()` - Dynamically fetch available cities from the API
+  - `useHistory(city)` - Fetch historical temperature and flow data
+- **TypeScript**: Full TypeScript support in `AareGuru.vue` component (`<script setup lang="ts">`)
+- **TypeScript**: `AllowedCity` union type for compile-time city prop validation
+- **TypeScript**: Exported additional Weather types: `WeatherCurrent`, `WeatherToday`, `WeatherPeriod`
+- **Component**: Watch handlers for `autoRefresh` and `cacheTimeout` props enabling dynamic updates at runtime
+- **CI**: Renovate comments for automatic Node.js version updates in workflows
+- **Config**: `.editorconfig` for consistent editor settings across IDEs
+- **Config**: `CLAUDE.md` configuration file for Claude Code
 - Claude Code slash commands for development workflow:
   - `/commit` - Create Git commits with conventional commit messages
   - `/renovate-check` - Check Renovate configuration for best practices
@@ -16,6 +33,19 @@ and [human-readable changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 
+- **Component**: Migrated `AareGuru.vue` to full TypeScript with typed props, emits, and refs
+- **Component**: `refreshInterval` is now a reactive `ref` instead of a plain variable (Vue-idiomatic)
+- **DX**: `npm run dev` now starts Storybook instead of Vite dev server (best practice for component libraries)
+- **DX**: Simplified `App.vue` to minimal entry point (Storybook is now primary development tool)
+- **Tests**: Updated tests to reflect TypeScript changes (city validation now at compile-time)
+- **CI**: Renamed `test.yml` to `ci.yml` for clarity
+- **CI**: Unified Node.js version to 22 (LTS) across all workflows
+- **CI**: Updated test matrix to Node.js 20.x, 22.x, 24.x
+- **Docs**: Updated README.md with correct npm scripts (`npm run dev`, `npm run build`)
+- **Docs**: Updated README.md roadmap (removed completed Vite migration, added SSR support)
+- **Docs**: Updated CONTRIBUTING.md with correct build commands
+- **Docs**: Updated AGENTS.md project structure to reflect current state
+- **Docs**: Renamed `AGENT.md` to `AGENTS.md`
 - Improved Renovate configuration with additional best practices:
   - Added `minimumReleaseAge: "3 days"` for new release stability
   - Added `dependencyDashboardApproval: true` for major updates
@@ -29,6 +59,14 @@ and [human-readable changelog](https://keepachangelog.com/en/1.0.0/).
 - Updated CI dependencies:
   - renovatebot/github-action: 44.2.0 → 44.2.2
 
+### Removed
+
+- Runtime city validation warning (now handled by TypeScript at compile time)
+- Debug `console.log` statements from component
+- `console.error` call after retries (error still emitted via event)
+- Removed `.github/dependabot.yml` (replaced by Renovate)
+- Removed `.github/workflows/renovate.yml` (using GitHub App instead)
+
 ### Security
 
 - Pinned all GitHub Actions to SHA for supply chain security:
@@ -36,14 +74,9 @@ and [human-readable changelog](https://keepachangelog.com/en/1.0.0/).
   - actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f (v6.1.0)
   - actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f (v6.0.0)
   - actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 (v7.0.0)
-  - codecov/codecov-action@0561704f0f02c16a585d4c7555e57fa2e44cf909 (v5.5.2)
-  - github/codeql-action@7c9a7896f03bb1f3de14c5663ed46759e27443e0 (v4.31.9)
+  - codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de (v5.5.2)
+  - github/codeql-action@5d4e8d1aca955e8d8589aabd499c5cae939e33c7 (v4.31.9)
   - softprops/action-gh-release@a06a81a03ee405af7f2048a818ed3f03bbf83c7b (v2.5.0)
-
-### Removed
-
-- Removed `.github/dependabot.yml` (replaced by Renovate)
-- Removed `.github/workflows/renovate.yml` (using GitHub App instead)
 
 ## [2.2.3] - 2025-12-20
 

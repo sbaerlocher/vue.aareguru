@@ -15,8 +15,9 @@ concurrency:
   group: release-${{ github.ref }}
   cancel-in-progress: false
 
+# renovate: datasource=npm depName=node versioning=node
 env:
-  NODE_VERSION: '20'
+  NODE_VERSION: '22'
 
 permissions:
   contents: write

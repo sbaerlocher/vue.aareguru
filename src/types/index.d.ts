@@ -76,6 +76,11 @@ export interface AareData {
 }
 
 /**
+ * Allowed cities for the Aareguru API
+ */
+export type AllowedCity = 'bern' | 'thun' | 'brienz' | 'interlaken' | 'biel' | 'hagneck' | 'olten' | 'brugg';
+
+/**
  * Component props for AareGuru
  */
 export interface AareGuruProps {
@@ -83,7 +88,7 @@ export interface AareGuruProps {
    * City for which to fetch Aare data
    * @default 'bern'
    */
-  city?: string;
+  city?: AllowedCity;
 
   /**
    * Number of retry attempts on API failure

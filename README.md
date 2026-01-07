@@ -200,7 +200,7 @@ import AareGuru from 'vue.aareguru'
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `city` | `String` | `'bern'` | City for which to display Aare temperature. Options: `bern`, `thun`, `brienz`, `interlaken`, `biel`, `hagneck` |
+| `city` | `String` | `'bern'` | City for which to display Aare temperature. Options: `bern`, `thun`, `brienz`, `interlaken`, `biel`, `hagneck`, `olten`, `brugg` |
 | `retryAttempts` | `Number` | `3` | Number of retry attempts on API failure (0-10) |
 | `retryDelay` | `Number` | `1000` | Base delay between retries in milliseconds (exponential backoff) |
 | `unit` | `String` | `'celsius'` | Temperature unit. Options: `celsius`, `fahrenheit` |
@@ -328,11 +328,13 @@ cd vue.aareguru
 npm install
 ```
 
-### Development Server
+### Development Server (Storybook)
 
 ```bash
-npm run serve
+npm run dev
 ```
+
+Opens Storybook at `http://localhost:6006` with interactive component documentation.
 
 ### Testing
 
@@ -351,7 +353,7 @@ npm run type-check
 ### Build
 
 ```bash
-npm run build:bundle
+npm run build
 ```
 
 ## Contributing
@@ -369,20 +371,68 @@ Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for de
 The component uses the [Aareguru API](https://aareguru.existenz.ch/):
 
 - **Endpoint:** `https://aareguru.existenz.ch/v2018/current`
-- **Supported Cities:** bern, thun, brienz, interlaken, biel, hagneck
+- **Supported Cities:** bern, thun, brienz, interlaken, biel, hagneck, olten, brugg
 
 ## Browser Support
 
 - Modern browsers (Chrome, Firefox, Safari, Edge)
 - Supports all browsers that Vue 3 supports
 
+## Storybook
+
+Interactive component documentation is available via Storybook:
+
+```bash
+npm run dev          # or: npm run storybook
+```
+
+This opens Storybook at `http://localhost:6006` with:
+
+- Live component playground
+- Auto-generated props documentation
+- All 8 city variations along the Aare river
+- Custom slot examples
+- Accessibility testing
+
+Build static Storybook for deployment:
+
+```bash
+npm run build:storybook
+```
+
+## Composables
+
+### useCities()
+
+Fetch all available cities dynamically from the API:
+
+```typescript
+import { useCities } from 'vue.aareguru'
+
+const { cities, isLoading, error, refresh } = useCities()
+```
+
+### useHistory(city)
+
+Fetch historical temperature and flow data:
+
+```typescript
+import { useHistory } from 'vue.aareguru'
+
+const { data, isLoading, error, fetch } = useHistory('bern')
+
+// Fetch last 24 hours
+fetch('yesterday', 'now')
+
+// Access data
+console.log(data.value?.temperature) // Array of { timestamp, value }
+console.log(data.value?.flow)        // Array of { timestamp, value }
+```
+
 ## Roadmap
 
-- [ ] Migration to Vite
-- [ ] Storybook documentation
 - [ ] E2E tests with Playwright
-- [ ] Additional API endpoints
-- [ ] Historical data support
+- [ ] SSR support for Nuxt
 
 ## License
 
