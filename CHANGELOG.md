@@ -39,8 +39,11 @@ and [human-readable changelog](https://keepachangelog.com/en/1.0.0/).
 - **DX**: Simplified `App.vue` to minimal entry point (Storybook is now primary development tool)
 - **Tests**: Updated tests to reflect TypeScript changes (city validation now at compile-time)
 - **CI**: Renamed `test.yml` to `ci.yml` for clarity
+- **CI**: Renamed `release.yml` workflow to "Release & Publish" for clarity
 - **CI**: Unified Node.js version to 22 (LTS) across all workflows
 - **CI**: Updated test matrix to Node.js 20.x, 22.x, 24.x
+- **CI**: Added Storybook browser testing with Vitest and Playwright
+- **CI**: Added Playwright browser caching for faster CI runs
 - **Docs**: Updated README.md with correct npm scripts (`npm run dev`, `npm run build`)
 - **Docs**: Updated README.md roadmap (removed completed Vite migration, added SSR support)
 - **Docs**: Updated CONTRIBUTING.md with correct build commands
@@ -74,6 +77,7 @@ and [human-readable changelog](https://keepachangelog.com/en/1.0.0/).
   - actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f (v6.1.0)
   - actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f (v6.0.0)
   - actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 (v7.0.0)
+  - actions/cache@5a3ec84eff668545956fd18022155c47e93e2684 (v4.2.3)
   - codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de (v5.5.2)
   - github/codeql-action@5d4e8d1aca955e8d8589aabd499c5cae939e33c7 (v4.31.9)
   - softprops/action-gh-release@a06a81a03ee405af7f2048a818ed3f03bbf83c7b (v2.5.0)
