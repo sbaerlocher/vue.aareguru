@@ -446,7 +446,9 @@ describe('AareGuru.vue', () => {
         'brienz',
         'interlaken',
         'biel',
-        'hagneck'
+        'hagneck',
+        'olten',
+        'brugg'
       ])
     })
   })

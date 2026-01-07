@@ -42,8 +42,9 @@ and [human-readable changelog](https://keepachangelog.com/en/1.0.0/).
 - **CI**: Renamed `release.yml` workflow to "Release & Publish" for clarity
 - **CI**: Unified Node.js version to 22 (LTS) across all workflows
 - **CI**: Updated test matrix to Node.js 20.x, 22.x, 24.x
-- **CI**: Added Storybook browser testing with Vitest and Playwright
+- **CI**: Added Storybook browser testing with Vitest workspace and Playwright
 - **CI**: Added Playwright browser caching for faster CI runs
+- **Tests**: Added Vitest workspace configuration for separate unit and browser tests
 - **Docs**: Updated README.md with correct npm scripts (`npm run dev`, `npm run build`)
 - **Docs**: Updated README.md roadmap (removed completed Vite migration, added SSR support)
 - **Docs**: Updated CONTRIBUTING.md with correct build commands
