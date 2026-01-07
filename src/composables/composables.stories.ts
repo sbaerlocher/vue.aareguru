@@ -1,3 +1,4 @@
+/* eslint-disable vue/one-component-per-file */
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import { defineComponent, h, ref } from 'vue'
 import { useCities } from './useCities'
