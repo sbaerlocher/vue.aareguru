@@ -81,8 +81,8 @@
     "@storybook/addon-vitest": "^10.1.11",
     "@storybook/vue3-vite": "^10.1.11",
     "@types/node": "^25.0.3",
-    "@typescript-eslint/eslint-plugin": "^8.46.3",
-    "@typescript-eslint/parser": "^8.46.3",
+    "@typescript-eslint/eslint-plugin": "^8.56.0",
+    "@typescript-eslint/parser": "^8.56.0",
     "@vitejs/plugin-vue": "^6.0.1",
     "@vitest/browser": "^4.0.16",
     "@vitest/browser-playwright": "^4.0.16",
@@ -91,9 +91,9 @@
     "@vue/compiler-sfc": "^3.5.23",
     "@vue/test-utils": "^2.4.6",
     "axios": "^1.13.2",
-    "eslint": "~9.39.1",
+    "eslint": "^10.0.0",
     "eslint-plugin-storybook": "^10.1.11",
-    "eslint-plugin-vue": "~10.6.2",
+    "eslint-plugin-vue": "^10.8.0",
     "happy-dom": "^20.0.10",
     "playwright": "^1.57.0",
     "storybook": "^10.1.11",
@@ -109,5 +109,8 @@
   ],
   "overrides": {
     "glob": "^13.0.0"
+  },
+  "dependencies": {
+    "vue-eslint-parser": "^10.4.0"
   }
 }
