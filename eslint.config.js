@@ -40,4 +40,4 @@ export default [{
     '@typescript-eslint': tseslint
   },
   rules: {}
-}, ...storybook.configs["flat/recommended"]];
+}, ...(storybook.configs?.['flat/recommended'] || [])];

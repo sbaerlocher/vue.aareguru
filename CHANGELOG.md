@@ -5,6 +5,8 @@ and [human-readable changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## [2.3.0] - 2026-02-21
+
 ### Added
 
 - **Storybook**: Interactive component documentation with Storybook 10
@@ -21,15 +23,9 @@ and [human-readable changelog](https://keepachangelog.com/en/1.0.0/).
 - **TypeScript**: `AllowedCity` union type for compile-time city prop validation
 - **TypeScript**: Exported additional Weather types: `WeatherCurrent`, `WeatherToday`, `WeatherPeriod`
 - **Component**: Watch handlers for `autoRefresh` and `cacheTimeout` props enabling dynamic updates at runtime
-- **CI**: Renovate comments for automatic Node.js version updates in workflows
+- **Config**: `.nvmrc` for centralized Node.js version management
 - **Config**: `.editorconfig` for consistent editor settings across IDEs
 - **Config**: `CLAUDE.md` configuration file for Claude Code
-- Claude Code slash commands for development workflow:
-  - `/commit` - Create Git commits with conventional commit messages
-  - `/renovate-check` - Check Renovate configuration for best practices
-  - `/actions-check` - Check GitHub Actions for best practices
-  - `/docs-check` - Check documentation for completeness and consistency
-  - `/code-review` - Perform code reviews on files or directories
 
 ### Changed
 
@@ -38,50 +34,42 @@ and [human-readable changelog](https://keepachangelog.com/en/1.0.0/).
 - **DX**: `npm run dev` now starts Storybook instead of Vite dev server (best practice for component libraries)
 - **DX**: Simplified `App.vue` to minimal entry point (Storybook is now primary development tool)
 - **Tests**: Updated tests to reflect TypeScript changes (city validation now at compile-time)
-- **CI**: Renamed `test.yml` to `ci.yml` for clarity
-- **CI**: Renamed `release.yml` workflow to "Release & Publish" for clarity
-- **CI**: Unified Node.js version to 22 (LTS) across all workflows
+- **CI**: Migrated to reusable workflows from `sbaerlocher/.github` with version-pinned presets
+- **CI**: Replaced standalone CodeQL workflow with shared `security-code.yml` reusable workflow
+- **CI**: Simplified release workflow from 277 to 22 lines using shared `release-npm.yml`
+- **CI**: Added `workflow_call` trigger to CI for reusable workflow composition
+- **CI**: Centralized Node.js version management via `.nvmrc`
 - **CI**: Updated test matrix to Node.js 20.x, 22.x, 24.x
 - **CI**: Added Storybook browser testing with Vitest workspace and Playwright
 - **CI**: Added Playwright browser caching for faster CI runs
 - **Tests**: Added Vitest workspace configuration for separate unit and browser tests
-- **Docs**: Updated README.md with correct npm scripts (`npm run dev`, `npm run build`)
-- **Docs**: Updated README.md roadmap (removed completed Vite migration, added SSR support)
-- **Docs**: Updated CONTRIBUTING.md with correct build commands
-- **Docs**: Updated AGENTS.md project structure to reflect current state
-- **Docs**: Renamed `AGENT.md` to `AGENTS.md`
-- Improved Renovate configuration with additional best practices:
-  - Added `minimumReleaseAge: "3 days"` for new release stability
-  - Added `dependencyDashboardApproval: true` for major updates
-  - Added `osvVulnerabilityAlerts: true` for OSV security database
-  - Added GitHub Actions grouping with automerge
-  - Added `dependencyDashboardHeader` with schedule information
-- Translated all Claude Code commands to English for consistency with repository language
+- **Docs**: Updated README.md, CONTRIBUTING.md, and AGENTS.md
+- **Renovate**: Migrated to versioned preset (`github>sbaerlocher/.github:renovate-js#2026-02-19`)
 - Updated development dependencies:
-  - @types/node: 24.10.4 → 25.0.3
-  - vue-tsc: 3.2.0 → 3.2.1
-- Updated CI dependencies:
-  - renovatebot/github-action: 44.2.0 → 44.2.2
+  - eslint: 9.39.2 → 10.0.0
+  - @typescript-eslint/eslint-plugin: 8.46.3 → 8.56.0
+  - @typescript-eslint/parser: 8.46.3 → 8.56.0
+  - eslint-plugin-vue: 10.6.2 → 10.8.0
+  - vue-eslint-parser: 10.2.0 → 10.4.0
+  - vitest: 4.0.16 → 4.0.18
+  - @chromatic-com/storybook: 4.x → 5.x
+  - vue: 3.5.26 → latest
+  - vite: 7.3.0 → latest
+  - Node.js: 22 → 24
 
 ### Removed
 
 - Runtime city validation warning (now handled by TypeScript at compile time)
 - Debug `console.log` statements from component
 - `console.error` call after retries (error still emitted via event)
-- Removed `.github/dependabot.yml` (replaced by Renovate)
-- Removed `.github/workflows/renovate.yml` (using GitHub App instead)
+- Standalone `codeql.yml` workflow (replaced by reusable security workflow)
+- `.github/dependabot.yml` (replaced by Renovate)
+- `.github/workflows/renovate.yml` (using GitHub App instead)
 
 ### Security
 
-- Pinned all GitHub Actions to SHA for supply chain security:
-  - actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 (v6.0.1)
-  - actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f (v6.1.0)
-  - actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f (v6.0.0)
-  - actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 (v7.0.0)
-  - actions/cache@5a3ec84eff668545956fd18022155c47e93e2684 (v4.2.3)
-  - codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de (v5.5.2)
-  - github/codeql-action@5d4e8d1aca955e8d8589aabd499c5cae939e33c7 (v4.31.9)
-  - softprops/action-gh-release@a06a81a03ee405af7f2048a818ed3f03bbf83c7b (v2.5.0)
+- Migrated security scanning to shared reusable workflow with explicit permissions
+- Pinned all GitHub Actions to SHA for supply chain security
 
 ## [2.2.3] - 2025-12-20
 
