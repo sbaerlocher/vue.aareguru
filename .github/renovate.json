@@ -9,6 +9,11 @@
     {
       "groupName": "Vite",
       "matchPackageNames": ["/^vite$/", "/^@vitejs/"]
+    },
+    {
+      "description": "Official Vue testing library - stable, not truly abandoned",
+      "matchPackageNames": ["@vue/test-utils"],
+      "abandonmentThreshold": null
     }
   ]
 }
