@@ -11,5 +11,17 @@ trim_trailing_whitespace = true
 [Makefile]
 indent_style = tab
 
-[*.md]
+[*.{md,txt}]
 trim_trailing_whitespace = false
+
+[*.{yaml,yml}]
+indent_style = space
+indent_size = 2
+
+[*.{json}]
+indent_style = space
+indent_size = 2
+
+[*.{vue,ts,js}]
+indent_style = space
+indent_size = 2

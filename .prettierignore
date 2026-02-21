@@ -1,0 +1,7 @@
+dist/
+dist-demo/
+coverage/
+node_modules/
+*.d.ts
+package-lock.json
+storybook-static/

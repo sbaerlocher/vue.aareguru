@@ -5,13 +5,11 @@ description: Create a Git commit with message
 Create a Git commit with the message: **$ARGUMENTS**
 
 1. **Check Status:**
-
    - Run `git status`
    - Show all changed and new files
    - Group by: Components, Views, Composables, Tests, Config
 
 2. **Staging:**
-
    - Ask: "Which files should be committed?"
    - Show options:
      - All files (`git add .`)
@@ -21,7 +19,6 @@ Create a Git commit with the message: **$ARGUMENTS**
      - Cancel
 
 3. **Show Diff:**
-
    - Show `git diff --staged` for selected files
    - Ask: "Proceed with commit?"
 
@@ -32,7 +29,6 @@ Create a Git commit with the message: **$ARGUMENTS**
    ```
 
 5. **Verification:**
-
    - Show `git log -1` for the created commit
    - Show current branch with `git branch --show-current`
    - Ask: "Push to remote? (y/n)"

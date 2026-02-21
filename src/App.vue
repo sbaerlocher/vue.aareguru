@@ -5,19 +5,19 @@
       For interactive documentation, run:
       <code>npm run storybook</code>
     </p>
-    <hr>
+    <hr />
     <h2>Quick Test</h2>
     <AareGuru city="bern" />
   </div>
 </template>
 
 <script setup lang="ts">
-import AareGuru from './components/AareGuru.vue'
+import AareGuru from "./components/AareGuru.vue";
 </script>
 
 <style scoped>
 #app {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   max-width: 600px;
   margin: 40px auto;
   padding: 20px;

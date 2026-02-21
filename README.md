@@ -39,7 +39,7 @@ pnpm add vue.aareguru
 
 ```vue
 <script setup>
-import AareGuru from 'vue.aareguru'
+import AareGuru from "vue.aareguru";
 </script>
 
 <template>
@@ -51,10 +51,7 @@ import AareGuru from 'vue.aareguru'
 
 ```vue
 <template>
-  <AareGuru
-    city="thun"
-    unit="fahrenheit"
-  />
+  <AareGuru city="thun" unit="fahrenheit" />
 </template>
 ```
 
@@ -62,23 +59,19 @@ import AareGuru from 'vue.aareguru'
 
 ```vue
 <script setup>
-import AareGuru from 'vue.aareguru'
+import AareGuru from "vue.aareguru";
 
 function handleLoaded(data) {
-  console.log('Temperature loaded:', data.aare.temperature)
+  console.log("Temperature loaded:", data.aare.temperature);
 }
 
 function handleError(error) {
-  console.error('Failed to load temperature:', error)
+  console.error("Failed to load temperature:", error);
 }
 </script>
 
 <template>
-  <AareGuru
-    city="bern"
-    @loaded="handleLoaded"
-    @error="handleError"
-  />
+  <AareGuru city="bern" @loaded="handleLoaded" @error="handleError" />
 </template>
 ```
 
@@ -112,17 +105,12 @@ function handleError(error) {
 
 ```vue
 <template>
-  <AareGuru
-    city="bern"
-    :retry-attempts="5"
-    :retry-delay="2000"
-    @retry="handleRetry"
-  />
+  <AareGuru city="bern" :retry-attempts="5" :retry-delay="2000" @retry="handleRetry" />
 </template>
 
 <script setup>
 function handleRetry({ attempt, maxAttempts }) {
-  console.log(`Retry ${attempt}/${maxAttempts}`)
+  console.log(`Retry ${attempt}/${maxAttempts}`);
 }
 </script>
 ```
@@ -131,11 +119,7 @@ function handleRetry({ attempt, maxAttempts }) {
 
 ```vue
 <template>
-  <AareGuru
-    city="bern"
-    :auto-refresh="true"
-    :cache-timeout="300000"
-  />
+  <AareGuru city="bern" :auto-refresh="true" :cache-timeout="300000" />
 </template>
 ```
 
@@ -143,17 +127,17 @@ function handleRetry({ attempt, maxAttempts }) {
 
 ```vue
 <script setup>
-import { ref } from 'vue'
-import AareGuru from 'vue.aareguru'
+import { ref } from "vue";
+import AareGuru from "vue.aareguru";
 
-const aareguru = ref(null)
+const aareguru = ref(null);
 
 function refreshData() {
-  aareguru.value?.refresh()
+  aareguru.value?.refresh();
 }
 
 function clearCache() {
-  aareguru.value?.clearCache()
+  aareguru.value?.clearCache();
 }
 </script>
 
@@ -170,13 +154,13 @@ function clearCache() {
 
 ```vue
 <script>
-import AareGuru from 'vue.aareguru'
+import AareGuru from "vue.aareguru";
 
 export default {
   components: {
     AareGuru
   }
-}
+};
 </script>
 
 <template>
@@ -188,7 +172,7 @@ export default {
 
 ```vue
 <script setup>
-import AareGuru from 'vue.aareguru'
+import AareGuru from "vue.aareguru";
 </script>
 
 <template>
@@ -198,107 +182,107 @@ import AareGuru from 'vue.aareguru'
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `city` | `String` | `'bern'` | City for which to display Aare temperature. Options: `bern`, `thun`, `brienz`, `interlaken`, `biel`, `hagneck`, `olten`, `brugg` |
-| `retryAttempts` | `Number` | `3` | Number of retry attempts on API failure (0-10) |
-| `retryDelay` | `Number` | `1000` | Base delay between retries in milliseconds (exponential backoff) |
-| `unit` | `String` | `'celsius'` | Temperature unit. Options: `celsius`, `fahrenheit` |
-| `cacheTimeout` | `Number` | `300000` | Cache timeout in milliseconds (5 minutes) |
-| `autoRefresh` | `Boolean` | `false` | Enable automatic data refresh |
+| Prop            | Type      | Default     | Description                                                                                                                      |
+| --------------- | --------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| `city`          | `String`  | `'bern'`    | City for which to display Aare temperature. Options: `bern`, `thun`, `brienz`, `interlaken`, `biel`, `hagneck`, `olten`, `brugg` |
+| `retryAttempts` | `Number`  | `3`         | Number of retry attempts on API failure (0-10)                                                                                   |
+| `retryDelay`    | `Number`  | `1000`      | Base delay between retries in milliseconds (exponential backoff)                                                                 |
+| `unit`          | `String`  | `'celsius'` | Temperature unit. Options: `celsius`, `fahrenheit`                                                                               |
+| `cacheTimeout`  | `Number`  | `300000`    | Cache timeout in milliseconds (5 minutes)                                                                                        |
+| `autoRefresh`   | `Boolean` | `false`     | Enable automatic data refresh                                                                                                    |
 
 ## Events
 
-| Event | Payload | Description |
-|-------|---------|-------------|
-| `@loaded` | `AareData` | Emitted when data is successfully loaded |
-| `@error` | `Error` | Emitted when an error occurs |
-| `@retry` | `{ attempt, maxAttempts, error }` | Emitted before each retry attempt |
+| Event     | Payload                           | Description                              |
+| --------- | --------------------------------- | ---------------------------------------- |
+| `@loaded` | `AareData`                        | Emitted when data is successfully loaded |
+| `@error`  | `Error`                           | Emitted when an error occurs             |
+| `@retry`  | `{ attempt, maxAttempts, error }` | Emitted before each retry attempt        |
 
 ## Slots
 
-| Slot | Props | Description |
-|------|-------|-------------|
+| Slot      | Props                | Description                          |
+| --------- | -------------------- | ------------------------------------ |
 | `default` | `{ data: AareData }` | Custom rendering of temperature data |
-| `loading` | - | Custom loading state |
-| `error` | `{ error: Error }` | Custom error state |
+| `loading` | -                    | Custom loading state                 |
+| `error`   | `{ error: Error }`   | Custom error state                   |
 
 ## Exposed Methods
 
 Access these methods using a template ref:
 
-| Method | Description |
-|--------|-------------|
-| `refresh()` | Manually refresh the data |
-| `clearCache()` | Clear cached data |
+| Method         | Description               |
+| -------------- | ------------------------- |
+| `refresh()`    | Manually refresh the data |
+| `clearCache()` | Clear cached data         |
 
 ## TypeScript
 
 This component is fully typed. Import types:
 
 ```typescript
-import type { AareData, AareGuruProps, AareGuruEmits } from 'vue.aareguru/types'
+import type { AareData, AareGuruProps, AareGuruEmits } from "vue.aareguru/types";
 ```
 
 ### Available Types
 
 ```typescript
 interface WeatherCurrent {
-  tt: number           // Temperature
-  rr: number          // Rain
-  rrreal: number
-  timestamp: number
-  timestring: string
+  tt: number; // Temperature
+  rr: number; // Rain
+  rrreal: number;
+  timestamp: number;
+  timestring: string;
 }
 
 interface WeatherPeriod {
-  sy: string          // Symbol
-  syt: string         // Symbol text
-  symt: number        // Symbol type
-  tt: number          // Temperature
-  rr: number          // Rain
-  rrisk: number       // Rain risk
+  sy: string; // Symbol
+  syt: string; // Symbol text
+  symt: number; // Symbol type
+  tt: number; // Temperature
+  rr: number; // Rain
+  rrisk: number; // Rain risk
 }
 
 interface WeatherToday {
-  v: WeatherPeriod    // Vormittag (morning)
-  n: WeatherPeriod    // Nachmittag (afternoon)
-  a: WeatherPeriod    // Abend (evening)
+  v: WeatherPeriod; // Vormittag (morning)
+  n: WeatherPeriod; // Nachmittag (afternoon)
+  a: WeatherPeriod; // Abend (evening)
 }
 
 interface WeatherForecast {
-  day: string
-  dayshort: string
-  timestamp: number
-  sy: string
-  syt: string
-  symt: number
-  tx: number          // Max temperature
-  tn: number          // Min temperature
-  rr: number
-  rrisk: number
+  day: string;
+  dayshort: string;
+  timestamp: number;
+  sy: string;
+  syt: string;
+  symt: number;
+  tx: number; // Max temperature
+  tn: number; // Min temperature
+  rr: number;
+  rrisk: number;
 }
 
 interface AareData {
   aare: {
-    temperature: number
-    temperature_prec: number
-    temperature_text: string
-    temperature_text_short: string
-    flow: number
-    flow_text: string
-    location: string
-    location_long: string
-    forecast2h: number
-    forecast2h_text: string
-    timestamp: number
-    timestring: string
-  }
+    temperature: number;
+    temperature_prec: number;
+    temperature_text: string;
+    temperature_text_short: string;
+    flow: number;
+    flow_text: string;
+    location: string;
+    location_long: string;
+    forecast2h: number;
+    forecast2h_text: string;
+    timestamp: number;
+    timestring: string;
+  };
   weather: {
-    current: WeatherCurrent
-    today: WeatherToday
-    forecast: WeatherForecast[]
-  }
+    current: WeatherCurrent;
+    today: WeatherToday;
+    forecast: WeatherForecast[];
+  };
 }
 ```
 
@@ -407,9 +391,9 @@ npm run build:storybook
 Fetch all available cities dynamically from the API:
 
 ```typescript
-import { useCities } from 'vue.aareguru'
+import { useCities } from "vue.aareguru";
 
-const { cities, isLoading, error, refresh } = useCities()
+const { cities, isLoading, error, refresh } = useCities();
 ```
 
 ### useHistory(city)
@@ -417,16 +401,16 @@ const { cities, isLoading, error, refresh } = useCities()
 Fetch historical temperature and flow data:
 
 ```typescript
-import { useHistory } from 'vue.aareguru'
+import { useHistory } from "vue.aareguru";
 
-const { data, isLoading, error, fetch } = useHistory('bern')
+const { data, isLoading, error, fetch } = useHistory("bern");
 
 // Fetch last 24 hours
-fetch('yesterday', 'now')
+fetch("yesterday", "now");
 
 // Access data
-console.log(data.value?.temperature) // Array of { timestamp, value }
-console.log(data.value?.flow)        // Array of { timestamp, value }
+console.log(data.value?.temperature); // Array of { timestamp, value }
+console.log(data.value?.flow); // Array of { timestamp, value }
 ```
 
 ## Roadmap

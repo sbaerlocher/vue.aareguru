@@ -62,16 +62,16 @@ npm run test:coverage     # Generate coverage report
 Example:
 
 ```typescript
-import { describe, it, expect, vi } from 'vitest'
-import { mount } from '@vue/test-utils'
-import AareGuru from '@/components/AareGuru.vue'
+import { describe, it, expect, vi } from "vitest";
+import { mount } from "@vue/test-utils";
+import AareGuru from "@/components/AareGuru.vue";
 
-describe('AareGuru.vue', () => {
-  it('renders temperature correctly', async () => {
-    const wrapper = mount(AareGuru)
+describe("AareGuru.vue", () => {
+  it("renders temperature correctly", async () => {
+    const wrapper = mount(AareGuru);
     // ... test code
-  })
-})
+  });
+});
 ```
 
 ## Linting

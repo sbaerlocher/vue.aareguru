@@ -19,26 +19,37 @@ The project is designed as a reusable npm library.
 vue.aareguru/
 ├── src/
 │   ├── components/
-│   │   └── AareGuru.vue          # Main component
+│   │   ├── AareGuru.vue          # Main component
+│   │   └── AareGuru.stories.ts   # Storybook stories
+│   ├── composables/
+│   │   ├── index.ts              # Barrel export
+│   │   ├── useCities.ts          # Fetch available cities
+│   │   ├── useHistory.ts         # Fetch historical data
+│   │   └── composables.stories.ts # Composable stories
 │   ├── types/
 │   │   └── index.d.ts            # TypeScript type definitions
-│   └── App.vue                   # Demo application
+│   ├── index.ts                  # Library entry point
+│   ├── App.vue                   # Demo application
+│   └── main.ts                   # Demo entry point
 ├── tests/
 │   └── unit/
-│       └── AareGuru.spec.ts      # Unit tests (28 tests)
-├── public/
-│   ├── index.html
-│   └── favicon.ico
+│       ├── AareGuru.spec.ts      # Component tests
+│       ├── useCities.spec.ts     # useCities composable tests
+│       └── useHistory.spec.ts    # useHistory composable tests
+├── .storybook/                   # Storybook configuration
 ├── dist/                         # Build output (npm package)
 ├── coverage/                     # Test coverage reports
 ├── .github/workflows/            # CI/CD pipelines
 │   ├── ci.yml                    # Continuous integration
-│   ├── release.yml               # npm publishing
-│   └── codeql.yml                # Security scanning
+│   ├── release.yml               # npm publishing (with SBOM & provenance)
+│   └── security.yml              # Security scanning (CodeQL, deps, secrets)
 ├── package.json
 ├── tsconfig.json                 # TypeScript configuration
-├── vitest.config.ts              # Vitest test configuration
+├── vitest.config.mts             # Vitest test configuration
 ├── vite.config.ts                # Vite build configuration
+├── eslint.config.js              # ESLint flat config
+├── .prettierrc                   # Prettier formatting config
+├── .editorconfig                 # Editor settings
 ├── CONTRIBUTING.md               # Contribution guidelines
 ├── README.md
 └── CHANGELOG.md
@@ -103,37 +114,37 @@ vue.aareguru/
 
 ### Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `city` | `String` | `'bern'` | City for Aare data (bern, thun, brienz, interlaken, biel, hagneck) |
-| `retryAttempts` | `Number` | `3` | Number of retry attempts on error (0-10) |
-| `retryDelay` | `Number` | `1000` | Base delay between retries in ms (exponential backoff) |
-| `unit` | `String` | `'celsius'` | Temperature unit (`'celsius'` or `'fahrenheit'`) |
-| `cacheTimeout` | `Number` | `300000` | Cache timeout in milliseconds (5 minutes) |
-| `autoRefresh` | `Boolean` | `false` | Automatic data refresh |
+| Prop            | Type      | Default     | Description                                                 |
+| --------------- | --------- | ----------- | ----------------------------------------------------------- |
+| `city`          | `String`  | `'bern'`    | City for Aare data. See `AllowedCity` type for valid values |
+| `retryAttempts` | `Number`  | `3`         | Number of retry attempts on error (0-10)                    |
+| `retryDelay`    | `Number`  | `1000`      | Base delay between retries in ms (exponential backoff)      |
+| `unit`          | `String`  | `'celsius'` | Temperature unit (`'celsius'` or `'fahrenheit'`)            |
+| `cacheTimeout`  | `Number`  | `300000`    | Cache timeout in milliseconds (5 minutes)                   |
+| `autoRefresh`   | `Boolean` | `false`     | Automatic data refresh                                      |
 
 ### Events
 
-| Event | Payload | Description |
-|-------|---------|-------------|
-| `@loaded` | `AareData` | Emitted when data is successfully loaded |
-| `@error` | `Error` | Emitted on error |
-| `@retry` | `{ attempt, maxAttempts, error }` | Emitted before each retry attempt |
+| Event     | Payload                           | Description                              |
+| --------- | --------------------------------- | ---------------------------------------- |
+| `@loaded` | `AareData`                        | Emitted when data is successfully loaded |
+| `@error`  | `Error`                           | Emitted on error                         |
+| `@retry`  | `{ attempt, maxAttempts, error }` | Emitted before each retry attempt        |
 
 ### Slots
 
-| Slot | Props | Description |
-|------|-------|-------------|
+| Slot    | Props                | Description                          |
+| ------- | -------------------- | ------------------------------------ |
 | default | `{ data: AareData }` | Custom rendering of temperature data |
-| loading | - | Custom loading state |
-| error | `{ error: Error }` | Custom error state |
+| loading | -                    | Custom loading state                 |
+| error   | `{ error: Error }`   | Custom error state                   |
 
 ### Exposed Methods
 
-| Method | Description |
-|--------|-------------|
-| `refresh()` | Manually reload data |
-| `clearCache()` | Clear cached data |
+| Method         | Description          |
+| -------------- | -------------------- |
+| `refresh()`    | Manually reload data |
+| `clearCache()` | Clear cached data    |
 
 ---
 
@@ -260,9 +271,16 @@ npm run validate        # Run type-check + lint + test
 
 ### ESLint
 
-- Vue 3 recommended rules
-- ESLint recommended
-- Configuration in `package.json`
+- Vue 3 recommended rules (flat config)
+- TypeScript ESLint rules
+- Test files linted with relaxed rules
+- Configuration in `eslint.config.js`
+
+### Prettier
+
+- Code formatting for `.vue`, `.ts`, `.js`, `.json`, `.md`, `.css`, `.yml`, `.yaml`
+- Configuration in `.prettierrc`
+- `npm run format:check` in validation pipeline
 
 ### Accessibility
 
@@ -343,30 +361,30 @@ The component uses the Aareguru API:
 
 - **Base URL:** `https://aareguru.existenz.ch/v2018/current`
 - **Parameters:** `app=vue.aareguru&city={city}`
-- **Cities:** bern, thun, brienz, interlaken, biel, hagneck
+- **Cities:** bern, thun, brienz, interlaken, biel, hagneck, olten, brugg
 
 ### Response Structure
 
 ```typescript
 interface AareData {
   aare: {
-    temperature: number
-    temperature_prognose: number
-    flow: number
-    flow_prognose: number
-  }
+    temperature: number;
+    temperature_prognose: number;
+    flow: number;
+    flow_prognose: number;
+  };
   weather: {
-    current: number
-    today: number
+    current: number;
+    today: number;
     forecast: Array<{
-      date: string
-      sy: number
-      tn: number
-      tx: number
-    }>
-  }
-  text: string
-  timestamp: number
+      date: string;
+      sy: number;
+      tn: number;
+      tx: number;
+    }>;
+  };
+  text: string;
+  timestamp: number;
 }
 ```
 
@@ -394,8 +412,7 @@ interface AareData {
 
 1. **No offline support** - Requires internet connection
 2. **Single city per instance** - One component per city
-3. **No historical data** - Only current temperature
-4. **API rate limiting** - Not implemented (API has no known limits)
+3. **API rate limiting** - Not implemented (API has no known limits)
 
 ---
 
@@ -410,8 +427,9 @@ interface AareData {
 
 ### Phase 3: Testing & Documentation
 
+- [x] Storybook for component documentation
+- [x] Composable unit tests (useCities, useHistory)
 - [ ] E2E tests with Playwright
-- [ ] Storybook for component documentation
 - [ ] Visual regression tests
 - [ ] Improved CHANGELOG automation
 
@@ -471,11 +489,13 @@ interface AareData {
 
 ## Security
 
-### Automated Updates
+### Automated Scanning
 
 - **Renovate:** Weekly dependency updates
-- **Dependabot:** Security alerts
-- **CodeQL:** Weekly security scanning
+- **CodeQL:** Weekly SAST scanning
+- **Dependency Scan:** Dependency & license checking
+- **Secret Detection:** Automated secret scanning
+- **SBOM:** Generated on release (npm provenance enabled)
 
 ### Audit Commands
 
@@ -500,7 +520,7 @@ See `CONTRIBUTING.md` for detailed guidelines.
 
 **Commit Format:**
 
-```
+```text
 <type>(<scope>): <subject>
 
 Examples:
@@ -525,21 +545,27 @@ docs(readme): update usage examples
 
 ### Source Files (`src/`)
 
-- `components/AareGuru.vue` - Main component (JavaScript for Vue CLI compatibility)
+- `components/AareGuru.vue` - Main component (Composition API with `<script setup lang="ts">`)
+- `composables/useCities.ts` - Composable to fetch available cities
+- `composables/useHistory.ts` - Composable to fetch historical data
 - `types/index.d.ts` - TypeScript type definitions
+- `index.ts` - Library entry point (exports component, composables, types)
 - `App.vue` - Demo application
-- `main.js` - Entry point
+- `main.ts` - Demo entry point
 
 ### Test Files (`tests/`)
 
-- `unit/AareGuru.spec.ts` - Unit tests (TypeScript, 28 tests)
+- `unit/AareGuru.spec.ts` - Component unit tests
+- `unit/useCities.spec.ts` - useCities composable tests
+- `unit/useHistory.spec.ts` - useHistory composable tests
 
 ### Configuration Files
 
 - `package.json` - Dependencies and scripts
-- `tsconfig.json` - TypeScript configuration
-- `vitest.config.ts` - Vitest configuration
-- `babel.config.js` - Babel configuration
+- `tsconfig.json` - TypeScript configuration (strict mode)
+- `vitest.config.mts` - Vitest configuration
+- `eslint.config.js` - ESLint flat config
+- `.prettierrc` - Prettier formatting config
 
 ---
 
@@ -562,25 +588,25 @@ docs(readme): update usage examples
 
 ### Before Improvements
 
-| Category | Score |
-|----------|-------|
-| Testing | 1/10 |
-| TypeScript | 0/10 |
-| Documentation | 5/10 |
-| Error Handling | 2/10 |
-| Component Design | 6/10 |
-| **Overall** | **3.6/10** |
+| Category         | Score      |
+| ---------------- | ---------- |
+| Testing          | 1/10       |
+| TypeScript       | 0/10       |
+| Documentation    | 5/10       |
+| Error Handling   | 2/10       |
+| Component Design | 6/10       |
+| **Overall**      | **3.6/10** |
 
 ### After Improvements
 
-| Category | Score |
-|----------|-------|
-| Testing | 10/10 ✅ |
-| TypeScript | 10/10 ✅ |
-| Documentation | 9/10 ✅ |
-| Error Handling | 9/10 ✅ |
-| Component Design | 9/10 ✅ |
-| **Overall** | **9.3/10** ✅ |
+| Category         | Score         |
+| ---------------- | ------------- |
+| Testing          | 10/10 ✅      |
+| TypeScript       | 10/10 ✅      |
+| Documentation    | 9/10 ✅       |
+| Error Handling   | 9/10 ✅       |
+| Component Design | 9/10 ✅       |
+| **Overall**      | **9.3/10** ✅ |
 
 **Improvement:** +5.7 points (+158%)
 
@@ -680,6 +706,6 @@ npm run dev
 
 ---
 
-**Last Updated:** 2025-12-29
+**Last Updated:** 2026-02-21
 **Documentation Status:** ✅ Complete
-**Project Status:** 🚀 Production Ready (with noted Vue CLI limitations)
+**Project Status:** 🚀 Production Ready

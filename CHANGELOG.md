@@ -11,10 +11,14 @@ and [human-readable changelog](https://keepachangelog.com/en/1.0.0/).
 
 - **Storybook**: Interactive component documentation with Storybook 10
   - Live component playground with all props
-  - Stories for all 8 cities along the Aare river
-  - Custom slot examples
-  - Accessibility testing via `@storybook/addon-a11y`
-  - Auto-generated documentation via `@storybook/addon-docs`
+  - Modern story designs with minimalist aesthetics (ModernCard, Minimalist, AllCities)
+  - Custom slot examples with modern UI components
+  - Animated SVG loading spinner
+  - Background options (light, gray, dark) and centered layout
+  - System font stack for better native OS integration
+  - MSW (Mock Service Worker) for mocking API calls during development
+  - Optimized configuration (disabled TS check, minimal addons)
+  - Browser testing with Vitest workspace and Playwright
 - **New Cities**: Added support for Olten and Brugg AG (now 8 cities total)
 - **Composables**: New composables for advanced use cases:
   - `useCities()` - Dynamically fetch available cities from the API
@@ -45,6 +49,10 @@ and [human-readable changelog](https://keepachangelog.com/en/1.0.0/).
 - **Tests**: Added Vitest workspace configuration for separate unit and browser tests
 - **Docs**: Updated README.md, CONTRIBUTING.md, and AGENTS.md
 - **Renovate**: Migrated to versioned preset (`github>sbaerlocher/.github:renovate-js#2026-02-19`)
+- **Renovate**: Suppressed abandonment warning for `@vue/test-utils` (still official Vue testing utility)
+- **ESLint**: Fixed Storybook flat config compatibility for ESLint 10
+  - Added optional chaining for `storybook.configs?.['flat/recommended']`
+  - Resolved "storybook.configs.flat/recommended is not iterable" error
 - Updated development dependencies:
   - eslint: 9.39.2 → 10.0.0
   - @typescript-eslint/eslint-plugin: 8.46.3 → 8.56.0
@@ -56,6 +64,9 @@ and [human-readable changelog](https://keepachangelog.com/en/1.0.0/).
   - vue: 3.5.26 → latest
   - vite: 7.3.0 → latest
   - Node.js: 22 → 24
+  - storybook: 10.2.8 → 10.2.10
+  - axios: fixed DoS vulnerability
+  - ajv: fixed ReDoS vulnerability
 
 ### Removed
 
@@ -66,10 +77,21 @@ and [human-readable changelog](https://keepachangelog.com/en/1.0.0/).
 - `.github/dependabot.yml` (replaced by Renovate)
 - `.github/workflows/renovate.yml` (using GitHub App instead)
 
+### Fixed
+
+- **ESLint**: Storybook ESLint plugin now compatible with ESLint 10 flat config
+- **Security**: Resolved non-breaking security vulnerabilities (axios, ajv)
+
 ### Security
 
 - Migrated security scanning to shared reusable workflow with explicit permissions
 - Pinned all GitHub Actions to SHA for supply chain security
+
+### Technical Notes
+
+- **Remaining vulnerabilities**: 14 high-severity `minimatch` issues in dev-only dependencies
+  - No production impact (ESLint, Storybook, @vue/test-utils)
+  - Waiting for upstream fixes from TypeScript ESLint and Vue Test Utils
 
 ## [2.2.3] - 2025-12-20
 
