@@ -8,7 +8,7 @@
   "unpkg": "dist/vue.aareguru.js",
   "jsdelivr": "dist/vue.aareguru.js",
   "engines": {
-    "node": ">=20.0.0"
+    "node": "^20.19.0 || >=22.12.0"
   },
   "scripts": {
     "dev": "storybook dev -p 6006",
