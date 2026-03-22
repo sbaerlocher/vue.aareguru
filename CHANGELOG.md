@@ -5,6 +5,25 @@ and [human-readable changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+## [2.3.1] - 2026-03-22
+
+### Fixed
+
+- **Composables**: `useHistory` — `start`, `end`, and `city` parameters are now URL-encoded via
+  `encodeURIComponent`, preventing parameter injection for inputs containing special characters
+- **Security**: Resolved transitive dev-dependency vulnerabilities via `overrides`:
+  - `flatted` → `^3.4.2` (Prototype Pollution)
+  - `minimatch` → `^10.2.3` (ReDoS)
+  - `rollup` → `^4.59.0` (Arbitrary File Write via Path Traversal)
+
+### Changed
+
+- **Engines**: Updated Node.js requirement to `^20.19.0 || >=22.12.0` (aligns with Vite 8)
+- Updated development dependencies:
+  - vite: 7.x → 8.0.1
+  - vitest + @vitest/\*: 4.0.18 → 4.1.0
+  - storybook + @storybook/\*: 10.2.x → 10.3.1
+
 ## [2.3.0] - 2026-03-22
 
 ### Added
