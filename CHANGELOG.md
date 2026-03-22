@@ -5,10 +5,11 @@ and [human-readable changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
-## [2.3.0] - 2026-02-21
+## [2.3.0] - 2026-03-22
 
 ### Added
 
+- **CI**: Centralized Claude Code review workflow (`ai-claude-review.yml`) for automated PR reviews
 - **Storybook**: Interactive component documentation with Storybook 10
   - Live component playground with all props
   - Modern story designs with minimalist aesthetics (ModernCard, Minimalist, AllCities)
@@ -59,14 +60,16 @@ and [human-readable changelog](https://keepachangelog.com/en/1.0.0/).
   - @typescript-eslint/parser: 8.46.3 → 8.56.0
   - eslint-plugin-vue: 10.6.2 → 10.8.0
   - vue-eslint-parser: 10.2.0 → 10.4.0
-  - vitest: 4.0.16 → 4.0.18
+  - vitest + @vitest/\*: 4.0.16 → 4.1.0
   - @chromatic-com/storybook: 4.x → 5.x
-  - vue: 3.5.26 → latest
-  - vite: 7.3.0 → latest
+  - vue: 3.5.26 → 3.5.28
+  - vite: 7.3.0 → 8.0.1
   - Node.js: 22 → 24
-  - storybook: 10.2.8 → 10.2.10
+  - storybook + @storybook/\*: 10.2.8 → 10.3.1
   - axios: fixed DoS vulnerability
   - ajv: fixed ReDoS vulnerability
+- **CI**: Migrated reusable workflow refs to `2026-03-22`
+- **Engines**: Updated Node.js requirement to `^20.19.0 || >=22.12.0` (aligns with Vite 8)
 
 ### Removed
 
@@ -81,17 +84,17 @@ and [human-readable changelog](https://keepachangelog.com/en/1.0.0/).
 
 - **ESLint**: Storybook ESLint plugin now compatible with ESLint 10 flat config
 - **Security**: Resolved non-breaking security vulnerabilities (axios, ajv)
+- **Composables**: `useHistory` — `start`, `end`, and `city` parameters are now URL-encoded via
+  `encodeURIComponent`, preventing parameter injection for inputs containing special characters
+- **Security**: Resolved transitive dev-dependency vulnerabilities via `overrides`:
+  - `flatted` → `^3.4.2` (Prototype Pollution)
+  - `minimatch` → `^10.2.3` (ReDoS)
+  - `rollup` → `^4.59.0` (Arbitrary File Write via Path Traversal)
 
 ### Security
 
 - Migrated security scanning to shared reusable workflow with explicit permissions
 - Pinned all GitHub Actions to SHA for supply chain security
-
-### Technical Notes
-
-- **Remaining vulnerabilities**: 14 high-severity `minimatch` issues in dev-only dependencies
-  - No production impact (ESLint, Storybook, @vue/test-utils)
-  - Waiting for upstream fixes from TypeScript ESLint and Vue Test Utils
 
 ## [2.2.3] - 2025-12-20
 
