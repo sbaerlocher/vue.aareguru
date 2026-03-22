@@ -55,7 +55,10 @@ export function useHistory(city: AllowedCity) {
 
   const API_BASE = "https://aareguru.existenz.ch/v2018/history";
 
-  async function fetchHistory(start: HistoryRange | string = "yesterday", end: HistoryRange | "now" | string = "now"): Promise<void> {
+  async function fetchHistory(
+    start: HistoryRange | string = "yesterday",
+    end: HistoryRange | "now" | string = "now"
+  ): Promise<void> {
     isLoading.value = true;
     error.value = null;
 
