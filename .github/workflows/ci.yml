@@ -1,191 +1,45 @@
 ---
 name: Continuous Integration
 
-on:
-  push:
-    branches: [main, master, develop]
+"on":
   pull_request:
-    branches: [main, master, develop]
+    branches: [main]
   workflow_call:
   workflow_dispatch:
 
-# Cancel in-progress runs for the same branch
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
-permissions:
-  contents: read
-  checks: write
-
 jobs:
-  # ==============================================================================
-  # QUALITY CHECKS (Lint, Type-check)
-  # ==============================================================================
-  quality:
-    name: Code Quality
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-
-      - name: Setup Node.js
-        uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
-        with:
-          node-version-file: ".nvmrc"
-          cache: npm
-
-      - name: Install dependencies
-        run: npm ci --prefer-offline --no-audit
-
-      - name: Run ESLint
-        run: npm run lint
-
-      - name: Run TypeScript type check
-        run: npm run type-check
-
-  # ==============================================================================
-  # UNIT TESTS (Multi-version matrix)
-  # ==============================================================================
-  test:
-    name: Test (Node ${{ matrix.node-version }})
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-
+  ci:
     strategy:
       fail-fast: false
       matrix:
-        # renovate: datasource=npm depName=node versioning=node
-        node-version: [20.x, 22.x, 24.x]
+        include:
+          # renovate: datasource=npm depName=node versioning=node
+          - node-version: "20.x"
+            primary: true
+          - node-version: "22.x"
+            primary: false
+          - node-version: "24.x"
+            primary: false
+    uses: sbaerlocher/.github/.github/workflows/ci-js.yml@2026-03-22
+    with:
+      package-manager: "npm"
+      node-version: ${{ matrix.node-version }}
+      primary: ${{ matrix.primary }}
+      enable-codecov: true
+      enable-sarif-upload: true
+    secrets:
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-
-      - name: Setup Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: npm
-
-      - name: Install dependencies
-        run: npm ci --prefer-offline --no-audit
-
-      - name: Cache Playwright browsers
-        uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # v5.0.3
-        id: playwright-cache
-        with:
-          path: ~/.cache/ms-playwright
-          key: playwright-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}
-
-      - name: Install Playwright browsers
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: npx playwright install --with-deps chromium
-
-      - name: Install Playwright dependencies (cached)
-        if: steps.playwright-cache.outputs.cache-hit == 'true'
-        run: npx playwright install-deps chromium
-
-      - name: Run unit tests
-        run: npm run test
-
-      - name: Generate coverage report
-        if: matrix.node-version == '20.x'
-        run: npm run test:coverage
-
-      - name: Upload coverage to Codecov
-        if: matrix.node-version == '20.x'
-        uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5.5.2
-        with:
-          files: ./coverage/coverage-final.json
-          flags: unittests
-          name: node-${{ matrix.node-version }}
-          fail_ci_if_error: false
-          token: ${{ secrets.CODECOV_TOKEN }}
-
-      - name: Upload coverage artifacts
-        if: matrix.node-version == '20.x'
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
-        with:
-          name: coverage-report
-          path: coverage/
-          retention-days: 7
-          if-no-files-found: warn
-
-  # ==============================================================================
-  # BUILD (Library bundle)
-  # ==============================================================================
-  build:
-    name: Build Library
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    needs: [quality, test]
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-
-      - name: Setup Node.js
-        uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
-        with:
-          node-version-file: ".nvmrc"
-          cache: npm
-
-      - name: Install dependencies
-        run: npm ci --prefer-offline --no-audit
-
-      - name: Build library bundle
-        run: npm run build
-
-      - name: Verify build output
-        run: |
-          test -f dist/vue.aareguru.mjs || exit 1
-          test -f dist/vue.aareguru.cjs || exit 1
-          test -f dist/vue.aareguru.js || exit 1
-          test -f dist/vue.aareguru.css || exit 1
-          echo "✓ All build artifacts present"
-
-      - name: Check bundle size
-        run: |
-          echo "## Bundle Sizes" >> $GITHUB_STEP_SUMMARY
-          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
-          ls -lh dist/*.{mjs,cjs,js,css} 2>/dev/null | awk '{print $9, $5}' >> $GITHUB_STEP_SUMMARY
-          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
-
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
-        with:
-          name: dist-bundle
-          path: |
-            dist/
-            !dist/**/*.map
-          retention-days: 7
-          if-no-files-found: error
-
-  # ==============================================================================
-  # STATUS CHECK (All jobs passed)
-  # ==============================================================================
   status:
     name: All Checks Passed
     runs-on: ubuntu-latest
-    needs: [quality, test, build]
+    needs: [ci]
     if: always()
-
     steps:
-      - name: Check job results
+      - name: Check results
         run: |
-          if [[ "${{ needs.quality.result }}" != "success" ]]; then
-            echo "❌ Quality checks failed"
+          if [[ "${{ needs.ci.result }}" != "success" ]]; then
+            echo "CI failed"
             exit 1
           fi
-          if [[ "${{ needs.test.result }}" != "success" ]]; then
-            echo "❌ Tests failed"
-            exit 1
-          fi
-          if [[ "${{ needs.build.result }}" != "success" ]]; then
-            echo "❌ Build failed"
-            exit 1
-          fi
-          echo "✅ All checks passed successfully!"
+          echo "All checks passed"
