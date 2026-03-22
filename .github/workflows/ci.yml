@@ -2,10 +2,21 @@
 name: Continuous Integration
 
 "on":
+  push:
+    branches: [main]
   pull_request:
     branches: [main]
   workflow_call:
   workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  checks: write
+  security-events: write
 
 jobs:
   ci:
