@@ -55,12 +55,15 @@ export function useHistory(city: AllowedCity) {
 
   const API_BASE = "https://aareguru.existenz.ch/v2018/history";
 
-  async function fetchHistory(start: string = "yesterday", end: string = "now"): Promise<void> {
+  async function fetchHistory(
+    start: HistoryRange | string = "yesterday",
+    end: HistoryRange | "now" | string = "now"
+  ): Promise<void> {
     isLoading.value = true;
     error.value = null;
 
     try {
-      const url = `${API_BASE}?city=${city}&start=${start}&end=${end}&app=vue.aareguru`;
+      const url = `${API_BASE}?city=${encodeURIComponent(city)}&start=${encodeURIComponent(start)}&end=${encodeURIComponent(end)}&app=vue.aareguru`;
       const response = await axios.get(url, { timeout: 10000 });
 
       if (response.data) {
