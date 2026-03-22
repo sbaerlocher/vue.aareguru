@@ -60,12 +60,12 @@ and [human-readable changelog](https://keepachangelog.com/en/1.0.0/).
   - @typescript-eslint/parser: 8.46.3 → 8.56.0
   - eslint-plugin-vue: 10.6.2 → 10.8.0
   - vue-eslint-parser: 10.2.0 → 10.4.0
-  - vitest + @vitest/*: 4.0.16 → 4.1.0
+  - vitest + @vitest/\*: 4.0.16 → 4.1.0
   - @chromatic-com/storybook: 4.x → 5.x
   - vue: 3.5.26 → 3.5.28
   - vite: 7.3.0 → 8.0.1
   - Node.js: 22 → 24
-  - storybook + @storybook/*: 10.2.8 → 10.3.1
+  - storybook + @storybook/\*: 10.2.8 → 10.3.1
   - axios: fixed DoS vulnerability
   - ajv: fixed ReDoS vulnerability
 - **CI**: Migrated reusable workflow refs to `2026-03-22`
