@@ -27,6 +27,7 @@ jobs:
       primary: ${{ matrix.primary }}
       enable-codecov: true
       enable-sarif-upload: true
+      artifact-name-prefix: "node-${{ matrix.node-version }}"
     secrets:
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
