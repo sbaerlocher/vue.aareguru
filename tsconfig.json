@@ -18,11 +18,7 @@
     "skipLibCheck": true,
     "declaration": true,
     "declarationDir": "./dist/types",
-    "types": ["node", "vitest/globals"],
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./src/*"]
-    }
+    "types": ["node", "vitest/globals"]
   },
   "include": [
     "src/**/*.ts",
