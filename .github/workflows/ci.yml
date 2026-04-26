@@ -31,7 +31,7 @@ jobs:
             primary: false
           - node-version: "24.x"
             primary: false
-    uses: sbaerlocher/.github/.github/workflows/ci-js.yml@2026-03-28
+    uses: sbaerlocher/.github/.github/workflows/ci-js.yml@2026-04-25
     with:
       package-manager: "npm"
       node-version: ${{ matrix.node-version }}
