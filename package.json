@@ -30,6 +30,7 @@
     "clean": "rm -rf dist coverage node_modules/.vite",
     "clean:all": "npm run clean && rm -rf node_modules package-lock.json",
     "prepublishOnly": "npm run type-check && npm run test:coverage",
+    "prepare": "test ! -e .git || lefthook install",
     "storybook": "npm run dev",
     "build:storybook": "storybook build"
   },
@@ -97,6 +98,7 @@
     "eslint-plugin-storybook": "^10.3.1",
     "eslint-plugin-vue": "^10.8.0",
     "happy-dom": "^20.6.5",
+    "lefthook": "^2.1.6",
     "msw": "^2.12.10",
     "msw-storybook-addon": "^2.0.6",
     "playwright": "^1.58.2",
