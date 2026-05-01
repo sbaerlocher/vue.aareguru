@@ -48,7 +48,7 @@ vue.aareguru/
 ├── vitest.config.mts             # Vitest test configuration
 ├── vite.config.ts                # Vite build configuration
 ├── eslint.config.js              # ESLint flat config
-├── .prettierrc                   # Prettier formatting config
+├── .prettierrc.yml               # Prettier formatting config
 ├── .editorconfig                 # Editor settings
 ├── CONTRIBUTING.md               # Contribution guidelines
 ├── README.md
@@ -279,7 +279,7 @@ npm run validate        # Run typecheck + lint + test
 ### Prettier
 
 - Code formatting for `.vue`, `.ts`, `.js`, `.json`, `.md`, `.css`, `.yml`, `.yaml`
-- Configuration in `.prettierrc`
+- Configuration in `.prettierrc.yml`
 - `npm run format:check` in validation pipeline
 
 ### Accessibility
@@ -565,7 +565,7 @@ docs(readme): update usage examples
 - `tsconfig.json` - TypeScript configuration (strict mode)
 - `vitest.config.mts` - Vitest configuration
 - `eslint.config.js` - ESLint flat config
-- `.prettierrc` - Prettier formatting config
+- `.prettierrc.yml` - Prettier formatting config
 
 ---
 
