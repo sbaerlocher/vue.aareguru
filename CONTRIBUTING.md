@@ -95,8 +95,8 @@ npm run lint:fix          # Auto-fix issues
 ### Type Checking
 
 ```bash
-npm run type-check        # TypeScript type check
-npm run type-check:watch  # Watch mode
+npm run typecheck        # TypeScript type check
+npm run typecheck:watch  # Watch mode
 ```
 
 ### Type Definitions
@@ -194,14 +194,14 @@ Now they are properly caught and retried.
 Ensure all tests pass and there are no linting errors:
 
 ```bash
-npm run validate          # Run all checks (type-check, lint, test)
+npm run validate          # Run all checks (typecheck, lint, test)
 ```
 
 Or run individually:
 
 ```bash
 npm run lint
-npm run type-check
+npm run typecheck
 npm run test
 npm run build
 ```

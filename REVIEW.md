@@ -21,7 +21,7 @@ Out of scope:
 ## Required checks
 
 - All tests pass (`npm test`)
-- TypeScript type check passes (`npm run type-check`)
+- TypeScript type check passes (`npm run typecheck`)
 - ESLint passes (`npm run lint`)
 - No secrets committed
 - New features include tests

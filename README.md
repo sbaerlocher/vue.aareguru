@@ -331,7 +331,7 @@ npm run test:coverage     # Generate coverage report
 ### Type Checking
 
 ```bash
-npm run type-check
+npm run typecheck
 ```
 
 ### Build
