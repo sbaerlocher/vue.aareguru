@@ -5,40 +5,15 @@ name: Continuous Integration
   pull_request:
     branches: [main]
   workflow_call:
-  workflow_dispatch:
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
-permissions:
-  contents: read
-  checks: write
-  security-events: write
 
 jobs:
   ci:
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          # renovate: datasource=npm depName=node versioning=node
-          - node-version: "20.x"
-            primary: true
-          - node-version: "22.x"
-            primary: false
-          - node-version: "24.x"
-            primary: false
     uses: sbaerlocher/.github/.github/workflows/ci-js.yml@2026-04-30
     with:
       package-manager: "npm"
-      node-version: ${{ matrix.node-version }}
-      primary: ${{ matrix.primary }}
       enable-codecov: true
       enable-sarif-upload: true
-      artifact-name-prefix: "node-${{ matrix.node-version }}"
-    secrets:
-      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+    secrets: inherit
 
   status:
     name: All Checks Passed
@@ -47,8 +22,10 @@ jobs:
     if: always()
     steps:
       - name: Check results
+        env:
+          CI_RESULT: ${{ needs.ci.result }}
         run: |
-          if [[ "${{ needs.ci.result }}" != "success" ]]; then
+          if [[ "$CI_RESULT" != "success" ]]; then
             echo "CI failed"
             exit 1
           fi

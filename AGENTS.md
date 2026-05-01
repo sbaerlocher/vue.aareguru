@@ -226,8 +226,8 @@ Opens demo app at `http://localhost:8080` with 9 examples:
 ### Type Checking
 
 ```bash
-npm run type-check         # Check once
-npm run type-check:watch   # Watch mode
+npm run typecheck         # Check once
+npm run typecheck:watch   # Watch mode
 ```
 
 ### Linting
@@ -248,7 +248,7 @@ npm run preview         # Build demo + serve locally
 ### Validation
 
 ```bash
-npm run validate        # Run type-check + lint + test
+npm run validate        # Run typecheck + lint + test
 ```
 
 ---
@@ -309,7 +309,7 @@ npm run test:ui          # Interactive UI
 npm run test:coverage    # Coverage report
 
 # Type Checking
-npm run type-check       # Check types
+npm run typecheck       # Check types
 
 # Building
 npm run build            # Build library
@@ -399,7 +399,7 @@ interface AareData {
 - ✅ Full TypeScript support in development and build
 - ✅ Tests use Vitest (TypeScript native support)
 - ✅ Type checking uses `vue-tsc` directly
-- ✅ CI/CD workflows include type-check step
+- ✅ CI/CD workflows include typecheck step
 - ✅ Zero security vulnerabilities
 - ✅ Fast builds with Vite
 
@@ -663,10 +663,10 @@ npm run test:ui
 
 ```bash
 # Check types
-npm run type-check
+npm run typecheck
 
 # Watch mode for development
-npm run type-check:watch
+npm run typecheck:watch
 ```
 
 ### Build Issues
