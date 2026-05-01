@@ -2,7 +2,7 @@ pre-commit:
   parallel: true
   commands:
     prettier:
-      glob: "*.{vue,ts,js,json,md,css,yml,yaml}"
+      glob: "*.{vue,ts,js,cjs,mjs,json,md,css,yml,yaml}"
       run: npx --no -- prettier --write {staged_files}
       stage_fixed: true
     eslint:
