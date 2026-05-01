@@ -91,8 +91,8 @@
     "@vitest/browser-playwright": "4.1.4",
     "@vitest/coverage-v8": "4.1.4",
     "@vitest/ui": "4.1.4",
-    "@vue/compiler-sfc": "3.5.30",
-    "@vue/test-utils": "2.4.6",
+    "@vue/compiler-sfc": "3.5.33",
+    "@vue/test-utils": "2.4.8",
     "axios": "1.15.2",
     "eslint": "10.2.1",
     "eslint-plugin-storybook": "10.3.5",
@@ -107,9 +107,9 @@
     "typescript": "6.0.3",
     "vite": "8.0.10",
     "vitest": "4.1.4",
-    "vue": "3.5.30",
+    "vue": "3.5.33",
     "vue-eslint-parser": "10.4.0",
-    "vue-tsc": "3.2.6"
+    "vue-tsc": "3.2.7"
   },
   "browserslist": [
     "> 1%",
