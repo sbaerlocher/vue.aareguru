@@ -74,7 +74,7 @@
   "homepage": "https://github.com/sbaerlocher/vue.aareguru#readme",
   "peerDependencies": {
     "axios": "^1.0.0",
-    "vue": "^3.3.0"
+    "vue": "^3.5.33"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^5.0.1",
@@ -91,8 +91,8 @@
     "@vitest/browser-playwright": "^4.1.0",
     "@vitest/coverage-v8": "^4.1.0",
     "@vitest/ui": "^4.1.0",
-    "@vue/compiler-sfc": "^3.5.28",
-    "@vue/test-utils": "^2.4.6",
+    "@vue/compiler-sfc": "3.5.30",
+    "@vue/test-utils": "2.4.6",
     "axios": "^1.13.5",
     "eslint": "10.1.0",
     "eslint-plugin-storybook": "10.3.1",
@@ -107,9 +107,9 @@
     "typescript": "^6.0.2",
     "vite": "^8.0.1",
     "vitest": "^4.1.0",
-    "vue": "^3.5.28",
-    "vue-eslint-parser": "^10.4.0",
-    "vue-tsc": "^3.2.4"
+    "vue": "3.5.30",
+    "vue-eslint-parser": "10.4.0",
+    "vue-tsc": "3.2.6"
   },
   "browserslist": [
     "> 1%",
