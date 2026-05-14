@@ -1,6 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["github>sbaerlocher/.github:renovate-js#2026-04-30"],
+  "extends": ["github>sbaerlocher/.github:renovate-js#2026-05-07"],
   "packageRules": [
     {
       "groupName": "Vue",

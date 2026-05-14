@@ -73,7 +73,7 @@
   },
   "homepage": "https://github.com/sbaerlocher/vue.aareguru#readme",
   "peerDependencies": {
-    "axios": "^1.15.2",
+    "axios": "^1.16.0",
     "vue": "^3.5.33"
   },
   "devDependencies": {
@@ -93,15 +93,15 @@
     "@vitest/ui": "4.1.5",
     "@vue/compiler-sfc": "3.5.33",
     "@vue/test-utils": "2.4.8",
-    "axios": "1.15.2",
+    "axios": "1.16.0",
     "eslint": "10.3.0",
     "eslint-plugin-storybook": "10.3.6",
     "eslint-plugin-vue": "10.9.1",
     "happy-dom": "20.9.0",
     "lefthook": "2.1.6",
-    "msw": "2.14.2",
+    "msw": "2.14.6",
     "msw-storybook-addon": "2.0.7",
-    "playwright": "1.59.1",
+    "playwright": "1.60.0",
     "prettier": "3.8.3",
     "storybook": "10.3.6",
     "typescript": "6.0.3",
