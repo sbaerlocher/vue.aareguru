@@ -8,7 +8,7 @@ name: Continuous Integration
 
 jobs:
   ci:
-    uses: sbaerlocher/.github/.github/workflows/ci-js.yml@2026-05-07
+    uses: sbaerlocher/.github/.github/workflows/ci-js.yml@2026-05-30
     with:
       package-manager: "npm"
       enable-codecov: true
