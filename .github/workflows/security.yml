@@ -19,6 +19,7 @@ jobs:
     with:
       languages: '["javascript-typescript"]'
       node-version-file: ".nvmrc"
+      concurrency-suffix: code
 
   dependency-scan:
     name: Dependencies & Licenses
@@ -26,7 +27,10 @@ jobs:
     with:
       language: "javascript"
       enable-license-check: true
+      concurrency-suffix: deps
 
   secret-detection:
     name: Secret Detection
     uses: sbaerlocher/.github/.github/workflows/security-secrets.yml@2026-05-07
+    with:
+      concurrency-suffix: secrets
