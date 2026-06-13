@@ -87,10 +87,10 @@
     "@typescript-eslint/eslint-plugin": "8.61.0",
     "@typescript-eslint/parser": "8.61.0",
     "@vitejs/plugin-vue": "6.0.6",
-    "@vitest/browser": "4.1.6",
-    "@vitest/browser-playwright": "4.1.6",
-    "@vitest/coverage-v8": "4.1.6",
-    "@vitest/ui": "4.1.6",
+    "@vitest/browser": "4.1.7",
+    "@vitest/browser-playwright": "4.1.7",
+    "@vitest/coverage-v8": "4.1.7",
+    "@vitest/ui": "4.1.7",
     "@vue/compiler-sfc": "3.5.35",
     "@vue/test-utils": "2.4.11",
     "axios": "1.17.0",
@@ -105,8 +105,8 @@
     "prettier": "3.8.4",
     "storybook": "10.4.3",
     "typescript": "6.0.3",
-    "vite": "8.0.10",
-    "vitest": "4.1.6",
+    "vite": "8.0.14",
+    "vitest": "4.1.7",
     "vue": "3.5.35",
     "vue-eslint-parser": "10.4.1",
     "vue-tsc": "3.3.4"
@@ -119,6 +119,6 @@
     "glob": "^13.0.6",
     "flatted": "^3.4.2",
     "minimatch": "^10.2.5",
-    "rollup": "^4.60.2"
+    "rollup": "^4.60.4"
   }
 }
