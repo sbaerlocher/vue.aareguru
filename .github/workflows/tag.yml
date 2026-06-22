@@ -1,7 +1,9 @@
 ---
-name: Release & Publish
+name: Software Release
+run-name: |
+  Release ${{ github.ref_name }} by @${{ github.actor }}
 
-on:
+"on":
   push:
     tags: ["v*"]
   workflow_dispatch:
@@ -18,7 +20,7 @@ permissions:
 jobs:
   release:
     name: NPM Package Release
-    uses: sbaerlocher/.github/.github/workflows/release-npm.yml@2026-06-10
+    uses: sbaerlocher/.github/.github/workflows/release-npm.yml@2026-06-21
     with:
       package-manager: "npm"
       node-version-file: ".nvmrc"
