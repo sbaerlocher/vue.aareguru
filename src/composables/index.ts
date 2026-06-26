@@ -3,3 +3,6 @@ export type { CityData } from "./useCities";
 
 export { useHistory } from "./useHistory";
 export type { HistoryData, HistoryDataPoint, HistoryRange } from "./useHistory";
+
+export { useForecast } from "./useForecast";
+export type { ForecastData } from "./useForecast";

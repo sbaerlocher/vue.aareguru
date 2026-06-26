@@ -1,0 +1,10 @@
+# Single-package repo, not a monorepo — this file only pins which
+# dependency build scripts pnpm is allowed to run on install.
+# esbuild: Vite/Vitest's bundler, needs its postinstall to fetch the
+#          platform binary. lefthook: installs git hooks on postinstall.
+# msw: not needed for a library build (mock worker is used via the API
+#      in tests, not its install script) → denied.
+allowBuilds:
+  esbuild: true
+  lefthook: true
+  msw: false

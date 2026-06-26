@@ -25,6 +25,8 @@ export default defineConfig(({ mode }) => {
         }
       : {
           // Library build configuration
+          // Do not copy public/ (e.g. favicon.ico) into the published bundle.
+          copyPublicDir: false,
           lib: {
             entry: resolve(__dirname, "src/index.ts"),
             name: "VueAareGuru",

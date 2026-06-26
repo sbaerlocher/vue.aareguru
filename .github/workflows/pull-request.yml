@@ -19,16 +19,16 @@ permissions:
 jobs:
   ci:
     name: Quality, Tests, Build
-    uses: sbaerlocher/.github/.github/workflows/ci-js.yml@2026-06-21
+    uses: sbaerlocher/.github/.github/workflows/ci-js.yml@2026-06-26
     with:
-      package-manager: "npm"
+      package-manager: "pnpm"
       enable-codecov: true
       enable-sarif-upload: true
     secrets: inherit
 
   code-analysis:
     name: SAST (CodeQL)
-    uses: sbaerlocher/.github/.github/workflows/security-code.yml@2026-06-21
+    uses: sbaerlocher/.github/.github/workflows/security-code.yml@2026-06-26
     with:
       languages: '["javascript-typescript"]'
       node-version-file: ".nvmrc"
@@ -36,6 +36,6 @@ jobs:
 
   code-review:
     name: Claude Code Review
-    uses: sbaerlocher/.github/.github/workflows/ai-claude-review.yml@2026-06-21
+    uses: sbaerlocher/.github/.github/workflows/ai-claude-review.yml@2026-06-26
     secrets:
       CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}

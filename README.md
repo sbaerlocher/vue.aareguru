@@ -170,15 +170,29 @@ export default {
 
 ### Nuxt 3
 
+`AareGuru` fetches its data client-side (in `onMounted`), so it renders
+nothing on the server and hydrates on the client — there is no server-side
+data fetching to wire up. Wrap it in `<ClientOnly>` to skip the empty SSR
+pass and any hydration mismatch warning:
+
 ```vue
 <script setup>
 import AareGuru from "vue.aareguru";
 </script>
 
 <template>
-  <AareGuru city="bern" />
+  <ClientOnly>
+    <AareGuru city="bern" />
+    <template #fallback>Lade Aare-Daten…</template>
+  </ClientOnly>
 </template>
 ```
+
+A dedicated SSR/Nuxt module (server-side prefetch, `useFetch` integration)
+is intentionally **not** provided: this is a self-contained client widget,
+and `<ClientOnly>` covers the SSR story without shipping a Nuxt-specific
+build. Use the [`useCities`](#composables) / `useHistory` composables
+directly if you need data during SSR.
 
 ## Props
 
@@ -309,13 +323,13 @@ interface AareData {
 ```bash
 git clone https://github.com/sbaerlocher/vue.aareguru.git
 cd vue.aareguru
-npm install
+pnpm install
 ```
 
 ### Development Server (Storybook)
 
 ```bash
-npm run dev
+pnpm dev
 ```
 
 Opens Storybook at `http://localhost:6006` with interactive component documentation.
@@ -323,21 +337,21 @@ Opens Storybook at `http://localhost:6006` with interactive component documentat
 ### Testing
 
 ```bash
-npm run test              # Run tests
-npm run test:ui           # Open test UI
-npm run test:coverage     # Generate coverage report
+pnpm test              # Run tests
+pnpm test:ui           # Open test UI
+pnpm test:coverage     # Generate coverage report
 ```
 
 ### Type Checking
 
 ```bash
-npm run typecheck
+pnpm typecheck
 ```
 
 ### Build
 
 ```bash
-npm run build
+pnpm build
 ```
 
 ## Contributing
@@ -348,7 +362,7 @@ Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for de
 
 - **[CONTRIBUTING.md](CONTRIBUTING.md)** - Contribution guidelines
 - **[CHANGELOG.md](CHANGELOG.md)** - Version history
-- **[AGENT.md](AGENT.md)** - AI reference documentation
+- **[AGENTS.md](AGENTS.md)** - AI reference documentation
 
 ## API Reference
 
@@ -367,7 +381,7 @@ The component uses the [Aareguru API](https://aareguru.existenz.ch/):
 Interactive component documentation is available via Storybook:
 
 ```bash
-npm run dev          # or: npm run storybook
+pnpm dev          # or: pnpm storybook
 ```
 
 This opens Storybook at `http://localhost:6006` with:
@@ -381,7 +395,7 @@ This opens Storybook at `http://localhost:6006` with:
 Build static Storybook for deployment:
 
 ```bash
-npm run build:storybook
+pnpm build:storybook
 ```
 
 ## Composables
@@ -413,10 +427,29 @@ console.log(data.value?.temperature); // Array of { timestamp, value }
 console.log(data.value?.flow); // Array of { timestamp, value }
 ```
 
+### useForecast(city)
+
+Fetch the multi-day weather forecast (and today's intra-day breakdown). Useful
+for swim-planner style apps that need more than the current temperature:
+
+```typescript
+import { useForecast } from "vue.aareguru";
+
+const { data, isLoading, error, fetch } = useForecast("bern");
+
+await fetch();
+
+// Multi-day forecast: Array of WeatherForecast ({ day, dayshort, tn, tx, ... })
+console.log(data.value?.forecast);
+
+// Today split into periods (v = vormittag, n = nachmittag, a = abend)
+console.log(data.value?.today?.n.tt);
+```
+
 ## Roadmap
 
 - [ ] E2E tests with Playwright
-- [ ] SSR support for Nuxt
+- [x] Nuxt usage documented (client-only widget via `<ClientOnly>`; no SSR module by design)
 
 ## License
 
