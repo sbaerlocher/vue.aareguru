@@ -22,7 +22,7 @@ jobs:
     name: NPM Package Release
     uses: sbaerlocher/.github/.github/workflows/release-npm.yml@2026-06-21
     with:
-      package-manager: "npm"
+      package-manager: "pnpm"
       node-version-file: ".nvmrc"
       run-build: true
       run-tests: true

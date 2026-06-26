@@ -21,7 +21,7 @@ jobs:
     name: Quality, Tests, Build
     uses: sbaerlocher/.github/.github/workflows/ci-js.yml@2026-06-21
     with:
-      package-manager: "npm"
+      package-manager: "pnpm"
       enable-codecov: true
       enable-sarif-upload: true
     secrets: inherit

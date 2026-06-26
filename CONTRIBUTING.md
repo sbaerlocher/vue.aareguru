@@ -21,7 +21,7 @@ If you experience or witness unacceptable behavior, please report it by opening 
 ### Prerequisites
 
 - Node.js >= 20.x
-- npm >= 10.x (or yarn/pnpm)
+- pnpm >= 9.x (via corepack)
 - Git
 
 ### Installation
@@ -29,13 +29,13 @@ If you experience or witness unacceptable behavior, please report it by opening 
 ```bash
 git clone https://github.com/sbaerlocher/vue.aareguru.git
 cd vue.aareguru
-npm install
+pnpm install
 ```
 
 ### Development Server
 
 ```bash
-npm run dev
+pnpm dev
 ```
 
 The development server runs on `http://localhost:8080` by default.
@@ -45,10 +45,10 @@ The development server runs on `http://localhost:8080` by default.
 ### Running Unit Tests
 
 ```bash
-npm run test              # Run tests once
-npm run test:watch        # Watch mode
-npm run test:ui           # Open test UI (interactive)
-npm run test:coverage     # Generate coverage report
+pnpm test              # Run tests once
+pnpm test:watch        # Watch mode
+pnpm test:ui           # Open test UI (interactive)
+pnpm test:coverage     # Generate coverage report
 ```
 
 ### Writing Tests
@@ -79,8 +79,8 @@ describe("AareGuru.vue", () => {
 ### Running ESLint
 
 ```bash
-npm run lint              # Run linting
-npm run lint:fix          # Auto-fix issues
+pnpm lint              # Run linting
+pnpm lint:fix          # Auto-fix issues
 ```
 
 ### Code Style
@@ -95,8 +95,8 @@ npm run lint:fix          # Auto-fix issues
 ### Type Checking
 
 ```bash
-npm run typecheck        # TypeScript type check
-npm run typecheck:watch  # Watch mode
+pnpm typecheck        # TypeScript type check
+pnpm typecheck:watch  # Watch mode
 ```
 
 ### Type Definitions
@@ -110,7 +110,7 @@ npm run typecheck:watch  # Watch mode
 ### Library Build
 
 ```bash
-npm run build             # Build for npm package
+pnpm build             # Build for npm package
 ```
 
 The build creates ESM, CJS, and UMD bundles in the `dist/` directory.
@@ -194,16 +194,16 @@ Now they are properly caught and retried.
 Ensure all tests pass and there are no linting errors:
 
 ```bash
-npm run validate          # Run all checks (typecheck, lint, test)
+pnpm validate          # Run all checks (typecheck, lint, test)
 ```
 
 Or run individually:
 
 ```bash
-npm run lint
-npm run typecheck
-npm run test
-npm run build
+pnpm lint
+pnpm typecheck
+pnpm test
+pnpm build
 ```
 
 ### 5. Push & Pull Request
