@@ -3,7 +3,7 @@ import AareGuru from "./components/AareGuru.vue";
 export default AareGuru;
 
 // Export composables
-export { useCities, useHistory } from "./composables";
+export { useCities, useHistory, useForecast } from "./composables";
 
 // Export types
 export type {
@@ -19,4 +19,10 @@ export type {
   AllowedCity
 } from "./types";
 
-export type { CityData, HistoryData, HistoryDataPoint, HistoryRange } from "./composables";
+export type {
+  CityData,
+  HistoryData,
+  HistoryDataPoint,
+  HistoryRange,
+  ForecastData
+} from "./composables";

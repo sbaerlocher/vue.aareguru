@@ -1,0 +1,157 @@
+{/*
+  ============================================================================
+  DRAFT / ENTWURF — Marketing/Showcase-Page
+  ----------------------------------------------------------------------------
+  TODO(DRAFT): Marketing/Showcase-Seite für vue.aareguru.
+  Notion-Karte: "Marketing/Showcase-Page"
+  https://app.notion.com/p/373bf097036e81239c44e94d24fb2583
+
+  Status: ENTWURF — Platzhalter-Copy, noch nicht freigegeben.
+  Vor dem Merge zu klären:
+    - [ ] "Wer nutzt es?" mit echten Referenzen/Logos füllen (aktuell Platzhalter).
+    - [ ] GitHub-Star-/npm-Download-Badges final verlinken.
+    - [ ] Copy/Tonalität gegenlesen (DE vs. EN — Lib-Doku ist sonst EN).
+    - [ ] Screenshots/OG-Image für externe Verlinkung ergänzen.
+    - [ ] Entscheiden, ob diese Seite auch als externe Landing-Page (statisches
+          Storybook-Deploy) verlinkt wird oder nur intern in der Doku lebt.
+
+  Lebt als Storybook-Docs-Page (idiomatisch für eine Vue-Lib mit Storybook).
+  Referenziert die bestehenden Stories aus ./AareGuru.stories.ts via <Story of={...} />,
+  damit Demo und Stories nicht auseinanderlaufen.
+  ============================================================================
+*/}
+
+import { Meta, Title, Subtitle, Story, Canvas, Source } from "@storybook/addon-docs/blocks";
+import * as AareGuruStories from "./AareGuru.stories";
+
+<Meta title="Showcase/vue.aareguru" />
+
+{/* DRAFT: Hero — Platzhalter-Headline, vor Freigabe schärfen. */}
+
+<Title>vue.aareguru</Title>
+
+<Subtitle>
+  Die aktuelle Aare-Temperatur als Vue-3-Komponente — in einer Zeile eingebunden.
+</Subtitle>
+
+> **🚧 DRAFT / ENTWURF** — Diese Showcase-Seite ist ein Entwurf. Copy und
+> Referenzen sind Platzhalter und noch nicht freigegeben.
+
+Eine schlanke, voll typisierte Vue-3-Komponente, die die Live-Wassertemperatur
+der Aare aus der [Aareguru-API](https://aare.guru) anzeigt — für Bern, Thun,
+Interlaken, Biel und weitere Städte entlang des Flusses. Gebaut für die Schweizer
+Bäder-Community, "Chume mer go schwümme?" beantwortet sich von selbst.
+
+---
+
+## Live-Demo
+
+So sieht die Komponente mit Standardeinstellungen aus (Bern, Celsius). Die Daten
+werden live von der Aareguru-API geladen:
+
+<Canvas of={AareGuruStories.Default} />
+
+Und alle acht Städte entlang der Aare auf einen Blick:
+
+<Canvas of={AareGuruStories.AllCities} />
+
+---
+
+## In 30 Sekunden eingebunden
+
+{/* DRAFT: npm-Name aus package.json ("vue.aareguru"), Version 2.3.1. */}
+
+Installation via npm, pnpm oder yarn:
+
+<Source
+  language="bash"
+  dark
+  code={`pnpm add vue.aareguru
+# oder: npm install vue.aareguru
+# oder: yarn add vue.aareguru`}
+/>
+
+Komponente importieren und verwenden:
+
+<Source
+  language="vue"
+  dark
+  code={`<script setup lang="ts">
+import { AareGuru } from "vue.aareguru";
+</script>
+
+<template>
+  <p>Die Aare in Bern ist gerade <AareGuru city="bern" /> warm.</p>
+</template>`}
+/>
+
+Das war's. Kein Setup, kein API-Key, keine Konfiguration nötig.
+
+---
+
+## Feature-Highlights
+
+- **🌊 Live-Daten** — Echtzeit-Wassertemperatur direkt von der Aareguru-API.
+- **🏙️ 8 Städte** — Bern, Thun, Brienz, Interlaken, Biel, Hagneck, Olten, Brugg.
+- **🌡️ Celsius & Fahrenheit** — Einheit per Prop umschaltbar.
+- **🔁 Auto-Refresh & Caching** — konfigurierbarer Cache, optionales Auto-Update.
+- **🛡️ Retry mit Backoff** — robuste Fehlerbehandlung mit exponentiellem Backoff.
+- **🎨 Voll anpassbar** — Slots für `default`, `loading` und `error`.
+- **🔡 TypeScript-first** — vollständige Typdefinitionen, strict mode.
+- **♿ Barrierefrei** — ARIA-Attribute und semantisches HTML.
+
+---
+
+## Varianten
+
+### Einheit: Fahrenheit
+
+<Canvas of={AareGuruStories.Fahrenheit} />
+
+### Andere Stadt: Thun
+
+<Canvas of={AareGuruStories.Thun} />
+
+### Eigenes Design via Slot
+
+Die Komponente liefert per Default nur den Temperaturwert — das Aussehen
+bestimmst du über den `default`-Slot. Zwei Beispiele:
+
+<Canvas of={AareGuruStories.ModernCard} />
+
+<Canvas of={AareGuruStories.Minimalist} />
+
+### Auto-Refresh
+
+<Canvas of={AareGuruStories.AutoRefresh} />
+
+---
+
+## Wer nutzt es?
+
+{/*
+  DRAFT: Platzhalter — vor Freigabe mit echten Referenzen ersetzen.
+  Idee aus der Notion-Karte: "wer nutzt es" für Reichweite.
+  TODO(DRAFT): echte Logos / Links / Zitate eintragen, sonst Sektion entfernen.
+*/}
+
+> **🚧 DRAFT** — Platzhalter. Hier kommen echte Nutzer:innen, Projekte und
+> Communities hin, sobald bestätigt.
+
+- _Dein Projekt hier_ — [Pull Request öffnen](https://github.com/sbaerlocher/vue.aareguru/pulls)
+  und in die Liste eintragen lassen.
+- _Schweizer Bäder- & Schwimm-Communities_ — Platzhalter.
+- _Wetter- und Freizeit-Dashboards_ — Platzhalter.
+
+Nutzt du `vue.aareguru` in einem Projekt? Wir freuen uns über einen Eintrag.
+
+---
+
+## Links
+
+- 📦 **npm:** [`vue.aareguru`](https://www.npmjs.com/package/vue.aareguru)
+- 🐙 **GitHub:** [sbaerlocher/vue.aareguru](https://github.com/sbaerlocher/vue.aareguru)
+- 🌊 **Datenquelle:** [Aareguru](https://aare.guru)
+- 📄 **Lizenz:** MIT
+
+{/* DRAFT-Ende — diese Seite ist ein Entwurf, siehe Header-Kommentar. */}
