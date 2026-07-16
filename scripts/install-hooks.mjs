@@ -11,8 +11,17 @@
 // both inside a pnpm lifecycle (where PATH is set) and when invoked
 // directly by a developer.
 import { spawnSync } from "node:child_process";
+import { existsSync } from "node:fs";
 import { createRequire } from "node:module";
 import { dirname, resolve } from "node:path";
+
+// No git repo — nothing to wire up (e.g. a source tree copied without git
+// history in a Docker build). `lefthook install` needs `.git/hooks` and would
+// exit non-zero otherwise, breaking the install. `.git` is a file in worktrees
+// and submodules, so existsSync covers both.
+if (!existsSync(".git")) {
+  process.exit(0);
+}
 
 const require = createRequire(import.meta.url);
 
