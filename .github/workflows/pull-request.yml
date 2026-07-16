@@ -16,6 +16,10 @@ permissions:
   actions: read
   id-token: write
 
+concurrency:
+  group: pull-request-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   ci:
     name: Quality, Tests, Build
