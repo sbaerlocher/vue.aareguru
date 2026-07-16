@@ -31,7 +31,7 @@
     "validate": "pnpm format:check && pnpm typecheck && pnpm lint && pnpm test",
     "clean": "rm -rf dist coverage node_modules/.vite",
     "clean:all": "pnpm clean && rm -rf node_modules pnpm-lock.yaml",
-    "prepare": "test ! -e .git || ! command -v git >/dev/null 2>&1 || lefthook install",
+    "prepare": "node scripts/install-hooks.mjs",
     "prepublishOnly": "pnpm typecheck && pnpm test:coverage",
     "storybook": "pnpm dev",
     "build:storybook": "storybook build"
