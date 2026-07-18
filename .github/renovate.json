@@ -6,6 +6,11 @@
       "description": "Official Vue testing library - stable, not truly abandoned",
       "matchPackageNames": ["@vue/test-utils"],
       "abandonmentThreshold": null
+    },
+    {
+      "description": "vue-tsc CLI requires typescript/lib/tsc, which TS 7 no longer exports (vuejs/language-tools#5381). Drop this rule once a vue-tsc release supports TS 7.",
+      "matchPackageNames": ["typescript"],
+      "allowedVersions": "<7"
     }
   ]
 }
