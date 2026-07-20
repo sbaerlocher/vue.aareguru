@@ -15,7 +15,6 @@ export default [
       "node_modules/",
       "**/*.config.js",
       "**/*.config.ts",
-      "**/*.config.mts",
       "**/*.d.ts",
       ".vite/",
       ".cache/"

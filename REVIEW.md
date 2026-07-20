@@ -7,7 +7,7 @@ In scope:
 - Component changes (`src/components/`, `src/composables/`)
 - TypeScript type definitions (`src/types/`)
 - Test changes (`tests/`)
-- Build configuration (`vite.config.ts`, `vitest.config.mts`)
+- Build configuration (`vite.config.ts`, `vitest.config.ts`)
 - CI/CD workflow changes
 - Renovate configuration updates
 
