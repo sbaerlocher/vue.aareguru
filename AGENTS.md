@@ -45,7 +45,7 @@ vue.aareguru/
 │   └── security.yml              # Security scanning (CodeQL, deps, secrets)
 ├── package.json
 ├── tsconfig.json                 # TypeScript configuration
-├── vitest.config.mts             # Vitest test configuration
+├── vitest.config.ts              # Vitest test configuration
 ├── vite.config.ts                # Vite build configuration
 ├── eslint.config.js              # ESLint flat config
 ├── .prettierrc.yml               # Prettier formatting config
@@ -563,7 +563,7 @@ docs(readme): update usage examples
 
 - `package.json` - Dependencies and scripts
 - `tsconfig.json` - TypeScript configuration (strict mode)
-- `vitest.config.mts` - Vitest configuration
+- `vitest.config.ts` - Vitest configuration
 - `eslint.config.js` - ESLint flat config
 - `.prettierrc.yml` - Prettier formatting config
 
