@@ -1,6 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["github>sbaerlocher/.github:renovate-js#2026-07-27"],
+  "extends": ["github>sbaerlocher/.github:renovate-js#2026-07-28"],
   "packageRules": [
     {
       "description": "Official Vue testing library - stable, not truly abandoned",
