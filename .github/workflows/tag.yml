@@ -20,7 +20,7 @@ permissions:
 jobs:
   release:
     name: NPM Package Release
-    uses: sbaerlocher/.github/.github/workflows/release-npm.yml@2026-08-20
+    uses: sbaerlocher/.github/.github/workflows/release-npm.yml@2026-09-12
     with:
       package-manager: "pnpm"
       node-version-file: ".nvmrc"
