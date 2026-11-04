@@ -118,7 +118,7 @@
     "last 2 versions"
   ],
   "overrides": {
-    "glob": "^13.0.6",
+    "glob": "^14.0.3",
     "flatted": "^3.4.4",
     "minimatch": "^11.0.4",
     "rollup": "^4.64.10"
