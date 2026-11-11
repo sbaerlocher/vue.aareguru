@@ -221,8 +221,8 @@ importers:
         specifier: 10.14.0
         version: 10.14.0
       eslint-plugin-storybook:
-        specifier: 10.6.5
-        version: 10.6.5(eslint@10.14.0)(typescript@6.0.3)
+        specifier: 10.6.6
+        version: 10.6.6(eslint@10.14.0)(typescript@6.0.3)
       eslint-plugin-vue:
         specifier: 10.12.0
         version: 10.12.0(@typescript-eslint/parser@8.72.1(eslint@10.14.0)(typescript@6.0.3))(eslint@10.14.0)(vue-eslint-parser@10.4.1(eslint@10.14.0))
@@ -1588,8 +1588,8 @@ packages:
     resolution: {integrity: sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==}
     engines: {node: '>=10'}
 
-  eslint-plugin-storybook@10.6.5:
-    resolution: {integrity: sha512-sQSRwmbqcyGVtjVGUSOPTM5TFjopoit3blQxMcsHeqmmR1PJsciLH/WjgG7CT+u2/F0HMJFsQa+TqJSFDxXwWQ==}
+  eslint-plugin-storybook@10.6.6:
+    resolution: {integrity: sha512-3bQT92I/MU2yZeBjIm+v2pe6q55V764jCMccUg+OSLsGOdJ+nRZ80W8FpjbecpdBdkO80yR56jVcqLFamDwZUA==}
     peerDependencies:
       eslint: '>=8'
 
@@ -2434,6 +2434,7 @@ packages:
 
   tldts-core@7.4.20:
     resolution: {integrity: sha512-C630TWXZCZmLq0F2bW4QqwnaaxCQ/svpAqvJwnC4JvgEM5ohhBnGsEzTLSOXcN+xjz+kEaHS5uoWIw2klnqd0A==}
+    deprecated: Partial release, see https://github.com/remusao/tldts/issues/2735. Use >=7.4.22.
 
   tldts@7.4.19:
     resolution: {integrity: sha512-48dH6aSpQnpbzDUc4vIQZ1VjB8tkK+e8c1yx05/SZK+rkssgjEOlxDd/yU8/a4vGYQ9vRgJr9dwMq9TJ0b3X2Q==}
@@ -3911,7 +3912,7 @@ snapshots:
 
   escape-string-regexp@4.0.0: {}
 
-  eslint-plugin-storybook@10.6.5(eslint@10.14.0)(typescript@6.0.3):
+  eslint-plugin-storybook@10.6.6(eslint@10.14.0)(typescript@6.0.3):
     dependencies:
       '@typescript-eslint/types': 8.72.1
       '@typescript-eslint/utils': 8.72.1(eslint@10.14.0)(typescript@6.0.3)
