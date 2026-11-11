@@ -97,7 +97,7 @@
     "@vue/test-utils": "2.5.1",
     "axios": "1.21.0",
     "eslint": "10.14.0",
-    "eslint-plugin-storybook": "10.6.5",
+    "eslint-plugin-storybook": "10.6.6",
     "eslint-plugin-vue": "10.12.0",
     "happy-dom": "21.0.4",
     "lefthook": "2.2.2",
