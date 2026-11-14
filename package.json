@@ -75,16 +75,16 @@
   },
   "homepage": "https://github.com/sbaerlocher/vue.aareguru#readme",
   "peerDependencies": {
-    "axios": "^1.21.0",
+    "axios": "^1.21.1",
     "vue": "^3.5.45"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "5.6.0",
-    "@storybook/addon-a11y": "10.6.6",
-    "@storybook/addon-docs": "10.6.6",
-    "@storybook/addon-onboarding": "10.6.6",
-    "@storybook/addon-vitest": "10.6.6",
-    "@storybook/vue3-vite": "10.6.6",
+    "@storybook/addon-a11y": "10.6.7",
+    "@storybook/addon-docs": "10.6.7",
+    "@storybook/addon-onboarding": "10.6.7",
+    "@storybook/addon-vitest": "10.6.7",
+    "@storybook/vue3-vite": "10.6.7",
     "@types/node": "26.6.6",
     "@typescript-eslint/eslint-plugin": "8.72.1",
     "@typescript-eslint/parser": "8.72.1",
@@ -95,17 +95,17 @@
     "@vitest/ui": "5.0.5",
     "@vue/compiler-sfc": "3.5.45",
     "@vue/test-utils": "2.5.1",
-    "axios": "1.21.0",
+    "axios": "1.21.1",
     "eslint": "10.14.0",
     "eslint-plugin-storybook": "10.6.6",
     "eslint-plugin-vue": "10.12.0",
     "happy-dom": "21.0.4",
     "lefthook": "2.2.2",
-    "msw": "3.0.4",
+    "msw": "3.0.5",
     "msw-storybook-addon": "3.0.3",
     "playwright": "1.65.0",
     "prettier": "3.9.10",
-    "storybook": "10.6.6",
+    "storybook": "10.6.7",
     "typescript": "6.0.3",
     "vite": "8.3.5",
     "vitest": "5.0.5",
@@ -118,9 +118,9 @@
     "last 2 versions"
   ],
   "overrides": {
-    "glob": "^14.0.4",
+    "glob": "^14.0.5",
     "flatted": "^3.4.4",
-    "minimatch": "^11.0.5",
+    "minimatch": "^11.0.8",
     "rollup": "^4.66.0"
   }
 }
