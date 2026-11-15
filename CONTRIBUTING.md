@@ -38,7 +38,7 @@ pnpm install
 pnpm dev
 ```
 
-The development server runs on `http://localhost:8080` by default.
+This starts Storybook on `http://localhost:6006`.
 
 ## Testing
 
@@ -49,11 +49,12 @@ pnpm test              # Run tests once
 pnpm test:watch        # Watch mode
 pnpm test:ui           # Open test UI (interactive)
 pnpm test:coverage     # Generate coverage report
+pnpm test:browser      # Run browser tests (Playwright, Chromium)
 ```
 
 ### Writing Tests
 
-- All tests are located in `tests/unit/`
+- Unit tests live in `tests/unit/` (happy-dom), browser tests in `tests/browser/` (Playwright, Chromium)
 - Use Vitest and Vue Test Utils
 - Mock external dependencies (e.g. Axios)
 - Test all important scenarios: Success, Error, Loading States
@@ -194,7 +195,7 @@ Now they are properly caught and retried.
 Ensure all tests pass and there are no linting errors:
 
 ```bash
-pnpm validate          # Run all checks (typecheck, lint, test)
+pnpm validate          # Run all checks (format check, typecheck, lint, unit tests)
 ```
 
 Or run individually:

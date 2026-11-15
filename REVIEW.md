@@ -13,7 +13,7 @@ In scope:
 
 Out of scope:
 
-- Auto-generated lock files (`package-lock.json`)
+- Auto-generated lock files (`pnpm-lock.yaml`)
 - Build artifacts (`dist/`)
 - Coverage reports (`coverage/`)
 - Renovate dependency-only PRs (patch/minor with automerge enabled)

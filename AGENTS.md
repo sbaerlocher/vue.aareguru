@@ -1,710 +1,101 @@
-# agent.md - AI Reference for vue.aareguru
+# AGENTS.md — vue.aareguru
 
-## Project Overview
+## Overview
 
-**vue.aareguru** is a Vue 3 component library that displays the current Aare river temperature from the Aareguru API.
-The project is designed as a reusable npm library.
+Vue 3 component library that displays the current Aare river temperature from the
+[Aareguru API](https://aare.guru). Published to npm as `vue.aareguru`.
 
-- **Version:** 2.2.3
-- **Framework:** Vue 3 (Composition API with `<script setup>`)
-- **Build Tool:** Vite 7.x
-- **Main File:** `src/components/AareGuru.vue`
-- **Repository:** <https://github.com/sbaerlocher/vue.aareguru>
+- Main component: `src/components/AareGuru.vue` (`<script setup lang="ts">`)
+- Library entry: `src/index.ts` — default export `AareGuru`, named exports
+  `useCities`, `useHistory`, `useForecast` plus the public types
+- Package version, tool versions and peer dependencies: see `package.json`
 
----
-
-## Project Structure
+## Structure
 
 ```text
-vue.aareguru/
-├── src/
-│   ├── components/
-│   │   ├── AareGuru.vue          # Main component
-│   │   └── AareGuru.stories.ts   # Storybook stories
-│   ├── composables/
-│   │   ├── index.ts              # Barrel export
-│   │   ├── useCities.ts          # Fetch available cities
-│   │   ├── useHistory.ts         # Fetch historical data
-│   │   └── composables.stories.ts # Composable stories
-│   ├── types/
-│   │   └── index.d.ts            # TypeScript type definitions
-│   ├── index.ts                  # Library entry point
-│   ├── App.vue                   # Demo application
-│   └── main.ts                   # Demo entry point
-├── tests/
-│   └── unit/
-│       ├── AareGuru.spec.ts      # Component tests
-│       ├── useCities.spec.ts     # useCities composable tests
-│       └── useHistory.spec.ts    # useHistory composable tests
-├── .storybook/                   # Storybook configuration
-├── dist/                         # Build output (npm package)
-├── coverage/                     # Test coverage reports
-├── .github/workflows/            # CI/CD pipelines
-│   ├── ci.yml                    # Continuous integration
-│   ├── release.yml               # npm publishing (with SBOM & provenance)
-│   └── security.yml              # Security scanning (CodeQL, deps, secrets)
-├── package.json
-├── tsconfig.json                 # TypeScript configuration
-├── vitest.config.ts              # Vitest test configuration
-├── vite.config.ts                # Vite build configuration
-├── eslint.config.js              # ESLint flat config
-├── .prettierrc.yml               # Prettier formatting config
-├── .editorconfig                 # Editor settings
-├── CONTRIBUTING.md               # Contribution guidelines
-├── README.md
-└── CHANGELOG.md
+src/
+  components/      AareGuru.vue, AareGuru.stories.ts, Showcase.mdx
+  composables/     useCities.ts, useHistory.ts, useForecast.ts, index.ts, composables.stories.ts
+  types/           index.d.ts (public types)
+  index.ts         library entry
+tests/
+  unit/            Vitest specs (happy-dom)
+  browser/         Vitest browser specs (Playwright, Chromium)
+.storybook/        Storybook configuration
+scripts/           install-hooks.mjs (git hook installer)
+.github/workflows/ pull-request.yml, tag.yml, weekly-security.yml
+lefthook.yml       git hooks
+vite.config.ts     library build
+vitest.config.ts   test projects `unit` and `browser`
+eslint.config.js   ESLint flat config
+.prettierrc.yml    Prettier config
 ```
 
----
+Leftovers not used by any `package.json` script: `src/App.vue`, `src/main.ts` and
+`index.html` (old demo entry, served by plain `vite` on port 8080 via `server.port` in
+`vite.config.ts`) and `vitest.workspace.ts` (ignored by the current Vitest; the test
+projects come from `vitest.config.ts`).
 
-## Implemented Features
+## Commands
 
-### ✅ Completed
-
-1. **TypeScript Support**
-   - Complete type definitions in `src/types/index.d.ts`
-   - AareGuru.vue with TypeScript annotations
-   - tsconfig.json configured
-   - Type checking with `vue-tsc`
-
-2. **Unit Tests**
-   - Vitest as test runner
-   - Vue Test Utils for component testing
-   - 28 tests in `tests/unit/AareGuru.spec.ts`
-   - 100% test coverage
-   - Mocked Axios requests
-
-3. **Loading & Error States**
-   - Visual states: loading, error, success
-   - Slots for custom rendering
-   - Events: `@loaded`, `@error`, `@retry`
-
-4. **Input Validation & Retry Logic**
-   - City validation (allowed cities: bern, thun, brienz, interlaken, biel, hagneck)
-   - Automatic retries with exponential backoff
-   - Configurable retry parameters
-   - Request timeout (5 seconds)
-   - Response structure validation
-
-5. **Enhanced Component Features**
-   - Temperature units (Celsius/Fahrenheit)
-   - Caching with configurable timeout
-   - Auto-refresh functionality
-   - Reactive city prop (watches for changes)
-   - Custom slots (loading, error, default)
-   - Exposed methods (refresh, clearCache)
-
-6. **Developer Experience**
-   - CONTRIBUTING.md with development guidelines
-   - TESTING.md with comprehensive testing guide
-   - SCRIPTS.md with all npm scripts documented
-   - Updated package.json scripts
-   - Demo app in `src/App.vue` with 9 examples
-
-7. **CI/CD**
-   - GitHub Actions workflows updated
-   - Type checking in CI
-   - Unit tests in CI
-   - Coverage reports
-   - Codecov integration (optional)
-
----
-
-## API Reference
-
-### Props
-
-| Prop            | Type      | Default     | Description                                                 |
-| --------------- | --------- | ----------- | ----------------------------------------------------------- |
-| `city`          | `String`  | `'bern'`    | City for Aare data. See `AllowedCity` type for valid values |
-| `retryAttempts` | `Number`  | `3`         | Number of retry attempts on error (0-10)                    |
-| `retryDelay`    | `Number`  | `1000`      | Base delay between retries in ms (exponential backoff)      |
-| `unit`          | `String`  | `'celsius'` | Temperature unit (`'celsius'` or `'fahrenheit'`)            |
-| `cacheTimeout`  | `Number`  | `300000`    | Cache timeout in milliseconds (5 minutes)                   |
-| `autoRefresh`   | `Boolean` | `false`     | Automatic data refresh                                      |
-
-### Events
-
-| Event     | Payload                           | Description                              |
-| --------- | --------------------------------- | ---------------------------------------- |
-| `@loaded` | `AareData`                        | Emitted when data is successfully loaded |
-| `@error`  | `Error`                           | Emitted on error                         |
-| `@retry`  | `{ attempt, maxAttempts, error }` | Emitted before each retry attempt        |
-
-### Slots
-
-| Slot    | Props                | Description                          |
-| ------- | -------------------- | ------------------------------------ |
-| default | `{ data: AareData }` | Custom rendering of temperature data |
-| loading | -                    | Custom loading state                 |
-| error   | `{ error: Error }`   | Custom error state                   |
-
-### Exposed Methods
-
-| Method         | Description          |
-| -------------- | -------------------- |
-| `refresh()`    | Manually reload data |
-| `clearCache()` | Clear cached data    |
-
----
-
-## TypeScript Types
-
-See `src/types/index.d.ts` for complete type definitions:
-
-- `AareData` - API response structure
-- `AareGuruProps` - Component props
-- `AareGuruEmits` - Component events
-- `RetryEvent` - Retry event payload
-- `AareGuruExposed` - Exposed methods
-- `WeatherForecast` - Weather forecast data
-
----
-
-## Testing
-
-### Running Tests
+The repo uses pnpm (pinned via `packageManager` in `package.json`).
 
 ```bash
-pnpm test              # Run tests once (CI mode)
-pnpm test:watch        # Watch mode
-pnpm test:ui            # Interactive UI
-pnpm test:coverage      # Coverage report
+pnpm install          # install dependencies, installs git hooks via `prepare`
+pnpm dev              # Storybook on http://localhost:6006
+pnpm test             # Vitest project `unit` (happy-dom)
+pnpm test:browser     # Vitest project `browser` (Playwright, Chromium)
+pnpm test:coverage    # unit tests with coverage
+pnpm typecheck        # vue-tsc --noEmit
+pnpm lint             # ESLint on src/ and tests/
+pnpm format:check     # Prettier check
+pnpm validate         # format:check + typecheck + lint + test
+pnpm build            # library bundle + type declarations into dist/
+pnpm build:storybook  # static Storybook build
 ```
 
-### Test Structure
+## Git hooks
 
-Tests in `tests/unit/AareGuru.spec.ts` cover:
+Defined in `lefthook.yml`, installed by the `prepare` script
+(`scripts/install-hooks.mjs`):
 
-- ✅ Successful API calls
-- ✅ Error handling
-- ✅ Loading states
-- ✅ Custom props (city, retryAttempts, etc.)
-- ✅ Events (@loaded, @error, @retry)
-- ✅ Retry logic with exponential backoff
-- ✅ Input validation
-- ✅ Custom slots
-- ✅ Exposed methods
-- ✅ Accessibility (ARIA attributes)
-- ✅ Caching behavior
-- ✅ Auto-refresh functionality
-- ✅ Temperature unit conversion
-- ✅ Reactive prop changes
+- pre-commit: Prettier and ESLint (`--fix`) on staged files
+- pre-push: `pnpm typecheck` and `pnpm test`
 
-**Current Status:** 28/28 tests passing (100% coverage)
+## CI/CD
 
----
+All jobs call reusable workflows from `sbaerlocher/.github`.
 
-## Development
+- `.github/workflows/pull-request.yml` — on PRs to `main`: quality, tests and build
+  (`ci-js`), CodeQL, Claude code review
+- `.github/workflows/tag.yml` — on `v*` tags or manual dispatch: npm release with
+  provenance and SBOM, GitHub release. Publishing runs the `prepublishOnly` script
+  (`pnpm typecheck && pnpm test:coverage`).
+- `.github/workflows/weekly-security.yml` — Mondays 02:00 UTC: CodeQL, dependency and
+  license scan, secret detection
 
-### Setup
+## Repo conventions
 
-```bash
-git clone https://github.com/sbaerlocher/vue.aareguru.git
-cd vue.aareguru
-pnpm install
-```
+- Allowed cities: single source is `ALLOWED_CITIES` in `src/components/AareGuru.vue`,
+  mirrored by `AllowedCity` in `src/types/index.d.ts` (bern, thun, brienz, interlaken,
+  biel, hagneck, olten, brugg). Keep both in sync.
+- Peer dependencies: `peerDependencies` in `package.json`.
+- Public API (props, events, slots, exposed methods) is documented in `README.md`;
+  the types live in `src/types/index.d.ts`.
 
-### Development Server
+## Common tasks
 
-```bash
-pnpm dev
-```
+New prop or event:
 
-Opens demo app at `http://localhost:8080` with 9 examples:
+1. Add the type to `AareGuruProps` / `AareGuruEmits` in `src/types/index.d.ts`.
+2. Add it to `defineProps` / `defineEmits` in `src/components/AareGuru.vue`.
+3. Add tests in `tests/unit/AareGuru.spec.ts`.
+4. Update the API tables in `README.md`.
+5. Add an entry to `CHANGELOG.md`.
 
-1. Basic usage (Bern)
-2. Different city (Thun)
-3. Fahrenheit unit
-4. With events
-5. Custom slots
-6. Ref access (manual control)
-7. Auto-refresh
-8. Retry configuration
-9. Interactive city selector
+## Further reading
 
-### Type Checking
-
-```bash
-pnpm typecheck            # Check once
-pnpm typecheck:watch      # Watch mode
-```
-
-### Linting
-
-```bash
-pnpm lint      # Check
-pnpm lint:fix  # Auto-fix
-```
-
-### Building
-
-```bash
-pnpm build       # Build library for npm
-pnpm build:demo  # Build demo app
-pnpm preview     # Build demo + serve locally
-```
-
-### Validation
-
-```bash
-pnpm validate           # Run format + typecheck + lint + test
-```
-
----
-
-## Code Quality Standards
-
-### TypeScript
-
-- Strict mode enabled
-- Declaration files generated
-- Type checking with `vue-tsc`
-- No `any` types (except where necessary)
-
-### Testing
-
-- Minimum 80% code coverage (current: 100%)
-- All new features require tests
-- Mocked external dependencies (Axios)
-- Tests for all scenarios (success, error, loading)
-
-### ESLint
-
-- Vue 3 recommended rules (flat config)
-- TypeScript ESLint rules
-- Test files linted with relaxed rules
-- Configuration in `eslint.config.js`
-
-### Prettier
-
-- Code formatting for `.vue`, `.ts`, `.js`, `.json`, `.md`, `.css`, `.yml`, `.yaml`
-- Configuration in `.prettierrc.yml`
-- `pnpm format:check` in validation pipeline
-
-### Accessibility
-
-- ARIA attributes for screen readers
-- Semantic HTML
-- Loading/error states announced
-- Role attributes
-
----
-
-## Package Scripts
-
-See `SCRIPTS.md` for complete documentation.
-
-### Most Used Scripts
-
-```bash
-# Development
-pnpm dev                 # Start dev server
-pnpm validate            # Run all checks
-
-# Testing
-pnpm test                # Run tests once
-pnpm test:watch          # Watch mode
-pnpm test:ui             # Interactive UI
-pnpm test:coverage       # Coverage report
-
-# Type Checking
-pnpm typecheck           # Check types
-
-# Building
-pnpm build               # Build library
-pnpm preview             # Build + preview demo
-
-# Cleaning
-pnpm clean               # Clean artifacts
-pnpm clean:all           # Deep clean
-```
-
----
-
-## CI/CD Workflows
-
-### CI Workflow (`.github/workflows/ci.yml`)
-
-**Triggers:** Push/PR to main/master/develop
-
-**Runs on:** Node.js 20.x, 22.x, 23.x
-
-**Jobs:**
-
-1. **Quality** - ESLint, TypeScript type check
-2. **Test** - Unit tests with coverage (multi-version matrix)
-3. **Build** - Build library bundle, verify artifacts
-4. **Status** - Final status check
-
-### Release Workflow (`.github/workflows/release.yml`)
-
-**Triggers:** GitHub release or manual dispatch
-
-**Steps:**
-
-1. Install dependencies
-2. Build library bundle
-3. Verify package
-4. Publish to npm (prepublishOnly runs automatically)
-
-**prepublishOnly hook runs:**
-
-- Type check ✅
-- Test coverage ✅
-
----
-
-## API Endpoint
-
-The component uses the Aareguru API:
-
-- **Base URL:** `https://aareguru.existenz.ch/v2018/current`
-- **Parameters:** `app=vue.aareguru&city={city}`
-- **Cities:** bern, thun, brienz, interlaken, biel, hagneck, olten, brugg
-
-### Response Structure
-
-```typescript
-interface AareData {
-  aare: {
-    temperature: number;
-    temperature_prognose: number;
-    flow: number;
-    flow_prognose: number;
-  };
-  weather: {
-    current: number;
-    today: number;
-    forecast: Array<{
-      date: string;
-      sy: number;
-      tn: number;
-      tx: number;
-    }>;
-  };
-  text: string;
-  timestamp: number;
-}
-```
-
----
-
-## Known Limitations
-
-### Build System
-
-**Current Status (Vite 7.x):**
-
-- ✅ Full TypeScript support in development and build
-- ✅ Tests use Vitest (TypeScript native support)
-- ✅ Type checking uses `vue-tsc` directly
-- ✅ CI/CD workflows include typecheck step
-- ✅ Zero security vulnerabilities
-- ✅ Fast builds with Vite
-
-**TypeScript Configuration:**
-
-- `vue-shims.d.ts` provides type declarations for `.vue` files
-- Tests run with full TypeScript support via Vitest
-
-### Component Limitations
-
-1. **No offline support** - Requires internet connection
-2. **Single city per instance** - One component per city
-3. **API rate limiting** - Not implemented (API has no known limits)
-
----
-
-## Roadmap
-
-### Phase 2: Build System Migration ✅ COMPLETED
-
-- [x] Migrate from Vue CLI to Vite
-- [x] Enable full TypeScript support in dev/build
-- [x] Faster builds and better DX
-- [x] Fix ESLint TypeScript parsing
-
-### Phase 3: Testing & Documentation
-
-- [x] Storybook for component documentation
-- [x] Composable unit tests (useCities, useHistory)
-- [ ] E2E tests with Playwright
-- [ ] Visual regression tests
-- [ ] Improved CHANGELOG automation
-
-### Phase 4: Features
-
-- [ ] Historical data support
-- [ ] Multiple cities in one component
-- [ ] Customizable themes
-- [ ] SSR support for Nuxt
-- [ ] Offline mode with service worker
-
-### Phase 5: Performance
-
-- [ ] Bundle size optimization
-- [ ] Tree-shaking improvements
-- [ ] Lazy loading options
-- [ ] Performance benchmarks
-
----
-
-## Dependencies Management
-
-### Peer Dependencies (User provides)
-
-- `vue: ^3.3.0` - Vue 3 framework
-- `axios: ^1.0.0` - HTTP client
-
-### Dev Dependencies
-
-**Testing:**
-
-- `vitest` - Test runner
-- `@vue/test-utils` - Vue component testing
-- `@vitest/ui` - Test UI
-- `@vitest/coverage-v8` - Coverage reporting
-- `happy-dom` - DOM environment
-
-**TypeScript:**
-
-- `typescript` - TypeScript compiler
-- `vue-tsc` - Vue TypeScript checker
-- `@types/node` - Node.js type definitions
-
-**Build:**
-
-- `vite` - Build tool
-- `@vue/compiler-sfc` - Vue SFC compiler
-- `@vitejs/plugin-vue` - Vite Vue plugin
-
-**Quality:**
-
-- `eslint` - Linter
-- `eslint-plugin-vue` - Vue linting rules
-- `@vue/eslint-config-standard` - Standard config
-
----
-
-## Security
-
-### Automated Scanning
-
-- **Renovate:** Weekly dependency updates
-- **CodeQL:** Weekly SAST scanning
-- **Dependency Scan:** Dependency & license checking
-- **Secret Detection:** Automated secret scanning
-- **SBOM:** Generated on release (npm provenance enabled)
-
-### Audit Commands
-
-```bash
-pnpm audit              # Check vulnerabilities
-```
-
----
-
-## Contributing
-
-See `CONTRIBUTING.md` for detailed guidelines.
-
-**Quick Start:**
-
-1. Fork repository
-2. Create feature branch
-3. Run `pnpm validate`
-4. Commit with conventional commits
-5. Open pull request
-
-**Commit Format:**
-
-```text
-<type>(<scope>): <subject>
-
-Examples:
-feat(component): add retry logic
-fix(api): handle timeout errors
-docs(readme): update usage examples
-```
-
----
-
-## Documentation Files
-
-- **README.md** - Main documentation, usage examples
-- **CONTRIBUTING.md** - Contribution guidelines
-- **AGENTS.md** - AI reference (this file)
-- **CLAUDE.md** - Claude Code import (references AGENTS.md)
-- **CHANGELOG.md** - Version history
-
----
-
-## File Organization
-
-### Source Files (`src/`)
-
-- `components/AareGuru.vue` - Main component (Composition API with `<script setup lang="ts">`)
-- `composables/useCities.ts` - Composable to fetch available cities
-- `composables/useHistory.ts` - Composable to fetch historical data
-- `types/index.d.ts` - TypeScript type definitions
-- `index.ts` - Library entry point (exports component, composables, types)
-- `App.vue` - Demo application
-- `main.ts` - Demo entry point
-
-### Test Files (`tests/`)
-
-- `unit/AareGuru.spec.ts` - Component unit tests
-- `unit/useCities.spec.ts` - useCities composable tests
-- `unit/useHistory.spec.ts` - useHistory composable tests
-
-### Configuration Files
-
-- `package.json` - Dependencies and scripts
-- `tsconfig.json` - TypeScript configuration (strict mode)
-- `vitest.config.ts` - Vitest configuration
-- `eslint.config.js` - ESLint flat config
-- `.prettierrc.yml` - Prettier formatting config
-
----
-
-## Best Practices Implemented
-
-1. **Single Responsibility** - Component does one thing well
-2. **Composition API** - Modern Vue 3 patterns
-3. **TypeScript** - Full type safety
-4. **Testing** - 100% coverage
-5. **Documentation** - Comprehensive guides
-6. **CI/CD** - Automated testing and publishing
-7. **Semantic Versioning** - Clear version history
-8. **Conventional Commits** - Standardized commit messages
-9. **Error Handling** - Graceful failures with retries
-10. **Accessibility** - ARIA attributes and semantic HTML
-
----
-
-## Quality Metrics
-
-### Before Improvements
-
-| Category         | Score      |
-| ---------------- | ---------- |
-| Testing          | 1/10       |
-| TypeScript       | 0/10       |
-| Documentation    | 5/10       |
-| Error Handling   | 2/10       |
-| Component Design | 6/10       |
-| **Overall**      | **3.6/10** |
-
-### After Improvements
-
-| Category         | Score         |
-| ---------------- | ------------- |
-| Testing          | 10/10 ✅      |
-| TypeScript       | 10/10 ✅      |
-| Documentation    | 9/10 ✅       |
-| Error Handling   | 9/10 ✅       |
-| Component Design | 9/10 ✅       |
-| **Overall**      | **9.3/10** ✅ |
-
-**Improvement:** +5.7 points (+158%)
-
----
-
-## Common Tasks
-
-### Add a New Prop
-
-1. Add to `AareGuruProps` in `src/types/index.d.ts`
-2. Add to `defineProps` in `src/components/AareGuru.vue`
-3. Use prop in component logic
-4. Add tests in `tests/unit/AareGuru.spec.ts`
-5. Update README.md props table
-6. Update this file
-
-### Add a New Event
-
-1. Add to `AareGuruEmits` in `src/types/index.d.ts`
-2. Add to `defineEmits` in `src/components/AareGuru.vue`
-3. Emit event where appropriate
-4. Add tests for event
-5. Update README.md events table
-6. Update this file
-
-### Add a New Feature
-
-1. Write tests first (TDD)
-2. Implement feature
-3. Update types if needed
-4. Run `pnpm validate`
-5. Update documentation
-6. Update CHANGELOG.md
-7. Commit with conventional format
-
----
-
-## Troubleshooting
-
-### Tests Fail
-
-```bash
-# Check test output
-pnpm test
-
-# Run specific test
-pnpm test -- tests/unit/AareGuru.spec.ts
-
-# Debug with UI
-pnpm test:ui
-```
-
-### Type Errors
-
-```bash
-# Check types
-pnpm typecheck
-
-# Watch mode for development
-pnpm typecheck:watch
-```
-
-### Build Issues
-
-```bash
-# Clean and rebuild
-pnpm clean
-pnpm build
-```
-
-### Dev Server Won't Start
-
-```bash
-# Deep clean and reinstall
-pnpm clean:all
-pnpm install
-pnpm dev
-```
-
----
-
-## Support & Contact
-
-- **Issues:** <https://github.com/sbaerlocher/vue.aareguru/issues>
-- **Pull Requests:** <https://github.com/sbaerlocher/vue.aareguru/pulls>
-- **Maintainer:** @sbaerlocher
-- **License:** MIT (see LICENSE file)
-
----
-
-## Acknowledgments
-
-- Data provided by [Aareguru](https://aare.guru)
-- Built with [Vue 3](https://vuejs.org)
-- Tested with [Vitest](https://vitest.dev)
-- Type checked with [TypeScript](https://www.typescriptlang.org)
-
----
-
-**Last Updated:** 2026-02-21
-**Documentation Status:** ✅ Complete
-**Project Status:** 🚀 Production Ready
+- `README.md` — usage and API reference
+- `CONTRIBUTING.md` — setup, commit format, pull requests
+- `REVIEW.md` — code review guidelines
+- `CHANGELOG.md` — version history

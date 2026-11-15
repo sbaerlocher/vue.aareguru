@@ -1,6 +1,6 @@
 # vue.aareguru
 
-[![Test Status](https://github.com/sbaerlocher/vue.aareguru/workflows/test/badge.svg)](https://github.com/sbaerlocher/vue.aareguru/actions) [![Release Status](https://github.com/sbaerlocher/vue.aareguru/workflows/release/badge.svg)](https://github.com/sbaerlocher/vue.aareguru/actions) [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://sbaerlo.ch/licence) [![npm](https://img.shields.io/npm/v/vue.aareguru)](https://www.npmjs.com/package/vue.aareguru)
+[![Pull Request](https://github.com/sbaerlocher/vue.aareguru/actions/workflows/pull-request.yml/badge.svg)](https://github.com/sbaerlocher/vue.aareguru/actions/workflows/pull-request.yml) [![Release](https://github.com/sbaerlocher/vue.aareguru/actions/workflows/tag.yml/badge.svg)](https://github.com/sbaerlocher/vue.aareguru/actions/workflows/tag.yml) [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://sbaerlo.ch/licence) [![npm](https://img.shields.io/npm/v/vue.aareguru)](https://www.npmjs.com/package/vue.aareguru)
 
 ## Description
 
@@ -10,8 +10,8 @@ Built with Vue 3.5+ Composition API, TypeScript, and modern best practices.
 
 ## Requirements
 
-- Vue 3.3.0 or higher
-- axios 1.0.0 or higher
+- Vue 3.5.45 or higher
+- axios 1.21.0 or higher
 
 ## Installation
 
@@ -314,7 +314,7 @@ interface AareData {
 - ✅ **Accessibility** - ARIA attributes for screen readers
 - ✅ **Vue 3 Composition API** - Modern `<script setup>` syntax
 - ✅ **Lightweight** - Minimal dependencies
-- ✅ **Well-Tested** - 100% test coverage
+- ✅ **Well-Tested** - Unit and browser test suites
 
 ## Development
 
@@ -337,10 +337,13 @@ Opens Storybook at `http://localhost:6006` with interactive component documentat
 ### Testing
 
 ```bash
-pnpm test              # Run tests
+pnpm test              # Run unit tests
+pnpm test:browser      # Run browser tests (Playwright, Chromium)
 pnpm test:ui           # Open test UI
 pnpm test:coverage     # Generate coverage report
 ```
+
+The browser tests need Chromium for Playwright: `pnpm exec playwright install chromium`.
 
 ### Type Checking
 
