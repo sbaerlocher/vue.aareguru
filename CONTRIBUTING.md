@@ -38,7 +38,7 @@ pnpm install
 pnpm dev
 ```
 
-The development server runs on `http://localhost:8080` by default.
+This starts Storybook on `http://localhost:6006`.
 
 ## Testing
 
