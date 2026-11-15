@@ -7,7 +7,7 @@ and [human-readable changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Security
 
-- **Dependencies**: Apply the `glob` and `minimatch` security fixes (GHSA-3g3m-2fjr-6pw4 and GHSA-g3hv-75wg-m249) through pnpm workspace overrides; remove unused `flatted` and `rollup` overrides.
+- **Dependencies**: Move the `glob` and `minimatch` security fixes (GHSA-3g3m-2fjr-6pw4 and GHSA-g3hv-75wg-m249) to pnpm workspace overrides because pnpm ignores the npm-style `package.json` overrides; remove the unused `flatted` and `rollup` override entries.
 
 ## [2.3.1] - 2026-03-22
 
