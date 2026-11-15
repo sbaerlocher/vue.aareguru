@@ -15,7 +15,7 @@ and [human-readable changelog](https://keepachangelog.com/en/1.0.0/).
 
 - **Composables**: `useHistory` — `start`, `end`, and `city` parameters are now URL-encoded via
   `encodeURIComponent`, preventing parameter injection for inputs containing special characters
-- **Security**: Resolved transitive dev-dependency vulnerabilities via `overrides`:
+- **Security**: Added npm `overrides` intended to resolve transitive dev-dependency vulnerabilities:
   - `flatted` → `^3.4.2` (Prototype Pollution)
   - `minimatch` → `^10.2.3` (ReDoS)
   - `rollup` → `^4.59.0` (Arbitrary File Write via Path Traversal)
