@@ -337,10 +337,13 @@ Opens Storybook at `http://localhost:6006` with interactive component documentat
 ### Testing
 
 ```bash
-pnpm test              # Run tests
+pnpm test              # Run unit tests
+pnpm test:browser      # Run browser tests (Playwright, Chromium)
 pnpm test:ui           # Open test UI
 pnpm test:coverage     # Generate coverage report
 ```
+
+The browser tests need Chromium for Playwright: `pnpm exec playwright install chromium`.
 
 ### Type Checking
 

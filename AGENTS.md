@@ -31,6 +31,11 @@ eslint.config.js   ESLint flat config
 .prettierrc.yml    Prettier config
 ```
 
+Leftovers not used by any `package.json` script: `src/App.vue`, `src/main.ts` and
+`index.html` (old demo entry, served by plain `vite` on port 8080 via `server.port` in
+`vite.config.ts`) and `vitest.workspace.ts` (ignored by the current Vitest; the test
+projects come from `vitest.config.ts`).
+
 ## Commands
 
 The repo uses pnpm (pinned via `packageManager` in `package.json`).
@@ -63,8 +68,9 @@ All jobs call reusable workflows from `sbaerlocher/.github`.
 
 - `.github/workflows/pull-request.yml` — on PRs to `main`: quality, tests and build
   (`ci-js`), CodeQL, Claude code review
-- `.github/workflows/tag.yml` — on `v*` tags: npm release with provenance and SBOM,
-  GitHub release
+- `.github/workflows/tag.yml` — on `v*` tags or manual dispatch: npm release with
+  provenance and SBOM, GitHub release. Publishing runs the `prepublishOnly` script
+  (`pnpm typecheck && pnpm test:coverage`).
 - `.github/workflows/weekly-security.yml` — Mondays 02:00 UTC: CodeQL, dependency and
   license scan, secret detection
 
