@@ -1,5 +1,11 @@
-# Single-package repo, not a monorepo — this file only pins which
-# dependency build scripts pnpm is allowed to run on install.
+# Single-package repo, not a monorepo — this file configures dependency
+# overrides and pins which build scripts pnpm is allowed to run on install.
+# glob and minimatch are pinned to versions that fix their security advisories.
+overrides:
+  "glob@<14.0.2": ^14.0.4 # GHSA-3g3m-2fjr-6pw4
+  "minimatch@10": ^11.0.5 # GHSA-g3hv-75wg-m249
+
+# Only these dependency build scripts are allowed to run on install.
 # esbuild: Vite/Vitest's bundler, needs its postinstall to fetch the
 #          platform binary. lefthook: installs git hooks on postinstall.
 # msw: not needed for a library build (mock worker is used via the API

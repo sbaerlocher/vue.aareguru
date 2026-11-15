@@ -166,10 +166,10 @@ See `src/types/index.d.ts` for complete type definitions:
 ### Running Tests
 
 ```bash
-npm test              # Run tests once (CI mode)
-npm run test:watch    # Watch mode
-npm run test:ui       # Interactive UI
-npm run test:coverage # Coverage report
+pnpm test              # Run tests once (CI mode)
+pnpm test:watch        # Watch mode
+pnpm test:ui            # Interactive UI
+pnpm test:coverage      # Coverage report
 ```
 
 ### Test Structure
@@ -202,13 +202,13 @@ Tests in `tests/unit/AareGuru.spec.ts` cover:
 ```bash
 git clone https://github.com/sbaerlocher/vue.aareguru.git
 cd vue.aareguru
-npm install
+pnpm install
 ```
 
 ### Development Server
 
 ```bash
-npm run dev
+pnpm dev
 ```
 
 Opens demo app at `http://localhost:8080` with 9 examples:
@@ -226,29 +226,29 @@ Opens demo app at `http://localhost:8080` with 9 examples:
 ### Type Checking
 
 ```bash
-npm run typecheck         # Check once
-npm run typecheck:watch   # Watch mode
+pnpm typecheck            # Check once
+pnpm typecheck:watch      # Watch mode
 ```
 
 ### Linting
 
 ```bash
-npm run lint      # Check
-npm run lint:fix  # Auto-fix
+pnpm lint      # Check
+pnpm lint:fix  # Auto-fix
 ```
 
 ### Building
 
 ```bash
-npm run build           # Build library for npm
-npm run build:demo      # Build demo app
-npm run preview         # Build demo + serve locally
+pnpm build       # Build library for npm
+pnpm build:demo  # Build demo app
+pnpm preview     # Build demo + serve locally
 ```
 
 ### Validation
 
 ```bash
-npm run validate        # Run typecheck + lint + test
+pnpm validate           # Run format + typecheck + lint + test
 ```
 
 ---
@@ -280,7 +280,7 @@ npm run validate        # Run typecheck + lint + test
 
 - Code formatting for `.vue`, `.ts`, `.js`, `.json`, `.md`, `.css`, `.yml`, `.yaml`
 - Configuration in `.prettierrc.yml`
-- `npm run format:check` in validation pipeline
+- `pnpm format:check` in validation pipeline
 
 ### Accessibility
 
@@ -291,7 +291,7 @@ npm run validate        # Run typecheck + lint + test
 
 ---
 
-## NPM Scripts
+## Package Scripts
 
 See `SCRIPTS.md` for complete documentation.
 
@@ -299,25 +299,25 @@ See `SCRIPTS.md` for complete documentation.
 
 ```bash
 # Development
-npm run dev              # Start dev server
-npm run validate         # Run all checks
+pnpm dev                 # Start dev server
+pnpm validate            # Run all checks
 
 # Testing
-npm test                 # Run tests once
-npm run test:watch       # Watch mode
-npm run test:ui          # Interactive UI
-npm run test:coverage    # Coverage report
+pnpm test                # Run tests once
+pnpm test:watch          # Watch mode
+pnpm test:ui             # Interactive UI
+pnpm test:coverage       # Coverage report
 
 # Type Checking
-npm run typecheck       # Check types
+pnpm typecheck           # Check types
 
 # Building
-npm run build            # Build library
-npm run preview          # Build + preview demo
+pnpm build               # Build library
+pnpm preview             # Build + preview demo
 
 # Cleaning
-npm run clean            # Clean artifacts
-npm run clean:all        # Deep clean
+pnpm clean               # Clean artifacts
+pnpm clean:all           # Deep clean
 ```
 
 ---
@@ -500,8 +500,7 @@ interface AareData {
 ### Audit Commands
 
 ```bash
-npm audit              # Check vulnerabilities
-npm audit fix          # Auto-fix
+pnpm audit              # Check vulnerabilities
 ```
 
 ---
@@ -514,7 +513,7 @@ See `CONTRIBUTING.md` for detailed guidelines.
 
 1. Fork repository
 2. Create feature branch
-3. Run `npm run validate`
+3. Run `pnpm validate`
 4. Commit with conventional commits
 5. Open pull request
 
@@ -637,7 +636,7 @@ docs(readme): update usage examples
 1. Write tests first (TDD)
 2. Implement feature
 3. Update types if needed
-4. Run `npm run validate`
+4. Run `pnpm validate`
 5. Update documentation
 6. Update CHANGELOG.md
 7. Commit with conventional format
@@ -650,40 +649,40 @@ docs(readme): update usage examples
 
 ```bash
 # Check test output
-npm test
+pnpm test
 
 # Run specific test
-npm test -- tests/unit/AareGuru.spec.ts
+pnpm test -- tests/unit/AareGuru.spec.ts
 
 # Debug with UI
-npm run test:ui
+pnpm test:ui
 ```
 
 ### Type Errors
 
 ```bash
 # Check types
-npm run typecheck
+pnpm typecheck
 
 # Watch mode for development
-npm run typecheck:watch
+pnpm typecheck:watch
 ```
 
 ### Build Issues
 
 ```bash
 # Clean and rebuild
-npm run clean
-npm run build
+pnpm clean
+pnpm build
 ```
 
 ### Dev Server Won't Start
 
 ```bash
 # Deep clean and reinstall
-npm run clean:all
-npm install
-npm run dev
+pnpm clean:all
+pnpm install
+pnpm dev
 ```
 
 ---

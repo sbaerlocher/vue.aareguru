@@ -116,11 +116,5 @@
   "browserslist": [
     "> 1%",
     "last 2 versions"
-  ],
-  "overrides": {
-    "glob": "^14.0.4",
-    "flatted": "^3.4.4",
-    "minimatch": "^11.0.5",
-    "rollup": "^4.66.0"
-  }
+  ]
 }

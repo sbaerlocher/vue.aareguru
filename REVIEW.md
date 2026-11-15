@@ -20,9 +20,9 @@ Out of scope:
 
 ## Required checks
 
-- All tests pass (`npm test`)
-- TypeScript type check passes (`npm run typecheck`)
-- ESLint passes (`npm run lint`)
+- All tests pass (`pnpm test`)
+- TypeScript type check passes (`pnpm typecheck`)
+- ESLint passes (`pnpm lint`)
 - No secrets committed
 - New features include tests
 - Public API changes reflected in types (`src/types/index.d.ts`)
