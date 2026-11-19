@@ -13,7 +13,7 @@
   "packageManager": "pnpm@12.18.0",
   "scripts": {
     "dev": "storybook dev -p 6006",
-    "build": "vite build && pnpm build:types",
+    "build": "vite build && pnpm build:types && node scripts/check-types.mjs",
     "build:bundle": "pnpm build",
     "build:types": "vue-tsc --declaration --emitDeclarationOnly",
     "preview": "vite preview",
