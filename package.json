@@ -38,8 +38,7 @@
   },
   "files": [
     "dist",
-    "src/components/AareGuru.vue",
-    "src/types/index.d.ts"
+    "src/components/AareGuru.vue"
   ],
   "types": "dist/types/src/index.d.ts",
   "sideEffects": false,
@@ -50,7 +49,7 @@
       "require": "./dist/vue.aareguru.cjs"
     },
     "./types": {
-      "types": "./src/types/index.d.ts"
+      "types": "./dist/types/src/types/index.d.ts"
     },
     "./style.css": "./dist/vue.aareguru.css",
     "./package.json": "./package.json"
