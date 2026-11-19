@@ -5,6 +5,15 @@ and [human-readable changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 
+### Fixed
+
+- **Types**: Type declarations from the main entry now resolve; `src/types/index.d.ts` became
+  `src/types/index.ts`, so `vue-tsc` emits it into the package
+- **Types**: `vue.aareguru/types` points to the emitted declaration
+  `dist/types/src/types/index.d.ts`
+- **Build**: `pnpm build` fails when a `types` path in `package.json` or a relative import in
+  `dist/types` does not resolve
+
 ### Security
 
 - **Dependencies**: Move the `glob` and `minimatch` security fixes (GHSA-3g3m-2fjr-6pw4 and GHSA-g3hv-75wg-m249) to pnpm workspace overrides because pnpm ignores the npm-style `package.json` overrides; remove the unused `flatted` and `rollup` override entries.

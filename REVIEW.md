@@ -25,7 +25,7 @@ Out of scope:
 - ESLint passes (`pnpm lint`)
 - No secrets committed
 - New features include tests
-- Public API changes reflected in types (`src/types/index.d.ts`)
+- Public API changes reflected in types (`src/types/index.ts`)
 
 ## Severity levels
 
