@@ -45,9 +45,9 @@ export interface WeatherCurrent {
  * Today's weather by time period
  */
 export interface WeatherToday {
-  v: WeatherPeriod;  // vormittag
-  n: WeatherPeriod;  // nachmittag
-  a: WeatherPeriod;  // abend
+  v: WeatherPeriod; // vormittag
+  n: WeatherPeriod; // nachmittag
+  a: WeatherPeriod; // abend
 }
 
 /**
@@ -78,7 +78,8 @@ export interface AareData {
 /**
  * Allowed cities for the Aareguru API
  */
-export type AllowedCity = 'bern' | 'thun' | 'brienz' | 'interlaken' | 'biel' | 'hagneck' | 'olten' | 'brugg';
+export type AllowedCity =
+  "bern" | "thun" | "brienz" | "interlaken" | "biel" | "hagneck" | "olten" | "brugg";
 
 /**
  * Component props for AareGuru
@@ -106,7 +107,7 @@ export interface AareGuruProps {
    * Temperature unit to display
    * @default 'celsius'
    */
-  unit?: 'celsius' | 'fahrenheit';
+  unit?: "celsius" | "fahrenheit";
 
   /**
    * Cache timeout in milliseconds
@@ -137,17 +138,17 @@ export interface AareGuruEmits {
   /**
    * Emitted when data is successfully loaded
    */
-  (event: 'loaded', data: AareData): void;
+  (event: "loaded", data: AareData): void;
 
   /**
    * Emitted when an error occurs
    */
-  (event: 'error', error: Error): void;
+  (event: "error", error: Error): void;
 
   /**
    * Emitted before each retry attempt
    */
-  (event: 'retry', payload: RetryEvent): void;
+  (event: "retry", payload: RetryEvent): void;
 }
 
 /**

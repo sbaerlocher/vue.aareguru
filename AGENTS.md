@@ -16,13 +16,13 @@ Vue 3 component library that displays the current Aare river temperature from th
 src/
   components/      AareGuru.vue, AareGuru.stories.ts, Showcase.mdx
   composables/     useCities.ts, useHistory.ts, useForecast.ts, index.ts, composables.stories.ts
-  types/           index.d.ts (public types)
+  types/           index.ts (public types)
   index.ts         library entry
 tests/
   unit/            Vitest specs (happy-dom)
   browser/         Vitest browser specs (Playwright, Chromium)
 .storybook/        Storybook configuration
-scripts/           install-hooks.mjs (git hook installer)
+scripts/           install-hooks.mjs (git hook installer), check-types.mjs (build guard)
 .github/workflows/ pull-request.yml, tag.yml, weekly-security.yml
 lefthook.yml       git hooks
 vite.config.ts     library build
@@ -77,17 +77,17 @@ All jobs call reusable workflows from `sbaerlocher/.github`.
 ## Repo conventions
 
 - Allowed cities: single source is `ALLOWED_CITIES` in `src/components/AareGuru.vue`,
-  mirrored by `AllowedCity` in `src/types/index.d.ts` (bern, thun, brienz, interlaken,
+  mirrored by `AllowedCity` in `src/types/index.ts` (bern, thun, brienz, interlaken,
   biel, hagneck, olten, brugg). Keep both in sync.
 - Peer dependencies: `peerDependencies` in `package.json`.
 - Public API (props, events, slots, exposed methods) is documented in `README.md`;
-  the types live in `src/types/index.d.ts`.
+  the types live in `src/types/index.ts`.
 
 ## Common tasks
 
 New prop or event:
 
-1. Add the type to `AareGuruProps` / `AareGuruEmits` in `src/types/index.d.ts`.
+1. Add the type to `AareGuruProps` / `AareGuruEmits` in `src/types/index.ts`.
 2. Add it to `defineProps` / `defineEmits` in `src/components/AareGuru.vue`.
 3. Add tests in `tests/unit/AareGuru.spec.ts`.
 4. Update the API tables in `README.md`.

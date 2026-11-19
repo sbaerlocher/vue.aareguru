@@ -13,7 +13,7 @@
   "packageManager": "pnpm@12.18.0",
   "scripts": {
     "dev": "storybook dev -p 6006",
-    "build": "vite build && pnpm build:types",
+    "build": "vite build && pnpm build:types && node scripts/check-types.mjs",
     "build:bundle": "pnpm build",
     "build:types": "vue-tsc --declaration --emitDeclarationOnly",
     "preview": "vite preview",
@@ -39,7 +39,7 @@
   "files": [
     "dist",
     "src/components/AareGuru.vue",
-    "src/types/index.d.ts"
+    "src/types/index.ts"
   ],
   "types": "dist/types/src/index.d.ts",
   "sideEffects": false,
@@ -50,7 +50,7 @@
       "require": "./dist/vue.aareguru.cjs"
     },
     "./types": {
-      "types": "./src/types/index.d.ts"
+      "types": "./dist/types/src/types/index.d.ts"
     },
     "./style.css": "./dist/vue.aareguru.css",
     "./package.json": "./package.json"

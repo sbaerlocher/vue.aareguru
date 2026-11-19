@@ -102,7 +102,7 @@ pnpm typecheck:watch  # Watch mode
 
 ### Type Definitions
 
-- All types in `src/types/index.d.ts`
+- All types in `src/types/index.ts`
 - Use strict TypeScript modes
 - Document complex types with JSDoc
 
