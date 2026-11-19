@@ -38,7 +38,8 @@
   },
   "files": [
     "dist",
-    "src/components/AareGuru.vue"
+    "src/components/AareGuru.vue",
+    "src/types/index.ts"
   ],
   "types": "dist/types/src/index.d.ts",
   "sideEffects": false,

@@ -3,16 +3,21 @@
 // in dist/types/**/*.d.ts must point to an emitted declaration.
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 
-const root = resolve(dirname(new URL(import.meta.url).pathname), "..");
+const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const typesDir = join(root, "dist/types");
 const pkg = JSON.parse(readFileSync(join(root, "package.json"), "utf8"));
 const errors = [];
 
-const typePaths = [pkg.types];
-for (const entry of Object.values(pkg.exports ?? {})) {
-  if (entry && typeof entry === "object" && entry.types) typePaths.push(entry.types);
-}
+// Collect every `types` condition, including nested ones like `import: { types }`.
+const collectTypes = (node) =>
+  node && typeof node === "object"
+    ? Object.entries(node).flatMap(([key, value]) =>
+        key === "types" && typeof value === "string" ? [value] : collectTypes(value)
+      )
+    : [];
+const typePaths = [pkg.types, ...collectTypes(pkg.exports)];
 for (const p of typePaths.filter(Boolean)) {
   if (!existsSync(join(root, p))) errors.push(`package.json: ${p}`);
 }
