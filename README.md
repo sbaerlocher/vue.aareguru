@@ -10,8 +10,8 @@ Built with Vue 3.5+ Composition API, TypeScript, and modern best practices.
 
 ## Requirements
 
-- Vue 3.5.45 or higher
-- axios 1.21.0 or higher
+- Vue 3.3 or higher
+- axios 1.0 or higher
 
 ## Installation
 
