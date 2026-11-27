@@ -7,8 +7,9 @@ and [human-readable changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 
-- **Dependencies**: Lower the peer dependency floors to the versions the code needs: `vue ^3.3.0`
-  (tuple syntax in `defineEmits`) and `axios ^1.0.0`
+- **Dependencies**: Lower the peer dependency floors to the versions the package needs: `vue ^3.5.2`
+  (the emitted type declarations use the `Ref` and `DefineComponent` signatures of that release) and
+  `axios ^1.0.0`
 - **Renovate**: Widen `peerDependencies` only when a new major is released instead of bumping
   the floor on every release
 
